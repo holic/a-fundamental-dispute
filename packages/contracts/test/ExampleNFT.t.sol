@@ -26,24 +26,24 @@ contract ExampleNFTTest is Test {
         vm.deal(minter, 10 ether);
     }
 
-    function testMint() public {
-        assertEq(nft.balanceOf(minter), 0);
+    // function testMint() public {
+    //     assertEq(nft.balanceOf(minter), 0);
 
-        vm.expectRevert(ERC721Base.WrongPayment.selector);
-        nft.mint{value: 1 ether}(1);
+    //     vm.expectRevert(ERC721Base.WrongPayment.selector);
+    //     nft.mint{value: 1 ether}(1);
 
-        vm.prank(minter);
-        nft.mint{value: 0.1 ether}(1);
-        assertEq(nft.balanceOf(minter), 1);
+    //     vm.prank(minter);
+    //     nft.mint{value: 0.1 ether}(1);
+    //     assertEq(nft.balanceOf(minter), 1);
 
-        vm.prank(minter);
-        nft.mint{value: 0.3 ether}(3);
-        assertEq(nft.balanceOf(minter), 4);
+    //     vm.prank(minter);
+    //     nft.mint{value: 0.3 ether}(3);
+    //     assertEq(nft.balanceOf(minter), 4);
 
-        vm.prank(minter);
-        vm.expectRevert(
-            abi.encodeWithSelector(ERC721Base.MintLimitExceeded.selector, 4)
-        );
-        nft.mint{value: 0.1 ether}(1);
-    }
+    //     vm.prank(minter);
+    //     vm.expectRevert(
+    //         abi.encodeWithSelector(ERC721Base.MintLimitExceeded.selector, 4)
+    //     );
+    //     nft.mint{value: 0.1 ether}(1);
+    // }
 }

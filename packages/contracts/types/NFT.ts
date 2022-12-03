@@ -28,7 +28,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface ExampleNFTInterface extends utils.Interface {
+export interface NFTInterface extends utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -465,12 +465,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface ExampleNFT extends BaseContract {
+export interface NFT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ExampleNFTInterface;
+  interface: NFTInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
