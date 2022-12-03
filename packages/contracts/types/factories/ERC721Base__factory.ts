@@ -19,12 +19,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "ApproveToCaller",
+    name: "BalanceQueryForZeroAddress",
     type: "error",
   },
   {
     inputs: [],
-    name: "BalanceQueryForZeroAddress",
+    name: "MintERC2309QuantityExceedsLimit",
     type: "error",
   },
   {
@@ -62,6 +62,11 @@ const _abi = [
   {
     inputs: [],
     name: "OwnerQueryForNonexistentToken",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OwnershipNotInitializedForExtraData",
     type: "error",
   },
   {
@@ -161,6 +166,37 @@ const _abi = [
       },
     ],
     name: "BaseTokenURIUpdated",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "fromTokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "toTokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "from",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "to",
+        type: "address",
+      },
+    ],
+    name: "ConsecutiveTransfer",
     type: "event",
   },
   {
@@ -286,7 +322,7 @@ const _abi = [
     ],
     name: "approve",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -496,7 +532,7 @@ const _abi = [
     ],
     name: "safeTransferFrom",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -524,7 +560,7 @@ const _abi = [
     ],
     name: "safeTransferFrom",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -668,7 +704,7 @@ const _abi = [
     ],
     name: "transferFrom",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
