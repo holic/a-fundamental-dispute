@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
 
 import {ERC721A} from "erc721a/contracts/ERC721A.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
@@ -7,12 +7,19 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC2981, IERC165} from "@openzeppelin/contracts/interfaces/IERC2981.sol";
 import {IRenderer} from "./IRenderer.sol";
 import {IDelegatedMint} from "./IDelegatedMint.sol";
+import {OwnablePayable} from "./OwnablePayable.sol";
 
 /// @author frolic.eth
 /// @title  ERC721 base contract
 /// @notice ERC721-specific functionality to keep the actual NFT contract more
 ///         readable and focused on the mint/project mechanics.
-abstract contract NFT is ERC721A, Ownable, IERC2981, IRenderer, IDelegatedMint {
+abstract contract NFT is
+    ERC721A,
+    OwnablePayable,
+    IERC2981,
+    IRenderer,
+    IDelegatedMint
+{
     uint256 public immutable maxSupply;
     // TODO: customizable royalty? future proof royalty implementation?
     uint256 public immutable royaltyBasisPoints = 500;
@@ -44,6 +51,18 @@ abstract contract NFT is ERC721A, Ownable, IERC2981, IRenderer, IDelegatedMint {
 
     function _startTokenId() internal pure override returns (uint256) {
         return 1;
+    }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721A, IERC165)
+        returns (bool)
+    {
+        return
+            interfaceId == type(IERC2981).interfaceId ||
+            interfaceId == type(IERC165).interfaceId ||
+            ERC721A.supportsInterface(interfaceId);
     }
 
     // ********************** //
@@ -123,17 +142,6 @@ abstract contract NFT is ERC721A, Ownable, IERC2981, IRenderer, IDelegatedMint {
     // *** ROYALTIES *** //
     // ***************** //
 
-    function supportsInterface(bytes4 _interfaceId)
-        public
-        view
-        override(ERC721A, IERC165)
-        returns (bool)
-    {
-        return
-            _interfaceId == type(IERC2981).interfaceId ||
-            super.supportsInterface(_interfaceId);
-    }
-
     function royaltyInfo(uint256, uint256 salePrice)
         external
         view
@@ -159,16 +167,6 @@ abstract contract NFT is ERC721A, Ownable, IERC2981, IRenderer, IDelegatedMint {
     function setBaseTokenURI(string calldata _baseTokenURI) external onlyOwner {
         emit BaseTokenURIUpdated(baseTokenURI, _baseTokenURI);
         baseTokenURI = _baseTokenURI;
-    }
-
-    function withdrawAll() external onlyOwner {
-        require(address(this).balance > 0, "Zero balance");
-        (bool sent, ) = owner().call{value: address(this).balance}("");
-        require(sent, "Failed to withdraw");
-    }
-
-    function withdrawAllERC20(IERC20 token) external onlyOwner {
-        token.transfer(owner(), token.balanceOf(address(this)));
     }
 
     // Can be run any time after mint to optimize gas for future transfers

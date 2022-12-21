@@ -1,0 +1,62 @@
+<!-- <title>A Fundamental Dispute</title>
+<h1>hello</h1>
+<script type="text/javascript+gzip">
+  console.log('does not execute');
+</script>
+<script data-gzip-src="data:,console.log(%22oh no%22)%3B">
+  console.log("initializing");
+</script> -->
+
+<template>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Fundamental Dispute</title>
+
+  <style>
+    body {
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+    }
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      zoom: 2.5;
+    }
+  </style>
+
+  <script src="data:text/javascript;base64,___GUNZIP___"></script>
+  <script
+    type="text/javascript+gzip"
+    src="data:text/javascript;base64,___Q5JS___"
+  ></script>
+  <script>
+    const tokenId = ___TOKENID___;
+  </script>
+  <script src="data:text/javascript;base64,___GENART___"></script>
+</template>
+
+<script>
+  console.log(document.querySelector("template").innerHTML);
+  console.log(
+    encodeURIComponent(
+      JSON.stringify({
+        name: "A Fundamental Dispute",
+        description:
+          "generative art by genlight, made fully on-chain by frolic",
+        animation_url: `data:text/html,${encodeURIComponent(
+          document.querySelector("template").innerHTML
+        )}`
+      })
+    )
+      .replace(/___([A-Z0-9]+)___/g, "###@$1###")
+      .split(/###/g)
+      .map((token) => (token.startsWith("@") ? token : `"${token}"`))
+      .join(",\n")
+  );
+</script>

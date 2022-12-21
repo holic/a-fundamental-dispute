@@ -1,0 +1,17 @@
+{
+  "AFundamentalDispute": {
+    "blockNumber": 8172194,
+    "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170",
+    "contractAddress": "0xAA6840427974FD3920071649D8766CbCbC6F4eB4"
+  },
+  "AFDRenderer": {
+    "contractAddress": "0xf34Cf9063c24E180E01772537c2C1F567F33ACb0",
+    "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170",
+    "blockNumber": 8172194
+  },
+  "AFDPublicMint": {
+    "blockNumber": 8172194,
+    "contractAddress": "0x7F8b501d1A346c35bccfE0B13F3cA4a5A6319C2f",
+    "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170"
+  }
+}
