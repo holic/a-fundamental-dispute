@@ -11,6 +11,8 @@ export const ArtPreview = ({ url }: Props) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    if (shown) return;
+
     const element = containerRef.current;
     if (!element) return;
 
@@ -24,7 +26,7 @@ export const ArtPreview = ({ url }: Props) => {
     return () => {
       observer.unobserve(element);
     };
-  }, []);
+  }, [shown]);
 
   return (
     <div ref={containerRef} className="w-full h-full relative bg-stone-900">
@@ -37,7 +39,7 @@ export const ArtPreview = ({ url }: Props) => {
         Rendering…
       </div>
       <iframe
-        src={shown || loaded ? url : "about:blank"}
+        src={shown ? url : "about:blank"}
         hidden={!shown}
         className="w-full h-full"
         onLoad={() => setLoaded(true)}
