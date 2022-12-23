@@ -1,3 +1,4 @@
 forge-std/=packages/contracts/lib/forge-std/src/
 @openzeppelin/=packages/contracts/lib/openzeppelin-contracts/
 erc721a/=packages/contracts/lib/ERC721A/
+ethfs/=packages/contracts/lib/ethfs/packages/contracts/src/

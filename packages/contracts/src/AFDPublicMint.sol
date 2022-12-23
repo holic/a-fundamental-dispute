@@ -23,6 +23,8 @@ contract AFDPublicMint is OwnablePayable {
     error MintLimitExceeded(uint256 limit);
     error WrongPayment();
 
+    // TODO: set extra data per token/mint (blockhash?)
+
     function mint(uint256 numToBeMinted) external payable {
         if (msg.value != price * numToBeMinted) {
             revert WrongPayment();

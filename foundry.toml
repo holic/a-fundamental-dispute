@@ -4,14 +4,19 @@
 #
 # See https://github.com/holic/web3-scaffold/pull/23
 
-[default]
+[profile.default]
 src = 'packages/contracts/src'
 test = 'packages/contracts/test'
 out = 'packages/contracts/out'
 cache_path = 'packages/contracts/cache'
+broadcast = 'packages/contracts/broadcast'
 libs = ['packages/contracts/lib']
 verbosity = 2
 bytecode_hash = 'none'
 solc_version = '0.8.13'
 extra_output_files = ['abi']
 script = 'packages/contracts/script'
+fs_permissions = [
+  { access = "read", path = "packages/contracts/broadcast" },
+  { access = "write", path = "packages/contracts/deploys" }
+]
