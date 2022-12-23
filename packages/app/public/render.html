@@ -28,6 +28,7 @@
 ></script> -->
 <script src="https://q5xjs.netlify.app/q5.min.js"></script>
 <script>
-  const tokenId = Math.floor(Math.random() * 1000);
+  const params = new URLSearchParams(window.location.search);
+  const tokenId = params.get("tokenId") ?? Math.floor(Math.random() * 1000);
 </script>
-<script src="/afd.min.js"></script>
+<script src="/afd.js"></script>

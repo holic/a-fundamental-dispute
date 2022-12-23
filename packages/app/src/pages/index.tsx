@@ -1,42 +1,29 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 
-import { useExampleNFTContractRead } from "../contracts";
-import { Inventory } from "../Inventory";
-import { MintButton } from "../MintButton";
-import { useIsMounted } from "../useIsMounted";
+import { ArtPreview } from "../ArtPreview";
+
+const tokenIds = new Array(218).fill(1).map((value, i) => value + i);
 
 const HomePage: NextPage = () => {
-  const totalSupply = useExampleNFTContractRead({
-    functionName: "totalSupply",
-    watch: true,
-  });
-  const maxSupply = useExampleNFTContractRead({ functionName: "MAX_SUPPLY" });
-
-  const isMounted = useIsMounted();
-
   return (
     <div className="min-h-screen flex flex-col">
       <div className="self-end p-2">
         <ConnectButton />
       </div>
-      <div className="flex-grow flex flex-col gap-4 items-center justify-center p-8 pb-[50vh]">
-        <h1 className="text-4xl">Example NFT</h1>
+      <div className="flex-grow flex flex-col gap-4 items-center justify-center pb-[50vh]">
+        <h1 className="text-7xl p-20 text-amber-100">A Fundamental Dispute</h1>
 
-        {/* Use isMounted to temporarily workaround hydration issues where
-        server-rendered markup doesn't match the client due to localStorage
-        caching in wagmi. See https://github.com/holic/web3-scaffold/pull/26 */}
-        <p>
-          {(isMounted ? totalSupply.data?.toNumber().toLocaleString() : null) ??
-            "??"}
-          /
-          {(isMounted ? maxSupply.data?.toNumber().toLocaleString() : null) ??
-            "??"}{" "}
-          minted
-        </p>
-
-        <MintButton />
-        <Inventory />
+        <div className="w-full grid grid-cols-3 gap-[8vw] px-[8vw]">
+          {tokenIds.map((tokenId) => (
+            <div key={tokenId} className="text-xl">
+              <div className="w-full aspect-[400/550]">
+                <ArtPreview url={`/render.html?tokenId=${tokenId}`} />
+              </div>
+              {tokenId}/218
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
