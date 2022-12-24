@@ -31,8 +31,8 @@ let palettes = [
 ];
 
 function setup() {
-  randomSeed(tokenId);
-  noiseSeed(tokenId);
+  randomSeed(seed);
+  noiseSeed(seed);
   createCanvas(400, 550);
   colorMode(HSV, 360, 100, 100, 1);
   noLoop();

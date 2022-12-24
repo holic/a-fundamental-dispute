@@ -2,16 +2,17 @@ import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
-  url: string;
+  tokenId: number;
+  pauseRendering?: boolean;
 };
 
-export const ArtPreview = ({ url }: Props) => {
+export const ArtPreview = ({ tokenId, pauseRendering }: Props) => {
   const containerRef = useRef<HTMLIFrameElement>(null);
   const [shown, setShown] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (shown) return;
+    if (shown || pauseRendering) return;
 
     const element = containerRef.current;
     if (!element) return;
@@ -26,7 +27,7 @@ export const ArtPreview = ({ url }: Props) => {
     return () => {
       observer.unobserve(element);
     };
-  }, [shown]);
+  }, [shown, pauseRendering]);
 
   return (
     <div ref={containerRef} className="w-full h-full relative bg-stone-900">
@@ -39,9 +40,9 @@ export const ArtPreview = ({ url }: Props) => {
         Rendering…
       </div>
       <iframe
-        src={shown ? url : "about:blank"}
+        src={shown ? `/render.html?seed=${tokenId}` : "about:blank"}
         hidden={!shown}
-        className="w-full h-full"
+        className="w-full h-full pointer-events-none"
         onLoad={() => setLoaded(true)}
       />
     </div>
