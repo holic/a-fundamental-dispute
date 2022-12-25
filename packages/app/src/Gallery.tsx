@@ -15,7 +15,7 @@ export const Gallery = () => {
           A Fundamental Dispute
         </h1>
 
-        <div className="w-full grid grid-cols-3 gap-[8vw] px-[8vw]">
+        <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-[8vw] px-[8vw]">
           {tokenIds.map((tokenId) => (
             <a
               key={tokenId}
