@@ -59,7 +59,7 @@ function draw() {
   }
 
   //i have a custom 'texture' generator at bottom of this that just draws thousands of transparent bezier squiggles
-  texture = random([1, 1, 1, 1, 0]); // set to 1 to have 'texture' on
+  texture = random([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2]); // set to 1 to have 'texture' on
 
   sun = random([1, 2, 3]);
 
@@ -106,7 +106,7 @@ function draw() {
   }
   //hatching background
   rectMode(CENTER);
-  let frame = random([100, 100, 0, 25, 150]);
+  let frame = random([100, 100, 100, 50, 150, 100]);
 
   //density of hatching lines
   let spacingx = random([1, 2, 3, 4, 5, 10, 1, 2]);
@@ -135,7 +135,7 @@ function draw() {
     morelines = 15;
     //frame = -25;
     xfreqofpeak = 5;
-    incr = 0.002;
+    incr = random([0.008, 0.002]);
     peakheight = 200;
     groundwave = 400;
     randangle = random(100);
@@ -220,13 +220,17 @@ function draw() {
   }
   //end rolling hills
 
-  if (frame < 75) {
+  if (texture == 2) {
     metahatchtype = random([1, 1, 1, 1, 1, 2, 3]);
   } else {
-    metahatchtype = random([1, 1, 1, 1, 1, 2, 3, 4, 4]);
+    metahatchtype = random([1, 1, 1, 1, 1, 2, 3, 4]);
   }
 
   if (metahatchtype == 1) {
+    dashsetone = random([5, 5, 5, 5, 5, 5, 5, 55]);
+
+    colorfullines = random([1, 2, 2, 2, 2, 2, 2, 2]);
+
     for (let x = frame; x <= width - frame; x += spacingx) {
       for (let y = frame; y <= height - frame; y += spacingy) {
         //creating noise fields to pull from
@@ -247,9 +251,13 @@ function draw() {
         }
 
         //make those lines dashed
-        drawingContext.setLineDash([random(5), random(5)]);
+        drawingContext.setLineDash([random(5), random(dashsetone)]);
 
-        //this needs to be refactored cuz i wrote it to do something else, but it just shifts the lines from vertical to diagonal to horizontal; highly encourage not really looking at as it's done in a dumb way
+        if (colorfullines == 1) {
+          stroke(random([1, 50, 220, 220]), 55, 55);
+        } else {
+        }
+
         if (linetype == "verticalhatch") {
           anglex = 0;
           extralinex = 0;
@@ -280,11 +288,11 @@ function draw() {
       }
     }
   } else if (metahatchtype == 2) {
-    dashedlines = random([0, 0, 5]);
+    dashedlines = random([0, 0, 5, 25]);
     dashedlinesmessy = random([5, 55]);
-    spacingx = 25;
+    spacingx = random([25, 25, 25, 25, 150]);
     spacingy = 5;
-    incr = random([0.001, 0.003]);
+    incr = random([0.001, 0.003, 0.008, 0.001, 0.003]);
 
     for (let y = frame; y <= height - frame; y += spacingy) {
       beginShape();
@@ -325,7 +333,7 @@ function draw() {
     spacbtwnrow2 = random([10, 25, 10]);
 
     noisewiggle = 5;
-    let incr = 0.01;
+    let incr = random([0.1, 0.01, 0.01, 0.01]);
 
     for (let x = frame; x <= width - frame; x += spacing) {
       for (let y = frame; y <= height - frame; y += spacing * spacbtwnrow1) {
@@ -359,13 +367,13 @@ function draw() {
     }
   } else if (metahatchtype == 4) {
     push();
-    incr = random([0.005, 0]);
+    incr = 0.003;
     wiggle = 10;
-    xfreq = random([10, 15, 20]);
-    weightset = random([3, 4]);
+    xfreq = 1;
+    weightset = 2;
     weightsetstart = random([-1, 1]);
 
-    fill(random(200, 220), 55, 55, 55);
+    fill(random(200, 220), 55, random([25, 55, 75]), 55);
     stroke("black");
 
     beginShape();
@@ -491,31 +499,31 @@ function draw() {
 
   phosph = random([1, 1, 1, 1, 2]);
   innercloudtexture = random([1, 1.6]);
-  spacingset = random([1, 1, 1, 1, 1, 1, 2, 2.1, 0.5]); //size of bubbles in cloud; 0.5 takes some time but is a cool effect
+  spacingset = random([1, 1, 1, 1, 1, 1, 2.1, 0.5, 1, 0.5]); //size of bubbles in cloud; 0.5 takes some time but is a cool effect
   size = spacingset;
   mixedcloudtype = random([1, 2, 2, 2, 2, 2, 2, 2, 2, 2]);
-  if (darkmode == 2) {
-    blueclouds = random([1, 2, 2, 2, 2, 2, 2]);
+  if (darkmode == 2 || darkmode == 4) {
+    blueclouds = random([1, 1, 2, 2, 2, 2, 2, 2]);
   } else {
     blueclouds = 2;
   }
 
+  bluecloudcoset = random([1, 50, 220, 220]);
+
   morphinside = random([1, 2, 2, 2, 2, 2]);
+  widthsetup = random([50, 75, 100, 125, 50]);
 
   let cloudloopohyeas = cloudnum;
   while (cloudloopohyeas--) {
     push();
-    //i originally made this to generate only 1 cloud in a grid, so my placement is all off and i'm going to refactor this whole generator
-    if (frame == 0) {
-      zzx = random(-150, 150);
-    } else {
-      zzx = random(-50, 50);
-    }
+
+    zzx = random(-widthsetup, widthsetup);
+
     zzy = random(-225, 0);
     translate(zzx, zzy);
 
     if (mixedcloudtype == 1) {
-      spacingset = random([1, 2, 2.1, 4]); //size of bubbles in cloud; 0.5 takes some time but is a cool effect
+      spacingset = random([1, 0.5, 2.1, 4]); //size of bubbles in cloud; 0.5 takes some time but is a cool effect
       size = spacingset;
     }
 
@@ -543,6 +551,8 @@ function draw() {
       frameyset2 = framey;
       phosphmod = 4;
     }
+
+    bluecloudcoset = random([1, 50, 220, 220]);
 
     for (let j = 0; j <= 2; j++) {
       for (let y = framey; y <= height - framey; y += spacingset) {
@@ -590,8 +600,8 @@ function draw() {
           n2 = noise(x * incr2, y * incr2);
           n3 = noise(x * incr2, y * incr2);
 
-          if (blueclouds == 1 && darkmode > 1) {
-            fill(220, 55, map(y, framey, height - framey, 99, 55));
+          if (blueclouds == 1) {
+            fill(bluecloudcoset, 55, map(y, framey, height - framey, 99, 55));
           } else {
             if (darkmode == 1) {
               fill(palettes[0][0]);
@@ -656,6 +666,10 @@ function draw() {
     }
   }
   //end
+}
+
+function mousePressed() {
+  saveCanvas("clouds", "png");
 }
 
 function drawTree(treeheight) {
