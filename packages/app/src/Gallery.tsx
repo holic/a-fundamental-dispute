@@ -11,7 +11,9 @@ export const Gallery = () => {
         <ConnectButton />
       </div>
       <div className="flex-grow flex flex-col gap-4 items-center justify-center pb-[50vh]">
-        <h1 className="text-7xl p-20 text-amber-100">A Fundamental Dispute</h1>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl py-12 md:py-16 lg:py-20 text-amber-100 text-center">
+          A Fundamental Dispute
+        </h1>
 
         <div className="w-full grid grid-cols-3 gap-[8vw] px-[8vw]">
           {tokenIds.map((tokenId) => (
