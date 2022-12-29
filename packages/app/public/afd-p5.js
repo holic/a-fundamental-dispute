@@ -495,7 +495,7 @@ function draw() {
   //clouds
   //i draw '75' clouds, but most of them don't appear on the screen because they are too small; but i haven't had time to adjust the parameters to fix that
 
-  phosph = random([1, 1, 1, 1, 2]);
+  phosph = random([1, 1, 1, 1, 1, 1, 1, 2]);
   innercloudtexture = random([1, 1.6]);
   spacingset = random([1, 1, 1, 1, 1, 1, 2.1, 0.5, 1, 0.5]); //size of bubbles in cloud; 0.5 takes some time but is a cool effect
   size = spacingset;
@@ -664,10 +664,6 @@ function draw() {
     }
   }
   //end
-}
-
-function mousePressed() {
-  saveCanvas("clouds", "png");
 }
 
 function drawTree(treeheight) {
