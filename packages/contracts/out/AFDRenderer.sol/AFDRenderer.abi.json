@@ -2,7 +2,7 @@
   {
     "inputs": [
       {
-        "internalType": "contract IERC721A",
+        "internalType": "contract NFT",
         "name": "_token",
         "type": "address"
       },
@@ -35,11 +35,30 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "seedOf",
+    "outputs": [
+      {
+        "internalType": "uint32",
+        "name": "",
+        "type": "uint32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "token",
     "outputs": [
       {
-        "internalType": "contract IERC721A",
+        "internalType": "contract NFT",
         "name": "",
         "type": "address"
       }

@@ -42,11 +42,6 @@
   },
   {
     "inputs": [],
-    "name": "NotDelegatedMinter",
-    "type": "error"
-  },
-  {
-    "inputs": [],
     "name": "OwnerQueryForNonexistentToken",
     "type": "error"
   },
@@ -184,25 +179,6 @@
     "anonymous": false,
     "inputs": [],
     "name": "Initialized",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "previousMinter",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "newMinter",
-        "type": "address"
-      }
-    ],
-    "name": "MinterUpdated",
     "type": "event"
   },
   {
@@ -375,37 +351,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "quantity",
-        "type": "uint256"
-      }
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minter",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "name",
     "outputs": [
@@ -488,6 +433,47 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "ownershipOf",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "startTimestamp",
+            "type": "uint64"
+          },
+          {
+            "internalType": "bool",
+            "name": "burned",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint24",
+            "name": "extraData",
+            "type": "uint24"
+          }
+        ],
+        "internalType": "struct IERC721A.TokenOwnership",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "renderer",
     "outputs": [
@@ -508,23 +494,10 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "royaltyBasisPoints",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "tokenId",
         "type": "uint256"
       },
       {
@@ -550,44 +523,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "royaltyProvider",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "to",
+        "internalType": "contract IERC2981",
+        "name": "",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "quantity",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
       }
     ],
-    "name": "safeMint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "quantity",
-        "type": "uint256"
-      }
-    ],
-    "name": "safeMint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -675,12 +620,12 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_minter",
-        "type": "address"
+        "internalType": "uint96",
+        "name": "_royaltyBasisPoints",
+        "type": "uint96"
       }
     ],
-    "name": "setMinter",
+    "name": "setDefaultRoyalty",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -694,6 +639,19 @@
       }
     ],
     "name": "setRenderer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract IERC2981",
+        "name": "_royaltyProvider",
+        "type": "address"
+      }
+    ],
+    "name": "setRoyaltyProvider",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

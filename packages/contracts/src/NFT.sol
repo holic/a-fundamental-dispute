@@ -2,34 +2,25 @@
 pragma solidity ^0.8.13;
 
 import {ERC721A} from "erc721a/contracts/ERC721A.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC2981, IERC165} from "@openzeppelin/contracts/interfaces/IERC2981.sol";
+import {ERC2981} from "@openzeppelin/contracts/token/common/ERC2981.sol";
 import {IRenderer} from "./IRenderer.sol";
-import {IDelegatedMint} from "./IDelegatedMint.sol";
 import {OwnablePayable} from "./OwnablePayable.sol";
 
 /// @author frolic.eth
 /// @title  ERC721 base contract
 /// @notice ERC721-specific functionality to keep the actual NFT contract more
 ///         readable and focused on the mint/project mechanics.
-abstract contract NFT is
-    ERC721A,
-    OwnablePayable,
-    IERC2981,
-    IRenderer,
-    IDelegatedMint
-{
+abstract contract NFT is ERC721A, OwnablePayable, ERC2981 {
     uint256 public immutable maxSupply;
-    // TODO: customizable royalty? future proof royalty implementation?
-    uint256 public immutable royaltyBasisPoints = 500;
+    // TODO: upgradeable transfer hooks?
 
-    address public minter;
+    IERC2981 public royaltyProvider;
     IRenderer public renderer;
     string public baseTokenURI;
 
     event Initialized();
-    event MinterUpdated(address previousMinter, address newMinter);
     event RendererUpdated(IRenderer previousRenderer, IRenderer newRenderer);
     event BaseTokenURIUpdated(
         string previousBaseTokenURI,
@@ -56,28 +47,19 @@ abstract contract NFT is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721A, IERC165)
+        override(ERC721A, ERC2981)
         returns (bool)
     {
         return
-            interfaceId == type(IERC2981).interfaceId ||
-            interfaceId == type(IERC165).interfaceId ||
-            ERC721A.supportsInterface(interfaceId);
+            ERC721A.supportsInterface(interfaceId) ||
+            ERC2981.supportsInterface(interfaceId);
     }
 
-    // ********************** //
-    // *** DELEGATED MINT *** //
-    // ********************** //
+    // ************ //
+    // *** MINT *** //
+    // ************ //
 
-    error NotDelegatedMinter();
     error MaxSupplyExceeded(uint256 supply);
-
-    modifier onlyDelegatedMinter() {
-        if (msg.sender != minter) {
-            revert NotDelegatedMinter();
-        }
-        _;
-    }
 
     modifier withinMaxSupply(uint256 numToBeMinted) {
         if (totalMinted() + numToBeMinted > maxSupply) {
@@ -94,30 +76,6 @@ abstract contract NFT is
         return _numberMinted(owner);
     }
 
-    function mint(address to, uint256 quantity)
-        external
-        onlyDelegatedMinter
-        withinMaxSupply(quantity)
-    {
-        _mint(to, quantity);
-    }
-
-    function safeMint(address to, uint256 quantity)
-        external
-        onlyDelegatedMinter
-        withinMaxSupply(quantity)
-    {
-        _safeMint(to, quantity);
-    }
-
-    function safeMint(
-        address to,
-        uint256 quantity,
-        bytes memory data
-    ) external onlyDelegatedMinter withinMaxSupply(quantity) {
-        _safeMint(to, quantity, data);
-    }
-
     // ****************** //
     // *** AFTER MINT *** //
     // ****************** //
@@ -129,7 +87,7 @@ abstract contract NFT is
     function tokenURI(uint256 tokenId)
         public
         view
-        override(ERC721A, IRenderer)
+        override
         returns (string memory)
     {
         if (address(renderer) != address(0)) {
@@ -138,25 +96,40 @@ abstract contract NFT is
         return super.tokenURI(tokenId);
     }
 
+    function ownershipOf(uint256 tokenId)
+        public
+        view
+        returns (TokenOwnership memory)
+    {
+        return _ownershipOf(tokenId);
+    }
+
     // ***************** //
     // *** ROYALTIES *** //
     // ***************** //
 
-    function royaltyInfo(uint256, uint256 salePrice)
-        external
+    function royaltyInfo(uint256 tokenId, uint256 salePrice)
+        public
         view
+        override
         returns (address, uint256)
     {
-        return (address(this), (salePrice * royaltyBasisPoints) / 10000);
+        if (address(royaltyProvider) != address(0)) {
+            return royaltyProvider.royaltyInfo(tokenId, salePrice);
+        }
+        return super.royaltyInfo(tokenId, salePrice);
     }
 
     // ************* //
     // *** ADMIN *** //
     // ************* //
 
-    function setMinter(address _minter) external onlyOwner {
-        emit MinterUpdated(minter, _minter);
-        minter = _minter;
+    function setRoyaltyProvider(IERC2981 _royaltyProvider) external onlyOwner {
+        royaltyProvider = _royaltyProvider;
+    }
+
+    function setDefaultRoyalty(uint96 _royaltyBasisPoints) external onlyOwner {
+        _setDefaultRoyalty(address(this), _royaltyBasisPoints);
     }
 
     function setRenderer(IRenderer _renderer) external onlyOwner {

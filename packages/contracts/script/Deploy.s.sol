@@ -3,9 +3,8 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
-import {IERC721A} from "erc721a/contracts/IERC721A.sol";
+import {NFT} from "../src/NFT.sol";
 import {AFundamentalDispute} from "../src/AFD.sol";
-import {AFDPublicMint} from "../src/AFDPublicMint.sol";
 import {AFDRenderer} from "../src/AFDRenderer.sol";
 
 contract Deploy is Script {
@@ -16,17 +15,15 @@ contract Deploy is Script {
 
         AFundamentalDispute token = new AFundamentalDispute();
         AFDRenderer renderer = new AFDRenderer(
-            IERC721A(token),
+            NFT(token),
             IFileStore(fileStore())
         );
         token.setRenderer(renderer);
         // TODO: figure out price
-        AFDPublicMint minter = new AFDPublicMint(token, 0.001 ether);
-        token.setMinter(address(minter));
 
-        (bool success, bytes memory data) = address(minter).call{
-            value: 0.002 ether
-        }(abi.encodeWithSignature("mint(uint256)", 2));
+        // (bool success, bytes memory data) = address(token).call{
+        //     value: 0.1 ether
+        // }(abi.encodeWithSignature("mint(uint256)", 1));
 
         vm.stopBroadcast();
 
@@ -44,16 +41,9 @@ contract Deploy is Script {
         afdRenderer = afdRenderer.serialize("blockNumber", block.number);
         // TODO: find a way to get tx hash
 
-        string memory afdMinter = "afdMinter";
-        afdMinter.serialize("contractAddress", address(minter));
-        afdMinter.serialize("deployer", msg.sender);
-        afdMinter = afdMinter.serialize("blockNumber", block.number);
-        // TODO: find a way to get tx hash
-
         string memory deploy = "deploy";
         deploy.serialize("AFundamentalDispute", afdToken);
-        deploy.serialize("AFDRenderer", afdRenderer);
-        deploy = deploy.serialize("AFDPublicMint", afdMinter);
+        deploy = deploy.serialize("AFDRenderer", afdRenderer);
         deploy.write(
             string.concat("packages/contracts/deploys/", chainName(), ".json")
         );

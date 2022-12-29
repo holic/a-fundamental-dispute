@@ -26,7 +26,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "./common";
+} from "../common";
 
 export declare namespace IERC721A {
   export type TokenOwnershipStruct = {
@@ -49,20 +49,25 @@ export declare namespace IERC721A {
   };
 }
 
-export interface NFTInterface extends utils.Interface {
+export interface AFundamentalDisputeInterface extends utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
+    "artist()": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseTokenURI()": FunctionFragment;
+    "developer()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "holderPrice()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "maxSupply()": FunctionFragment;
+    "mint()": FunctionFragment;
     "name()": FunctionFragment;
     "normalizeOwnership(uint256,uint256)": FunctionFragment;
     "numberMinted(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "ownershipOf(uint256)": FunctionFragment;
+    "publicPrice()": FunctionFragment;
     "renderer()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "royaltyInfo(uint256,uint256)": FunctionFragment;
@@ -89,17 +94,22 @@ export interface NFTInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "approve"
+      | "artist"
       | "balanceOf"
       | "baseTokenURI"
+      | "developer"
       | "getApproved"
+      | "holderPrice"
       | "isApprovedForAll"
       | "maxSupply"
+      | "mint"
       | "name"
       | "normalizeOwnership"
       | "numberMinted"
       | "owner"
       | "ownerOf"
       | "ownershipOf"
+      | "publicPrice"
       | "renderer"
       | "renounceOwnership"
       | "royaltyInfo"
@@ -127,6 +137,7 @@ export interface NFTInterface extends utils.Interface {
     functionFragment: "approve",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "artist", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
@@ -135,15 +146,21 @@ export interface NFTInterface extends utils.Interface {
     functionFragment: "baseTokenURI",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "developer", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "holderPrice",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "maxSupply", values?: undefined): string;
+  encodeFunctionData(functionFragment: "mint", values?: undefined): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "normalizeOwnership",
@@ -161,6 +178,10 @@ export interface NFTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "ownershipOf",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "publicPrice",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "renderer", values?: undefined): string;
   encodeFunctionData(
@@ -259,13 +280,19 @@ export interface NFTInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "artist", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "baseTokenURI",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "developer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "holderPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -273,6 +300,7 @@ export interface NFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "maxSupply", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "normalizeOwnership",
@@ -286,6 +314,10 @@ export interface NFTInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "ownershipOf",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "publicPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "renderer", data: BytesLike): Result;
@@ -475,12 +507,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface NFT extends BaseContract {
+export interface AFundamentalDispute extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: NFTInterface;
+  interface: AFundamentalDisputeInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -508,6 +540,8 @@ export interface NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    artist(overrides?: CallOverrides): Promise<[string]>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -515,10 +549,14 @@ export interface NFT extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
 
+    developer(overrides?: CallOverrides): Promise<[string]>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    holderPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -527,6 +565,10 @@ export interface NFT extends BaseContract {
     ): Promise<[boolean]>;
 
     maxSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    mint(
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
@@ -552,6 +594,8 @@ export interface NFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[IERC721A.TokenOwnershipStructOutput]>;
+
+    publicPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     renderer(overrides?: CallOverrides): Promise<[string]>;
 
@@ -661,6 +705,8 @@ export interface NFT extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  artist(overrides?: CallOverrides): Promise<string>;
+
   balanceOf(
     owner: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -668,10 +714,14 @@ export interface NFT extends BaseContract {
 
   baseTokenURI(overrides?: CallOverrides): Promise<string>;
 
+  developer(overrides?: CallOverrides): Promise<string>;
+
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  holderPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -680,6 +730,10 @@ export interface NFT extends BaseContract {
   ): Promise<boolean>;
 
   maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+  mint(
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
@@ -705,6 +759,8 @@ export interface NFT extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<IERC721A.TokenOwnershipStructOutput>;
+
+  publicPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   renderer(overrides?: CallOverrides): Promise<string>;
 
@@ -814,6 +870,8 @@ export interface NFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    artist(overrides?: CallOverrides): Promise<string>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -821,10 +879,14 @@ export interface NFT extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<string>;
 
+    developer(overrides?: CallOverrides): Promise<string>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    holderPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -833,6 +895,8 @@ export interface NFT extends BaseContract {
     ): Promise<boolean>;
 
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    mint(overrides?: CallOverrides): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -858,6 +922,8 @@ export interface NFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<IERC721A.TokenOwnershipStructOutput>;
+
+    publicPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     renderer(overrides?: CallOverrides): Promise<string>;
 
@@ -1044,6 +1110,8 @@ export interface NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    artist(overrides?: CallOverrides): Promise<BigNumber>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1051,10 +1119,14 @@ export interface NFT extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
 
+    developer(overrides?: CallOverrides): Promise<BigNumber>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    holderPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -1063,6 +1135,10 @@ export interface NFT extends BaseContract {
     ): Promise<BigNumber>;
 
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    mint(
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1088,6 +1164,8 @@ export interface NFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    publicPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     renderer(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1198,6 +1276,8 @@ export interface NFT extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    artist(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1205,10 +1285,14 @@ export interface NFT extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    developer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    holderPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -1217,6 +1301,10 @@ export interface NFT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     maxSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    mint(
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1242,6 +1330,8 @@ export interface NFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    publicPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renderer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

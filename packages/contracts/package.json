@@ -10,7 +10,7 @@
     "test:fork": "source .env && forge test --fork-url $RPC_URL --match-contract Forked",
     "clean": "rm -rf types",
     "build": "pnpm clean && pnpm compile && pnpm types",
-    "compile": "forge build --force",
+    "compile": "forge build --force --skip test script",
     "types": "typechain --target ethers-v5 \"out/**/!(*.t|test|Test|Script|Vm|console|console2).sol/!(*.abi).json\" --out-dir types && tsc",
     "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
     "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",

@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
-import {IERC721A} from "erc721a/contracts/IERC721A.sol";
+import {NFT} from "../src/NFT.sol";
 import {AFundamentalDispute} from "../src/AFD.sol";
 import {AFDRenderer} from "../src/AFDRenderer.sol";
 
@@ -17,7 +17,7 @@ contract UpgradeRenderer is Script {
             0xAA6840427974FD3920071649D8766CbCbC6F4eB4
         );
         AFDRenderer renderer = new AFDRenderer(
-            IERC721A(token),
+            NFT(token),
             IFileStore(fileStore())
         );
         token.setRenderer(renderer);

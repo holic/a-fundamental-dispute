@@ -1,20 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {IERC721A} from "erc721a/contracts/IERC721A.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
 import {File} from "ethfs/File.sol";
+import {NFT} from "./NFT.sol";
 import {IRenderer} from "./IRenderer.sol";
 
 /// @author frolic.eth
 /// @title  A Fundamental Dispute renderer
 contract AFDRenderer is IRenderer {
-    IERC721A public immutable token;
+    NFT public immutable token;
     IFileStore public immutable fileStore;
 
     event Initialized();
 
-    constructor(IERC721A _token, IFileStore _fileStore) {
+    constructor(NFT _token, IFileStore _fileStore) {
         token = _token;
         fileStore = _fileStore;
         emit Initialized();
@@ -27,7 +27,8 @@ contract AFDRenderer is IRenderer {
         returns (string memory)
     {
         string memory tokenIdString = toString(tokenId);
-        // TODO: add extra data for seed
+        string memory seedString = toString(seedOf(tokenId));
+
         return
             string.concat(
                 "data:application/json,",
@@ -37,11 +38,25 @@ contract AFDRenderer is IRenderer {
                 fileStore.getFile("q5.min.js.gz").read(),
                 "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
                 fileStore.getFile("gunzipScripts-0.0.1.js").read(),
-                "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520tokenId%2520%253D%2520",
-                tokenIdString,
+                "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%2520",
+                seedString,
                 "%253B%250A%2520%2520%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
                 fileStore.getFile("afd.min.js").read(),
                 "%2522%253E%253C%252Fscript%253E%250A%22%7D"
+            );
+    }
+
+    function seedOf(uint256 tokenId) public view returns (uint32) {
+        return
+            uint32(
+                uint256(
+                    keccak256(
+                        abi.encode(
+                            tokenId,
+                            token.ownershipOf(tokenId).extraData
+                        )
+                    )
+                )
             );
     }
 
