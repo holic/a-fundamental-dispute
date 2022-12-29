@@ -668,10 +668,6 @@ function draw() {
   //end
 }
 
-function mousePressed() {
-  saveCanvas("clouds", "png");
-}
-
 function drawTree(treeheight) {
   //treeheight = 75
   treewidth = treeheight / 3;
