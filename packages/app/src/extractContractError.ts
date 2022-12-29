@@ -1,6 +1,6 @@
-import { ExampleNFT__factory } from "@web3-scaffold/contracts/types";
+import { AFundamentalDispute__factory } from "@web3-scaffold/contracts/types";
 
-const contractInterface = ExampleNFT__factory.createInterface();
+const contractInterface = AFundamentalDispute__factory.createInterface();
 
 // for (const [error, errorFragment] of Object.entries(contractInterface.errors)) {
 //   console.log(contractInterface.getSighash(errorFragment), errorFragment.name);
