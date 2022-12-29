@@ -40,7 +40,7 @@ export const ArtPreview = ({ tokenId, pauseRendering }: Props) => {
         Rendering…
       </div>
       <iframe
-        src={shown ? `/render.html?seed=${tokenId}` : "about:blank"}
+        src={shown ? `/render-p5.html?seed=${tokenId}` : "about:blank"}
         hidden={!shown}
         className="w-full h-full pointer-events-none"
         onLoad={() => setLoaded(true)}

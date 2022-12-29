@@ -1,0 +1,35 @@
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Fundamental Dispute</title>
+
+<style>
+  body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #111;
+  }
+  canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    zoom: 2.5;
+  }
+</style>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"
+  integrity="sha512-WJXVjqeINVpi5XXJ2jn0BSCfp0y80IKrYh731gLRnkAS9TKc5KNt/OfLtu+fCueqdWniouJ1ubM+VI/hbo7POQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<!-- <script src="https://q5xjs.netlify.app/q5.min.js"></script> -->
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const seed = params.get("seed") ?? Math.floor(Math.random() * 1000);
+</script>
+<!-- <script src="/afd.js"></script> -->
+<script src="/afd-p5.js"></script>
