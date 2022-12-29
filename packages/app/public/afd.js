@@ -31,9 +31,9 @@ let palettes = [
 ];
 
 function setup() {
+  createCanvas(400, 550);
   randomSeed(seed);
   noiseSeed(seed);
-  createCanvas(400, 550);
   colorMode(HSV, 360, 100, 100, 1);
   noLoop();
   pixelDensity(5);
@@ -254,7 +254,7 @@ function draw() {
         drawingContext.setLineDash([random(5), random(dashsetone)]);
 
         if (colorfullines == 1) {
-          stroke(random([1, 50, 220, 220]), 55, 55);
+          stroke(50, 55, random([0, 55, 0, 0, 0, 0, 0, 0, 0, 0]));
         } else {
         }
 
@@ -333,7 +333,7 @@ function draw() {
     spacbtwnrow2 = random([10, 25, 10]);
 
     noisewiggle = 5;
-    let incr = random([0.1, 0.01, 0.01, 0.01]);
+    let incr = random([0.1, 0.01, 0.01, 0.01, 0.008, 0.01]);
 
     for (let x = frame; x <= width - frame; x += spacing) {
       for (let y = frame; y <= height - frame; y += spacing * spacbtwnrow1) {
@@ -373,7 +373,7 @@ function draw() {
     weightset = 2;
     weightsetstart = random([-1, 1]);
 
-    fill(random(200, 220), 55, random([25, 55, 75]), 55);
+    fill(random(200, 220), 55, random([25, 55, 75]), 0.55);
     stroke("black");
 
     beginShape();
