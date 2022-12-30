@@ -32,16 +32,20 @@ contract AFDRenderer is IRenderer {
         return
             string.concat(
                 "data:application/json,",
-                "%7B%22name%22%3A%22A%20Fundamental%20Dispute%20%23",
+                "%7B%22name%22%3A%22A%20Fundamental%20Dispute%20",
                 tokenIdString,
-                "%22%2C%22description%22%3A%22generative%20art%20by%20genlight%2C%20made%20fully%20on-chain%20by%20frolic%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%250A%2520%2520%253Cmeta%2520charset%253D%2522UTF-8%2522%253E%250A%2520%2520%253Cmeta%2520name%253D%2522viewport%2522%2520content%253D%2522width%253Ddevice-width%252C%2520initial-scale%253D1.0%2522%253E%250A%2520%2520%253Ctitle%253EA%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520display%253A%2520flex%253B%250A%2520%2520%2520%2520%2520%2520align-items%253A%2520center%253B%250A%2520%2520%2520%2520%2520%2520justify-content%253A%2520center%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520max-width%253A%2520100%2525%253B%250A%2520%2520%2520%2520%2520%2520max-height%253A%2520100%2525%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%2520%2520zoom%253A%25202.5%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
-                fileStore.getFile("q5.min.js.gz").read(),
+                "%2F218%22%2C%22description%22%3A%22A%20long-form%20generative%20art%20collection%20using%20p5.js%2C%20made%20fully%20on-chain%20with%20EthFS.%5Cn%5Cn%20%20Art%20by%20%40genlight%2C%20smart%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F",
+                tokenIdString,
+                "%22%2C%22image%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fapi%2Fart-placeholder%2F",
+                tokenIdString,
+                "%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%250A%2520%2520%253Cmeta%2520charset%253D%2522UTF-8%2522%253E%250A%2520%2520%253Cmeta%2520name%253D%2522viewport%2522%2520content%253D%2522width%253Ddevice-width%252C%2520initial-scale%253D1.0%2522%253E%250A%2520%2520%253Ctitle%253EA%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520padding%253A%252010px%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520display%253A%2520flex%253B%250A%2520%2520%2520%2520%2520%2520align-items%253A%2520center%253B%250A%2520%2520%2520%2520%2520%2520justify-content%253A%2520center%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520max-width%253A%2520100%2525%253B%250A%2520%2520%2520%2520%2520%2520max-height%253A%2520100%2525%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%2520%2520zoom%253A%25202.5%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%2520",
+                seedString,
+                "%253B%250A%2520%2520%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
+                fileStore.getFile("p5-1.5.0.js.gz").read(),
+                "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
+                fileStore.getFile("afd-p5.min.js.gz").read(),
                 "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
                 fileStore.getFile("gunzipScripts-0.0.1.js").read(),
-                "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%2520",
-                seedString,
-                "%253B%250A%2520%2520%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
-                fileStore.getFile("afd.min.js").read(),
                 "%2522%253E%253C%252Fscript%253E%250A%22%7D"
             );
     }

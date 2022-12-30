@@ -22,32 +22,38 @@
     }
   </style>
 
+  <script>
+    const seed = ___SEED___;
+  </script>
   <script
     type="text/javascript+gzip"
-    src="data:text/javascript;base64,___Q5JS___"
+    src="data:text/javascript;base64,___P5JS___"
   ></script>
-  <script src="data:text/javascript;base64,___GUNZIP___"></script>
-  <script>
-    const tokenId = ___TOKENID___;
-  </script>
   <script src="data:text/javascript;base64,___GENART___"></script>
+  <script src="data:text/javascript;base64,___GUNZIP___"></script>
 </template>
 
 <script>
   const tokens = {
     "@TOKENID": "tokenIdString",
-    "@GUNZIP": 'fileStore.getFile("gunzipScripts-0.0.1.js").read()',
-    "@Q5JS": 'fileStore.getFile("q5.min.js.gz").read()',
-    "@GENART": 'fileStore.getFile("afd.min.js").read()'
+    "@SEED": "seedString",
+    "@P5JS": 'fileStore.getFile("p5-1.5.0.js.gz").read()',
+    "@GENART": 'fileStore.getFile("afd-p5.min.js.gz").read()',
+    "@GUNZIP": 'fileStore.getFile("gunzipScripts-0.0.1.js").read()'
   };
 
   console.log(document.querySelector("template").innerHTML);
   console.log(
     encodeURIComponent(
       JSON.stringify({
-        name: "A Fundamental Dispute #___TOKENID___",
-        description:
-          "generative art by genlight, made fully on-chain by frolic",
+        name: "A Fundamental Dispute ___TOKENID___/218",
+        // TODO: finalize description
+        description: `A long-form generative art collection using p5.js, made fully on-chain with EthFS.
+
+  Art by @genlight, smart contracts by @frolic`,
+        external_url: "https://afundamentaldispute.com/art/___TOKENID___",
+        image:
+          "https://afundamentaldispute.com/api/art-placeholder/___TOKENID___",
         animation_url: `data:text/html,${encodeURIComponent(
           document.querySelector("template").innerHTML
         )}`

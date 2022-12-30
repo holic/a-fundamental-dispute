@@ -19,11 +19,8 @@ contract Deploy is Script {
             IFileStore(fileStore())
         );
         token.setRenderer(renderer);
-        // TODO: figure out price
 
-        // (bool success, bytes memory data) = address(token).call{
-        //     value: 0.1 ether
-        // }(abi.encodeWithSignature("mint(uint256)", 1));
+        token.mint{value: 0.1 ether}();
 
         vm.stopBroadcast();
 
