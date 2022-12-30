@@ -42,7 +42,7 @@ contract AFDRenderer is IRenderer {
                 seedString,
                 "%253B%250A%2520%2520%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
                 fileStore.getFile("p5-1.5.0.js.gz").read(),
-                "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
+                "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
                 fileStore.getFile("afd-p5.min.js.gz").read(),
                 "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
                 fileStore.getFile("gunzipScripts-0.0.1.js").read(),

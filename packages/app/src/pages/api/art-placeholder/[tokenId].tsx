@@ -1,7 +1,10 @@
 import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
+import path from "path";
 
-const bg = fs.readFileSync("public/art-placeholder-bg.jpg");
+const bg = fs.readFileSync(
+  path.join(process.cwd(), "public/art-placeholder-bg.jpg")
+);
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
   const tokenId = parseInt(req.query.tokenId as string);

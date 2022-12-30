@@ -14,7 +14,7 @@ contract UpgradeRenderer is Script {
         vm.startBroadcast();
 
         AFundamentalDispute token = AFundamentalDispute(
-            0xAA6840427974FD3920071649D8766CbCbC6F4eB4
+            0xb496157398BC78eC6eF2E3C2370779DA862eB551
         );
         AFDRenderer renderer = new AFDRenderer(
             NFT(token),
