@@ -39,7 +39,9 @@ function setup() {
   cloudnum = random([75, 150, 75, 75, 35, 75, 75, 75, 75, 200]);
 }
 
-function draw() {
+const tick = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
+async function draw() {
   darkmode = random([1, 1, 2, 2, 2, 2, 3, 3, 4, 4]);
   backmix = random([3, 4]);
   if (darkmode == 1) {
@@ -89,6 +91,7 @@ function draw() {
       fill(palettes[backmix][0]);
     }
     circle(moonsize / moonwarp, -moonsize / moonwarp, moonsize);
+    await tick();
     pop();
   }
 
@@ -206,6 +209,7 @@ function draw() {
                   treeheight / 3
               );
               drawTree(35);
+              await tick();
               pop();
             }
           } else {
@@ -214,6 +218,7 @@ function draw() {
         endShape();
       }
     }
+    await tick();
     pop();
   }
   //end rolling hills
@@ -404,8 +409,10 @@ function draw() {
 
     endShape(CLOSE);
 
+    await tick();
     pop();
   }
+  await tick();
   pop();
 
   //sun
@@ -427,6 +434,7 @@ function draw() {
     push();
     fill(random(["white", "black"]));
     circle(0, 0, 15);
+    await tick();
     pop();
     centerset = random(5, 10);
     for (a = 0; a < 360; a += 6) {
@@ -435,8 +443,10 @@ function draw() {
       rotate(map(a, 0, 360, 0, 360));
       //drawingContext.setLineDash([random(25), random(3)]);
       line(0, sizeofcenter, 0, random(sizeofcenter, sizeofcenter + sunsize));
+      await tick();
       pop();
     }
+    await tick();
     pop();
   }
 
@@ -463,6 +473,7 @@ function draw() {
         height - frame + b - 3
       );
     }
+    await tick();
     pop();
 
     //shitty, kind of plain trees that i need to re-write because i don't like them
@@ -488,6 +499,7 @@ function draw() {
       strokeWeight(0.5);
       translate(x, y);
       drawTree(treeheight);
+      await tick();
       pop();
     }
   }
@@ -636,6 +648,7 @@ function draw() {
         }
       }
     }
+    await tick();
     pop();
   }
 
