@@ -41,7 +41,7 @@ const HomePage: NextPage = () => (
               href="https://p5js.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline text-stone-300 hover:text-white"
+              className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
             >
               p5.js
             </a>
@@ -50,7 +50,7 @@ const HomePage: NextPage = () => (
               href="https://ethfs.xyz/"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline text-stone-300 hover:text-white"
+              className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
             >
               EthFS
             </a>
@@ -60,11 +60,17 @@ const HomePage: NextPage = () => (
 
         <p>
           Art by{" "}
-          <a href="#" className="underline text-stone-300 hover:text-white">
+          <a
+            href="#"
+            className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
+          >
             Adam
           </a>
           , website and contracts by{" "}
-          <a href="#" className="underline text-stone-200 hover:text-white">
+          <a
+            href="#"
+            className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
+          >
             frolic
           </a>
           .
@@ -75,23 +81,26 @@ const HomePage: NextPage = () => (
         <div>
           <button
             type="button"
-            className="underline text-stone-200 hover:text-white"
+            className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
           >
-            Mint a piece
+            Mint a piece ☼
           </button>
           <p className="italic">218 of 218 pieces remaining</p>
         </div>
 
         <div>
           <p>
-            <a href="#" className="underline text-stone-200 hover:text-white">
-              Learn about the collection
+            <a
+              href="#"
+              className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
+            >
+              Learn about the collection ⇒
             </a>
           </p>
           <p>
             <Link href="/art" passHref>
-              <a className="underline text-stone-200 hover:text-white">
-                View the gallery
+              <a className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600">
+                View the gallery ⇒
               </a>
             </Link>
           </p>
