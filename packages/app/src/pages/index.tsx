@@ -32,7 +32,7 @@ const HomePage: NextPage = () => (
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@generativelight" />
     </Head>
-    <div className="space-y-16 p-8 sm:p-12 md:p-16 lg:p-20 max-w-4xl">
+    <div className="space-y-16 px-8 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20 lg:px-20 lg:py-24 max-w-4xl">
       <div className="space-y-8">
         <div>
           <h1 className="text-lg font-bold text-white">
@@ -59,11 +59,14 @@ const HomePage: NextPage = () => (
           <TextLink href="https://genlight.art/" target="_blank">
             Adam
           </TextLink>
-          , website and contracts by{" "}
-          <TextLink href="https://twitter.com/frolic" target="_blank">
-            frolic
-          </TextLink>
-          .
+          , website and contracts{" "}
+          <span className="whitespace-nowrap">
+            by{" "}
+            <TextLink href="https://twitter.com/frolic" target="_blank">
+              frolic
+            </TextLink>
+            .
+          </span>
         </p>
 
         <hr className="border-1 border-stone-800" />
