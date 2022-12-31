@@ -3,32 +3,51 @@
 <title>A Fundamental Dispute</title>
 
 <style>
+  * {
+    box-sizing: border-box;
+  }
+  html,
   body {
-    margin: 0;
     width: 100vw;
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0;
     background: #111;
   }
   canvas {
-    max-width: 100%;
-    max-height: 100%;
+    display: block;
+    margin: auto;
+  }
+  body.fullscreen canvas {
+    width: 1200px !important;
+    height: 1650px !important;
+  }
+  body:not(.fullscreen) canvas {
+    padding: 8vmin;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: contain;
-    zoom: 2.5;
   }
 </style>
 
-<!-- <script
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const seed = parseInt(params.get("seed")) || Math.floor(Math.random() * 1000);
+
+  document.addEventListener("click", (event) => {
+    const x = event.clientX / document.body.clientWidth;
+    const y = event.clientY / document.body.clientHeight;
+    document.body.classList.toggle("fullscreen");
+    document.body.scrollTo({
+      left: document.body.scrollWidth * x - document.body.clientWidth / 2,
+      top: document.body.scrollHeight * y - document.body.clientHeight / 2
+    });
+  });
+</script>
+
+<script
   src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"
   integrity="sha512-WJXVjqeINVpi5XXJ2jn0BSCfp0y80IKrYh731gLRnkAS9TKc5KNt/OfLtu+fCueqdWniouJ1ubM+VI/hbo7POQ=="
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
-></script> -->
-<script src="https://q5xjs.netlify.app/q5.min.js"></script>
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const seed = params.get("seed") ?? Math.floor(Math.random() * 1000);
-</script>
+></script>
 <script src="/afd.js"></script>

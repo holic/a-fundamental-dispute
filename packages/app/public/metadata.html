@@ -4,27 +4,46 @@
   <title>A Fundamental Dispute</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    html,
     body {
-      margin: 0;
-      padding: 10px;
       width: 100vw;
       height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      margin: 0;
       background: #111;
     }
     canvas {
-      max-width: 100%;
-      max-height: 100%;
+      display: block;
+      margin: auto;
+    }
+    body.fullscreen canvas {
+      width: 1200px !important;
+      height: 1650px !important;
+    }
+    body:not(.fullscreen) canvas {
+      padding: 8vmin;
+      width: 100% !important;
+      height: 100% !important;
       object-fit: contain;
-      zoom: 2.5;
     }
   </style>
 
   <script>
     const seed = ___SEED___;
+
+    document.addEventListener("click", (event) => {
+      const x = event.clientX / document.body.clientWidth;
+      const y = event.clientY / document.body.clientHeight;
+      document.body.classList.toggle("fullscreen");
+      document.body.scrollTo({
+        left: document.body.scrollWidth * x - document.body.clientWidth / 2,
+        top: document.body.scrollHeight * y - document.body.clientHeight / 2
+      });
+    });
   </script>
+
   <script
     type="text/javascript+gzip"
     src="data:text/javascript;base64,___P5JS___"
@@ -60,6 +79,7 @@
         animation_url: `data:text/html,${encodeURIComponent(
           document.querySelector("template").innerHTML
         )}`
+        // animation_url: "https://dispute.loca.lt/render.html?seed=___SEED___"
       })
     )
       .replace(/___([A-Z0-9]+)___/g, "###@$1###")

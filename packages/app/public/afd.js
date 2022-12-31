@@ -1,5 +1,3 @@
-new Q5("global");
-
 let palettes = [
   [
     //0 dark mode
@@ -34,7 +32,7 @@ function setup() {
   createCanvas(400, 550);
   randomSeed(seed);
   noiseSeed(seed);
-  colorMode(HSV, 360, 100, 100, 1);
+  colorMode(HSL, 360, 100, 100, 100);
   noLoop();
   pixelDensity(5);
   treecount = 150;
@@ -373,7 +371,7 @@ function draw() {
     weightset = 2;
     weightsetstart = random([-1, 1]);
 
-    fill(random(200, 220), 55, random([25, 55, 75]), 0.55);
+    fill(random(200, 220), 55, random([25, 55, 75]), 55);
     stroke("black");
 
     beginShape();
@@ -497,7 +495,7 @@ function draw() {
   //clouds
   //i draw '75' clouds, but most of them don't appear on the screen because they are too small; but i haven't had time to adjust the parameters to fix that
 
-  phosph = random([1, 1, 1, 1, 2]);
+  phosph = random([1, 1, 1, 1, 1, 1, 1, 2]);
   innercloudtexture = random([1, 1.6]);
   spacingset = random([1, 1, 1, 1, 1, 1, 2.1, 0.5, 1, 0.5]); //size of bubbles in cloud; 0.5 takes some time but is a cool effect
   size = spacingset;
@@ -650,7 +648,7 @@ function draw() {
       y = random(height);
       push();
       strokeWeight(0.2);
-      stroke(50, 50, random(55, 95), random(0.01, 0.15));
+      stroke(50, 50, random(55, 95), random(1, 15));
       noFill();
       bezier(
         random(-padfactor, width + padfactor),
