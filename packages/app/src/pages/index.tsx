@@ -29,7 +29,7 @@ const HomePage: NextPage = () => (
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@generativelight" />
     </Head>
-    <div className="space-y-16 p-20 max-w-4xl">
+    <div className="space-y-16 p-8 sm:p-12 md:p-16 lg:p-20 max-w-4xl">
       <div className="space-y-8">
         <div>
           <h1 className="text-lg font-bold text-white">
@@ -45,16 +45,19 @@ const HomePage: NextPage = () => (
             >
               p5.js
             </a>
-            , made fully on-chain with{" "}
-            <a
-              href="https://ethfs.xyz/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-            >
-              EthFS
-            </a>
-            .
+            , made <span className="whitespace-nowrap">fully on-chain</span>{" "}
+            <span className="whitespace-nowrap">
+              with{" "}
+              <a
+                href="https://ethfs.xyz/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
+              >
+                EthFS
+              </a>
+              .
+            </span>
           </p>
         </div>
 
@@ -111,7 +114,7 @@ const HomePage: NextPage = () => (
         </div>
       </div>
 
-      <div className="w-full grid grid-cols-4 gap-4">
+      <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
         <img src="/thumbnail-1.jpg" />
         <img src="/thumbnail-2.jpg" />
         <img src="/thumbnail-3.jpg" />
