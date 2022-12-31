@@ -19,7 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Example NFT</title>
+        <title>A Fundamental Dispute</title>
       </Head>
       <GraphProvider value={graphClient}>
         <EthereumProviders>
