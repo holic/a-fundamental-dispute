@@ -61,14 +61,18 @@ const HomePage: NextPage = () => (
         <p>
           Art by{" "}
           <a
-            href="#"
+            href="https://genlight.art/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
           >
             Adam
           </a>
           , website and contracts by{" "}
           <a
-            href="#"
+            href="https://twitter.com/frolic"
+            target="_blank"
+            rel="noopener noreferrer"
             className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
           >
             frolic
