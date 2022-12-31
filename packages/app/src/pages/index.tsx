@@ -2,6 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
+import { MintButton } from "../MintButton";
+import { TextLink } from "../TextLink";
+
 const HomePage: NextPage = () => (
   <>
     <Head>
@@ -37,25 +40,15 @@ const HomePage: NextPage = () => (
           </h1>
           <p className="italic">
             &mdash; a long-form generative art collection using{" "}
-            <a
-              href="https://p5js.org/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-            >
+            <TextLink href="https://p5js.org/" target="_blank">
               p5.js
-            </a>
+            </TextLink>
             , made <span className="whitespace-nowrap">fully on-chain</span>{" "}
             <span className="whitespace-nowrap">
               with{" "}
-              <a
-                href="https://ethfs.xyz/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-              >
+              <TextLink href="https://ethfs.xyz/" target="_blank">
                 EthFS
-              </a>
+              </TextLink>
               .
             </span>
           </p>
@@ -63,52 +56,30 @@ const HomePage: NextPage = () => (
 
         <p>
           Art by{" "}
-          <a
-            href="https://genlight.art/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-          >
+          <TextLink href="https://genlight.art/" target="_blank">
             Adam
-          </a>
+          </TextLink>
           , website and contracts by{" "}
-          <a
-            href="https://twitter.com/frolic"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-          >
+          <TextLink href="https://twitter.com/frolic" target="_blank">
             frolic
-          </a>
+          </TextLink>
           .
         </p>
 
         <hr className="border-1 border-stone-800" />
 
         <div>
-          <button
-            type="button"
-            className="group underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-          >
-            Mint a piece ☼
-          </button>
-          <p className="italic">218 of 218 pieces remaining</p>
+          <MintButton />
+          <p className="italic">218 of 218 pieces remaining.</p>
         </div>
 
         <div>
           <p>
-            <a
-              href="#"
-              className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
-            >
-              Learn about the collection ⇒
-            </a>
+            <TextLink href="#">Learn about the collection ⇒</TextLink>
           </p>
           <p>
             <Link href="/art" passHref>
-              <a className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600">
-                View the gallery ⇒
-              </a>
+              <TextLink>View the gallery ⇒</TextLink>
             </Link>
           </p>
         </div>
