@@ -8,12 +8,12 @@ export const Gallery = () => (
       <a
         key={tokenId}
         href={`/art/${tokenId}`}
-        className="block w-full aspect-[400/550] relative group"
+        className="block w-full aspect-[400/550] relative hover:scale-110 transition duration-500 text-stone-500 hover:text-stone-300"
       >
         <ArtPreview tokenId={tokenId} />
-        <div className="absolute left-0 right-0 top-1/2 bottom-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-b from-transparent via-stone-600/60 to-stone-600 flex flex-col items-center justify-end p-4">
+        <span className="absolute bottom-full right-0 text-sm leading-relaxed">
           {tokenId}/218
-        </div>
+        </span>
       </a>
     ))}
   </div>

@@ -88,7 +88,7 @@ const HomePage: NextPage = () => (
         <div>
           <button
             type="button"
-            className="underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
+            className="group underline decoration-blue-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-600"
           >
             Mint a piece ☼
           </button>
