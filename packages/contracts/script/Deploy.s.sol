@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
+import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
 import {NFT} from "../src/NFT.sol";
 import {AFundamentalDispute} from "../src/AFD.sol";
@@ -13,7 +14,18 @@ contract Deploy is Script {
     function run() public {
         vm.startBroadcast();
 
-        AFundamentalDispute token = new AFundamentalDispute();
+        IERC721 foldedFaces = IERC721(
+            0xf01DfAC37DD149Cb686E05d06cd21930B011F10F
+        );
+        // TODO: genlight address
+        address artist = address(0xC9C022FCFebE730710aE93CA9247c5Ec9d9236d0);
+        address developer = address(0xC9C022FCFebE730710aE93CA9247c5Ec9d9236d0);
+
+        AFundamentalDispute token = new AFundamentalDispute(
+            foldedFaces,
+            artist,
+            developer
+        );
         AFDRenderer renderer = new AFDRenderer(
             NFT(token),
             IFileStore(fileStore())

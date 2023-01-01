@@ -20,4 +20,6 @@ fs_permissions = [
   { access = "read", path = "packages/contracts/broadcast" },
   { access = "write", path = "packages/contracts/deploys" }
 ]
+# Enable YUL compiler to avoid stack too deep errors
+# Much slower but it works
 via_ir = true
