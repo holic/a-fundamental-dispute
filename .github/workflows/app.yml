@@ -3,7 +3,7 @@ name: app
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
 env:
   NODE_ENV: ci
@@ -32,9 +32,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
       - name: Setup pnpm
-        uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
+        uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          # Pinned to 7.19 until https://github.com/pnpm/pnpm/pull/5847 is merged
+          version: 7.19
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -62,9 +63,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
       - name: Setup pnpm
-        uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
+        uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7
+          # Pinned to 7.19 until https://github.com/pnpm/pnpm/pull/5847 is merged
+          version: 7.19
       - name: Setup node
         uses: actions/setup-node@v3
         with:
