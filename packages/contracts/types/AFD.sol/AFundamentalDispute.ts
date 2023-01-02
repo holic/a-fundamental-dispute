@@ -52,11 +52,12 @@ export declare namespace IERC721A {
 export interface AFundamentalDisputeInterface extends utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
-    "artist()": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseTokenURI()": FunctionFragment;
-    "developer()": FunctionFragment;
+    "foldedFaces()": FunctionFragment;
+    "foldedFacesMint(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "hasUsedFoldedFaces(uint256)": FunctionFragment;
     "holderPrice()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "maxSupply()": FunctionFragment;
@@ -94,11 +95,12 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "approve"
-      | "artist"
       | "balanceOf"
       | "baseTokenURI"
-      | "developer"
+      | "foldedFaces"
+      | "foldedFacesMint"
       | "getApproved"
+      | "hasUsedFoldedFaces"
       | "holderPrice"
       | "isApprovedForAll"
       | "maxSupply"
@@ -137,7 +139,6 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     functionFragment: "approve",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(functionFragment: "artist", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
@@ -146,9 +147,20 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     functionFragment: "baseTokenURI",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "developer", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "foldedFaces",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "foldedFacesMint",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasUsedFoldedFaces",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -280,15 +292,25 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "artist", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "baseTokenURI",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "developer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "foldedFaces",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "foldedFacesMint",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "hasUsedFoldedFaces",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -540,8 +562,6 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    artist(overrides?: CallOverrides): Promise<[string]>;
-
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -549,12 +569,22 @@ export interface AFundamentalDispute extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
 
-    developer(overrides?: CallOverrides): Promise<[string]>;
+    foldedFaces(overrides?: CallOverrides): Promise<[string]>;
+
+    foldedFacesMint(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    hasUsedFoldedFaces(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     holderPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -705,8 +735,6 @@ export interface AFundamentalDispute extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  artist(overrides?: CallOverrides): Promise<string>;
-
   balanceOf(
     owner: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -714,12 +742,22 @@ export interface AFundamentalDispute extends BaseContract {
 
   baseTokenURI(overrides?: CallOverrides): Promise<string>;
 
-  developer(overrides?: CallOverrides): Promise<string>;
+  foldedFaces(overrides?: CallOverrides): Promise<string>;
+
+  foldedFacesMint(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  hasUsedFoldedFaces(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   holderPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -870,8 +908,6 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    artist(overrides?: CallOverrides): Promise<string>;
-
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -879,12 +915,22 @@ export interface AFundamentalDispute extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<string>;
 
-    developer(overrides?: CallOverrides): Promise<string>;
+    foldedFaces(overrides?: CallOverrides): Promise<string>;
+
+    foldedFacesMint(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    hasUsedFoldedFaces(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     holderPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1110,8 +1156,6 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    artist(overrides?: CallOverrides): Promise<BigNumber>;
-
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1119,9 +1163,19 @@ export interface AFundamentalDispute extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
 
-    developer(overrides?: CallOverrides): Promise<BigNumber>;
+    foldedFaces(overrides?: CallOverrides): Promise<BigNumber>;
+
+    foldedFacesMint(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     getApproved(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    hasUsedFoldedFaces(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1276,8 +1330,6 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    artist(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1285,9 +1337,19 @@ export interface AFundamentalDispute extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    developer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    foldedFaces(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    foldedFacesMint(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     getApproved(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    hasUsedFoldedFaces(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
