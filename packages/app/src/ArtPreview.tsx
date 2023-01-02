@@ -1,18 +1,55 @@
 import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
+import {
+  DetailedHTMLProps,
+  IframeHTMLAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { gql } from "urql";
 
-type Props = {
-  tokenId: number;
-  pauseRendering?: boolean;
+import { useArtPreviewQuery } from "../codegen/indexer";
+
+gql`
+  query ArtPreview($id: ID!) {
+    token: aFundamentalDisputeToken(id: $id) {
+      id
+      html
+    }
+  }
+`;
+
+const ArtIframe = ({
+  tokenId,
+  hidden,
+  ...props
+}: { tokenId: string } & DetailedHTMLProps<
+  IframeHTMLAttributes<HTMLIFrameElement>,
+  HTMLIFrameElement
+>) => {
+  const [{ data }] = useArtPreviewQuery(
+    hidden
+      ? { pause: true }
+      : {
+          variables: { id: tokenId },
+        }
+  );
+  // TODO: show message if token is not found?
+  if (!data?.token) return null;
+  return <iframe srcDoc={data.token.html} hidden={hidden} {...props} />;
 };
 
-export const ArtPreview = ({ tokenId, pauseRendering }: Props) => {
+type Props = {
+  id: string;
+};
+
+export const ArtPreview = ({ id }: Props) => {
   const containerRef = useRef<HTMLIFrameElement>(null);
   const [shown, setShown] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (shown || pauseRendering) return;
+    if (shown) return;
 
     const element = containerRef.current;
     if (!element) return;
@@ -27,7 +64,7 @@ export const ArtPreview = ({ tokenId, pauseRendering }: Props) => {
     return () => {
       observer.unobserve(element);
     };
-  }, [shown, pauseRendering]);
+  }, [shown]);
 
   return (
     <div ref={containerRef} className="w-full h-full relative bg-stone-900">
@@ -39,8 +76,8 @@ export const ArtPreview = ({ tokenId, pauseRendering }: Props) => {
       >
         Rendering…
       </div>
-      <iframe
-        src={shown ? `/render.html?seed=${tokenId}` : "about:blank"}
+      <ArtIframe
+        tokenId={id}
         hidden={!shown}
         className="w-full h-full pointer-events-none"
         onLoad={() => setLoaded(true)}

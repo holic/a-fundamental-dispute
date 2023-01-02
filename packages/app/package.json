@@ -6,11 +6,11 @@
     "pnpm": "7"
   },
   "scripts": {
-    "dev": "next dev & graphql-codegen --watch",
+    "dev": "next dev & graphql-codegen --config ./codegen.ts --watch",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "codegen": "graphql-codegen",
+    "codegen": "graphql-codegen --config ./codegen.ts",
     "prettier": "prettier --write src"
   },
   "dependencies": {

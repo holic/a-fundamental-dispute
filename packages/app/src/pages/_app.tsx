@@ -9,10 +9,11 @@ import {
   Provider as GraphProvider,
 } from "urql";
 
+import { graphUrl } from "../../codegen";
 import { EthereumProviders } from "../EthereumProviders";
 
 export const graphClient = createGraphClient({
-  url: "https://api.thegraph.com/subgraphs/name/holic/example-nft",
+  url: graphUrl,
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
