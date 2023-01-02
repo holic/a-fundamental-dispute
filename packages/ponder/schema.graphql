@@ -2,6 +2,7 @@ type AFundamentalDisputeToken @entity {
   id: ID!
   tokenId: Int!
   owner: Wallet!
+  html: String!
 }
 
 type FoldedFacesToken @entity {
