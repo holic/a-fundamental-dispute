@@ -42,9 +42,16 @@ module.exports = {
           {
             name: "AFundamentalDispute",
             network: "goerli",
-            abi: "./abis/AFundamentalDispute.json",
+            abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
             address: "0xD8A6f1cB8a71721a81B589C953490d11DaCfaA9A",
             startBlock: 8242641,
+          },
+          {
+            name: "AFDRenderer",
+            network: "goerli",
+            abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
+            address: "0x4E69603d79c86c4c908dFa6f1A5eDF0543D13238",
+            startBlock: 8245697,
           },
         ];
       default:

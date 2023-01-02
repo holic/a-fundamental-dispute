@@ -40,13 +40,13 @@ contract Deploy is Script {
         afdToken.serialize("contractAddress", address(token));
         afdToken.serialize("deployer", msg.sender);
         afdToken = afdToken.serialize("blockNumber", block.number);
-        // TODO: find a way to get tx hash
+        // TODO: find a way to get tx hash and actual block number
 
         string memory afdRenderer = "afdRenderer";
         afdRenderer.serialize("contractAddress", address(renderer));
         afdRenderer.serialize("deployer", msg.sender);
         afdRenderer = afdRenderer.serialize("blockNumber", block.number);
-        // TODO: find a way to get tx hash
+        // TODO: find a way to get tx hash and actual block number
 
         string memory deploy = "deploy";
         deploy.serialize("AFundamentalDispute", afdToken);

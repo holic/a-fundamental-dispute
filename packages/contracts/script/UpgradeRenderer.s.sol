@@ -14,13 +14,15 @@ contract UpgradeRenderer is Script {
         vm.startBroadcast();
 
         AFundamentalDispute token = AFundamentalDispute(
-            0xb496157398BC78eC6eF2E3C2370779DA862eB551
+            0xD8A6f1cB8a71721a81B589C953490d11DaCfaA9A
         );
         AFDRenderer renderer = new AFDRenderer(
             NFT(token),
             IFileStore(fileStore())
         );
         token.setRenderer(renderer);
+
+        // TODO: update deploy json
 
         vm.stopBroadcast();
     }

@@ -1,7 +1,7 @@
-<template>
+<template id="animation_url">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Fundamental Dispute</title>
+  <title>___TOKENID___/218 &mdash; A Fundamental Dispute</title>
 
   <style>
     * {
@@ -55,6 +55,46 @@
   <script src="data:text/javascript;base64,___GUNZIP___"></script>
 </template>
 
+<template id="render">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>___TOKENID___/218 &mdash; A Fundamental Dispute</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html,
+    body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      background: #111;
+    }
+    canvas {
+      display: block;
+      margin: auto;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+  </style>
+
+  <script>
+    const seed = ___SEED___;
+  </script>
+
+  <script
+    type="text/javascript+gzip"
+    src="data:text/javascript;base64,___P5JS___"
+  ></script>
+  <script
+    type="text/javascript+gzip"
+    src="data:text/javascript;base64,___GENART___"
+  ></script>
+  <script src="data:text/javascript;base64,___GUNZIP___"></script>
+</template>
+
 <script>
   const tokens = {
     "@TOKENID": "tokenIdString",
@@ -64,7 +104,7 @@
     "@GUNZIP": 'fileStore.getFile("gunzipScripts-0.0.1.js").read()'
   };
 
-  console.log(document.querySelector("template").innerHTML);
+  console.log(document.querySelector("template#animation_url").innerHTML);
   console.log(
     encodeURIComponent(
       JSON.stringify({
@@ -77,7 +117,7 @@
         image:
           "https://afundamentaldispute.com/api/art-placeholder/___TOKENID___",
         animation_url: `data:text/html,${encodeURIComponent(
-          document.querySelector("template").innerHTML
+          document.querySelector("template#animation_url").innerHTML
         )}`
         // animation_url: "https://dispute.loca.lt/render.html?seed=___SEED___"
       })
@@ -86,6 +126,20 @@
       .split(/###/g)
       .map((token) =>
         token.startsWith("@") ? tokens[token] ?? token : `"${token}"`
+      )
+      .join(",\n")
+  );
+
+  console.log(
+    document
+      .querySelector("template#render")
+      .innerHTML.trim()
+      .replace(/___([A-Z0-9]+)___/g, "###@$1###")
+      .split(/###/g)
+      .map((token) =>
+        token.startsWith("@")
+          ? tokens[token] ?? token
+          : `"${token.replace(/\n/g, "\\n").replace(/"/g, '\\"')}"`
       )
       .join(",\n")
   );

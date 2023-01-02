@@ -4,41 +4,11 @@ import {
   TransferHandler,
 } from "../generated/handlers";
 
-const htmlForToken = async (
-  context: Context,
-  blockNumber: number,
-  tokenId: number
-) => {
-  const tokenURI = await context.contracts.AFundamentalDispute.tokenURI(
-    BigInt(tokenId),
-    {
-      blockTag: blockNumber,
-    }
-  );
-
-  if (tokenURI.startsWith("data:application/json,")) {
-    const decodedUri = decodeURIComponent(
-      tokenURI.replace(/^data:application\/json,/, "")
-    );
-    const json = JSON.parse(decodedUri);
-    const animationUrl = json.animation_url;
-    if (animationUrl.startsWith("data:text/html,")) {
-      const decodedHtml = decodeURIComponent(
-        animationUrl.replace(/^data:text\/html,/, "")
-      );
-      return decodedHtml;
-    }
-
-    console.error(
-      "Unsupported animation_url format for token #",
-      tokenId,
-      animationUrl
-    );
-    throw new Error(`Unsupported animation_url format for token #${tokenId}`);
-  }
-
-  console.error("Unsupported tokenURI format for token #", tokenId, tokenURI);
-  throw new Error(`Unsupported tokenURI format for token #${tokenId}`);
+const htmlForToken = async (context: Context, tokenId: number) => {
+  // TODO: add support for renderer upgrades
+  return await context.contracts.AFDRenderer.fullscreenHtml(BigInt(tokenId), {
+    blockTag: 8245697,
+  });
 };
 
 const handleConsecutiveTransfer: ConsecutiveTransferHandler = async (
@@ -53,7 +23,7 @@ const handleConsecutiveTransfer: ConsecutiveTransferHandler = async (
   const fromId = event.params.fromTokenId.toNumber();
   const toId = event.params.toTokenId.toNumber();
   for (let tokenId = fromId; tokenId <= toId; tokenId++) {
-    const html = await htmlForToken(context, event.blockNumber, tokenId);
+    const html = await htmlForToken(context, tokenId);
     await AFundamentalDisputeToken.upsert(tokenId.toString(), {
       tokenId,
       owner,
@@ -69,7 +39,7 @@ const handleTransfer: TransferHandler = async (event, context) => {
   await Wallet.upsert(owner, {});
 
   const tokenId = event.params.tokenId.toNumber();
-  const html = await htmlForToken(context, event.blockNumber, tokenId);
+  const html = await htmlForToken(context, tokenId);
   await AFundamentalDisputeToken.upsert(tokenId.toString(), {
     tokenId,
     owner,
