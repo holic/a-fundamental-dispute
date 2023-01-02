@@ -32,8 +32,6 @@ contract Deploy is Script {
         );
         token.setRenderer(renderer);
 
-        token.mint{value: 0.1 ether}();
-
         vm.stopBroadcast();
 
         // Foundry's JSON serializing API is weeeiirdd

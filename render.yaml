@@ -9,6 +9,8 @@ services:
     buildCommand: pnpm install --filter "."
     startCommand: pnpm start
     envVars:
+      - key: CHAIN_ID
+        value: 1
       - key: DATABASE_URL
         fromDatabase:
           name: afd-ponder-db
@@ -18,6 +20,26 @@ services:
       - key: PONDER_RPC_URL_5
         sync: false
 
+  - type: web
+    name: afd-ponder-goerli
+    rootDir: packages/ponder
+    env: node
+    buildCommand: pnpm install --filter "."
+    startCommand: pnpm start
+    envVars:
+      - key: CHAIN_ID
+        value: 5
+      - key: DATABASE_URL
+        fromDatabase:
+          name: afd-ponder-db-goerli
+          property: connectionString
+      - key: PONDER_RPC_URL_1
+        sync: false
+      - key: PONDER_RPC_URL_5
+        sync: false
+
 databases:
   - name: afd-ponder-db
+    postgresMajorVersion: 14
+  - name: afd-ponder-db-goerli
     postgresMajorVersion: 14

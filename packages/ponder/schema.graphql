@@ -1,10 +1,17 @@
+type AFundamentalDisputeToken @entity {
+  id: ID!
+  tokenId: Int!
+  owner: Wallet!
+}
+
 type FoldedFacesToken @entity {
   id: ID!
   tokenId: Int!
-  owner: String!
+  owner: Wallet!
 }
 
 type Wallet @entity {
   id: ID!
-  foldedFaces: [FoldedFacesToken!]! @derivedFrom(field: "owner")
+  ffTokens: [FoldedFacesToken!]! @derivedFrom(field: "owner")
+  afdTokens: [AFundamentalDisputeToken!]! @derivedFrom(field: "owner")
 }
