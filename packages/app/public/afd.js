@@ -14,13 +14,11 @@ let palettes = [
     "#22223b",
     "#FFD700",
   ],
-
   [
     //3 sunset mode
     "#b56576", //22223b; e5989b
     "#22223b",
   ],
-
   [
     //4 sunrise mode
     "#f9e488", //22223b; e5989b
