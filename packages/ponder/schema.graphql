@@ -1,0 +1,10 @@
+type FoldedFacesToken @entity {
+  id: ID!
+  tokenId: Int!
+  owner: String!
+}
+
+type Wallet @entity {
+  id: ID!
+  foldedFaces: [FoldedFacesToken!]! @derivedFrom(field: "owner")
+}
