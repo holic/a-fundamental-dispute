@@ -1,7 +1,10 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
 // TODO: update to prod once its finalized/deployed
-export const graphUrl = "https://afd-ponder-goerli.onrender.com/graphql";
+export const graphUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://afd-ponder-goerli.onrender.com/graphql"
+    : "http://localhost:42069/graphql";
 
 const config: CodegenConfig = {
   schema: graphUrl,

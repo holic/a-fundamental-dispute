@@ -1,22 +1,12 @@
-import { gql } from "urql";
-
-import { useGalleryQuery } from "../codegen/indexer";
 import { ArtPreview } from "./ArtPreview";
 import { PendingIcon } from "./PendingIcon";
 
-gql`
-  query Gallery {
-    tokens: aFundamentalDisputeTokens {
-      id
-      tokenId
-    }
-  }
-`;
+type Props = {
+  tokenIds: number[];
+};
 
-export const Gallery = () => {
-  const [{ data }] = useGalleryQuery();
-
-  if (!data)
+export const Gallery = ({ tokenIds }: Props) => {
+  if (!tokenIds.length)
     return (
       <div className="fixed inset-0 p-[8vw] flex items-center justify-center text-xl">
         <PendingIcon />
@@ -25,15 +15,15 @@ export const Gallery = () => {
 
   return (
     <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-[8vw] p-[8vw]">
-      {data.tokens.map((token) => (
+      {tokenIds.map((tokenId) => (
         <a
-          key={token.id}
-          href={`/art/${token.id}`}
+          key={tokenId}
+          href={`/art/${tokenId}`}
           className="block w-full aspect-[400/550] relative hover:scale-110 transition duration-500 text-stone-500 hover:text-stone-300"
         >
-          <ArtPreview id={token.id} />
+          <ArtPreview tokenId={tokenId} />
           <span className="absolute bottom-full right-0 text-sm leading-relaxed">
-            {token.tokenId}/218
+            {tokenId}/218
           </span>
         </a>
       ))}

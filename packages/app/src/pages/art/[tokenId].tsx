@@ -5,12 +5,13 @@ import { useRouter } from "next/router";
 import { ArtPreview } from "../../ArtPreview";
 import { firstParam } from "../../firstParam";
 
-// TODO: validate tokenId param
+// TODO: validate tokenId param within range
 // TODO: generate static paths
 
 const ArtPage: NextPage = () => {
   const router = useRouter();
-  const tokenId = firstParam(router.query.tokenId);
+  const tokenIdParam = firstParam(router.query.tokenId);
+  const tokenId = tokenIdParam ? parseInt(tokenIdParam) ?? null : null;
   if (!tokenId) return null;
 
   return (
@@ -26,7 +27,7 @@ const ArtPage: NextPage = () => {
             <div>{tokenId}/218</div>
           </div>
           <div className="aspect-[400/550]">
-            {tokenId ? <ArtPreview id={tokenId} /> : null}
+            {tokenId ? <ArtPreview tokenId={tokenId} /> : null}
           </div>
         </div>
       </div>

@@ -23,7 +23,7 @@ const ArtIframe = ({
   tokenId,
   hidden,
   ...props
-}: { tokenId: string } & DetailedHTMLProps<
+}: { tokenId: number } & DetailedHTMLProps<
   IframeHTMLAttributes<HTMLIFrameElement>,
   HTMLIFrameElement
 >) => {
@@ -31,7 +31,7 @@ const ArtIframe = ({
     hidden
       ? { pause: true }
       : {
-          variables: { id: tokenId },
+          variables: { id: tokenId.toString() },
         }
   );
   // TODO: show message if token is not found?
@@ -40,10 +40,10 @@ const ArtIframe = ({
 };
 
 type Props = {
-  id: string;
+  tokenId: number;
 };
 
-export const ArtPreview = ({ id }: Props) => {
+export const ArtPreview = ({ tokenId }: Props) => {
   const containerRef = useRef<HTMLIFrameElement>(null);
   const [shown, setShown] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -77,7 +77,7 @@ export const ArtPreview = ({ id }: Props) => {
         Rendering…
       </div>
       <ArtIframe
-        tokenId={id}
+        tokenId={tokenId}
         hidden={!shown}
         className="w-full h-full pointer-events-none"
         onLoad={() => setLoaded(true)}
