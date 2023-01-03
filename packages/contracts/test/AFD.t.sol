@@ -69,12 +69,12 @@ contract AFDTest is Test {
         token.setRenderer(renderer);
         vm.stopPrank();
 
-        assertEq(token.balanceOf(artist), 14);
-        assertEq(token.balanceOf(developer), 6);
+        assertEq(token.balanceOf(artist), 10);
+        assertEq(token.balanceOf(developer), 10);
         assertEq(token.ownershipOf(1).extraData, 1445488);
         assertEq(token.ownershipOf(2).extraData, 1445488);
-        assertEq(token.ownershipOf(15).extraData, 13126949);
-        assertEq(token.ownershipOf(16).extraData, 13126949);
+        assertEq(token.ownershipOf(11).extraData, 13126949);
+        assertEq(token.ownershipOf(12).extraData, 13126949);
     }
 
     function testMint() public {
@@ -119,17 +119,17 @@ contract AFDTest is Test {
                 0.08 ether
             )
         );
-        token.foldedFacesMint{value: 1 ether}(1);
+        token.foldedFacesMint{value: 1 ether}(0);
 
         vm.expectRevert(bytes("ERC721: invalid token ID"));
-        token.foldedFacesMint{value: 0.08 ether}(1);
+        token.foldedFacesMint{value: 0.08 ether}(0);
 
-        foldedFaces.mint(1);
-        assertEq(token.hasUsedFoldedFaces(1), false);
-        token.foldedFacesMint{value: 0.08 ether}(1);
-        assertEq(token.hasUsedFoldedFaces(1), true);
+        foldedFaces.mint(0);
+        assertEq(token.hasUsedFoldedFaces(0), false);
+        token.foldedFacesMint{value: 0.08 ether}(0);
+        assertEq(token.hasUsedFoldedFaces(0), true);
 
-        foldedFaces.safeTransferFrom(holder, minter, 1);
+        foldedFaces.safeTransferFrom(holder, minter, 0);
 
         vm.stopPrank();
 
@@ -141,19 +141,19 @@ contract AFDTest is Test {
         );
         foldedFaces.mint(2);
         assertEq(foldedFaces.balanceOf(minter), 2);
-        assertEq(foldedFaces.ownerOf(1), minter);
+        assertEq(foldedFaces.ownerOf(0), minter);
         assertEq(foldedFaces.ownerOf(2), minter);
-        assertEq(token.hasUsedFoldedFaces(1), true);
+        assertEq(token.hasUsedFoldedFaces(0), true);
         assertEq(token.hasUsedFoldedFaces(2), false);
 
         vm.expectRevert(
             abi.encodeWithSelector(
                 AFundamentalDispute.TokenDiscountAlreadyUsed.selector,
                 address(foldedFaces),
-                1
+                0
             )
         );
-        token.foldedFacesMint{value: 0.08 ether}(1);
+        token.foldedFacesMint{value: 0.08 ether}(0);
 
         token.foldedFacesMint{value: 0.08 ether}(2);
 
@@ -173,7 +173,7 @@ contract AFDTest is Test {
 
         (bytes32 adfChecksum, ) = contentStore.addContent(afdScript);
         checksums[0] = adfChecksum;
-        fileStore.createFile("afd-p5.min.js.gz", checksums);
+        fileStore.createFile("afd-20230102.min.js.gz", checksums);
 
         (bytes32 gunzipChecksum, ) = contentStore.addContent(gunzipScript);
         checksums[0] = gunzipChecksum;
@@ -181,7 +181,7 @@ contract AFDTest is Test {
 
         assertEq(
             token.tokenURI(1),
-            "data:application/json,%7B%22name%22%3A%22A%20Fundamental%20Dispute%201%2F218%22%2C%22description%22%3A%22A%20long-form%20generative%20art%20collection%20using%20p5.js%2C%20made%20fully%20on-chain%20with%20EthFS.%5Cn%5Cn%20%20Art%20by%20%40genlight%2C%20smart%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F1%22%2C%22image%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fapi%2Fart-placeholder%2F1%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%250A%2520%2520%253Cmeta%2520charset%253D%2522UTF-8%2522%253E%250A%2520%2520%253Cmeta%2520name%253D%2522viewport%2522%2520content%253D%2522width%253Ddevice-width%252C%2520initial-scale%253D1.0%2522%253E%250A%2520%2520%253Ctitle%253EA%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520*%2520%257B%250A%2520%2520%2520%2520%2520%2520box-sizing%253A%2520border-box%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520html%252C%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520display%253A%2520block%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%2520auto%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body.fullscreen%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%25201200px%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%25201650px%2520!important%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body%253Anot(.fullscreen)%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520padding%253A%25208vmin%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%25203134858404%253B%250A%250A%2520%2520%2520%2520document.addEventListener(%2522click%2522%252C%2520(event)%2520%253D%253E%2520%257B%250A%2520%2520%2520%2520%2520%2520const%2520x%2520%253D%2520event.clientX%2520%252F%2520document.body.clientWidth%253B%250A%2520%2520%2520%2520%2520%2520const%2520y%2520%253D%2520event.clientY%2520%252F%2520document.body.clientHeight%253B%250A%2520%2520%2520%2520%2520%2520document.body.classList.toggle(%2522fullscreen%2522)%253B%250A%2520%2520%2520%2520%2520%2520document.body.scrollTo(%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520left%253A%2520document.body.scrollWidth%2520*%2520x%2520-%2520document.body.clientWidth%2520%252F%25202%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520top%253A%2520document.body.scrollHeight%2520*%2520y%2520-%2520document.body.clientHeight%2520%252F%25202%250A%2520%2520%2520%2520%2520%2520%257D)%253B%250A%2520%2520%2520%2520%257D)%253B%250A%2520%2520%253C%252Fscript%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is p5.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is afd.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is gunzipScripts.js */%2522%253E%253C%252Fscript%253E%250A%22%7D"
+            "data:application/json,%7B%22name%22%3A%22A%20Fundamental%20Dispute%201%2F218%22%2C%22description%22%3A%22%E2%80%94%20a%20long-form%20generative%20art%20collection%20using%20p5.js%2C%20made%20fully%20on-chain%20with%20EthFS.%5Cn%5Cn%20%20Art%20by%20%40genlight%2C%20website%20and%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F1%22%2C%22image%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fapi%2Fart-placeholder%2F1%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%250A%2520%2520%253Cmeta%2520charset%253D%2522UTF-8%2522%253E%250A%2520%2520%253Cmeta%2520name%253D%2522viewport%2522%2520content%253D%2522width%253Ddevice-width%252C%2520initial-scale%253D1.0%2522%253E%250A%2520%2520%253Ctitle%253E1%252F218%2520%25E2%2580%2594%2520A%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520*%2520%257B%250A%2520%2520%2520%2520%2520%2520box-sizing%253A%2520border-box%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520html%252C%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520display%253A%2520block%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%2520auto%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body.fullscreen%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%25201200px%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%25201650px%2520!important%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body%253Anot(.fullscreen)%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520padding%253A%25208vmin%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%25203134858404%253B%250A%250A%2520%2520%2520%2520document.addEventListener(%2522click%2522%252C%2520(event)%2520%253D%253E%2520%257B%250A%2520%2520%2520%2520%2520%2520const%2520x%2520%253D%2520event.clientX%2520%252F%2520document.body.clientWidth%253B%250A%2520%2520%2520%2520%2520%2520const%2520y%2520%253D%2520event.clientY%2520%252F%2520document.body.clientHeight%253B%250A%2520%2520%2520%2520%2520%2520document.body.classList.toggle(%2522fullscreen%2522)%253B%250A%2520%2520%2520%2520%2520%2520document.body.scrollTo(%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520left%253A%2520document.body.scrollWidth%2520*%2520x%2520-%2520document.body.clientWidth%2520%252F%25202%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520top%253A%2520document.body.scrollHeight%2520*%2520y%2520-%2520document.body.clientHeight%2520%252F%25202%250A%2520%2520%2520%2520%2520%2520%257D)%253B%250A%2520%2520%2520%2520%257D)%253B%250A%2520%2520%253C%252Fscript%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is p5.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is afd.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is gunzipScripts.js */%2522%253E%253C%252Fscript%253E%250A%22%7D"
         );
 
         MockRenderer renderer = new MockRenderer();
