@@ -173,7 +173,7 @@ contract AFDTest is Test {
 
         (bytes32 adfChecksum, ) = contentStore.addContent(afdScript);
         checksums[0] = adfChecksum;
-        fileStore.createFile("afd-20230102.min.js.gz", checksums);
+        fileStore.createFile("afd-20230102.2.min.js.gz", checksums);
 
         (bytes32 gunzipChecksum, ) = contentStore.addContent(gunzipScript);
         checksums[0] = gunzipChecksum;

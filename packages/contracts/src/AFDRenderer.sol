@@ -39,7 +39,7 @@ contract AFDRenderer is IRenderer {
             "%253B%250A%250A%2520%2520%2520%2520document.addEventListener(%2522click%2522%252C%2520(event)%2520%253D%253E%2520%257B%250A%2520%2520%2520%2520%2520%2520const%2520x%2520%253D%2520event.clientX%2520%252F%2520document.body.clientWidth%253B%250A%2520%2520%2520%2520%2520%2520const%2520y%2520%253D%2520event.clientY%2520%252F%2520document.body.clientHeight%253B%250A%2520%2520%2520%2520%2520%2520document.body.classList.toggle(%2522fullscreen%2522)%253B%250A%2520%2520%2520%2520%2520%2520document.body.scrollTo(%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520left%253A%2520document.body.scrollWidth%2520*%2520x%2520-%2520document.body.clientWidth%2520%252F%25202%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520top%253A%2520document.body.scrollHeight%2520*%2520y%2520-%2520document.body.clientHeight%2520%252F%25202%250A%2520%2520%2520%2520%2520%2520%257D)%253B%250A%2520%2520%2520%2520%257D)%253B%250A%2520%2520%253C%252Fscript%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
             fileStore.getFile("p5-1.5.0.js.gz").read(),
             "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
-            fileStore.getFile("afd-20230102.min.js.gz").read(),
+            fileStore.getFile("afd-20230102.2.min.js.gz").read(),
             "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
             fileStore.getFile("gunzipScripts-0.0.1.js").read(),
             "%2522%253E%253C%252Fscript%253E%250A%22%7D"
@@ -58,7 +58,7 @@ contract AFDRenderer is IRenderer {
             ";\n  </script>\n\n  <script type=\"text/javascript+gzip\" src=\"data:text/javascript;base64,",
             fileStore.getFile("p5-1.5.0.js.gz").read(),
             "\"></script>\n  <script type=\"text/javascript+gzip\" src=\"data:text/javascript;base64,",
-            fileStore.getFile("afd-20230102.min.js.gz").read(),
+            fileStore.getFile("afd-20230102.2.min.js.gz").read(),
             "\"></script>\n  <script src=\"data:text/javascript;base64,",
             fileStore.getFile("gunzipScripts-0.0.1.js").read(),
             "\"></script>"

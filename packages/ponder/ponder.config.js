@@ -43,8 +43,8 @@ module.exports = {
             name: "AFDRenderer",
             network: "goerli",
             abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
-            address: "0xC8227f1e6b15B643E8927E2FbD59629BC775DFD5",
-            startBlock: 8247260,
+            address: "0x38b4099937912e394a28c35e855714a612ada348",
+            startBlock: 8247930,
           },
         ];
       default:
