@@ -29,6 +29,8 @@ const ArtPage: NextPage = () => {
           <div className="aspect-[400/550]">
             {tokenId ? <ArtPreview tokenId={tokenId} /> : null}
           </div>
+          {/* TODO: add opensea link */}
+          {/* TODO: add owner name/link */}
         </div>
       </div>
     </>

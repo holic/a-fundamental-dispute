@@ -1,35 +1,82 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { utils } from "ethers";
+import { ethers } from "ethers";
 import { toast } from "react-toastify";
-import { useAccount, useSwitchNetwork } from "wagmi";
+import { gql } from "urql";
+import {
+  useAccount,
+  useContractWrite,
+  usePrepareContractWrite,
+  useSwitchNetwork,
+} from "wagmi";
 
+import { useMintButtonQuery } from "../codegen/indexer";
+import { AFundamentalDisputeAbi } from "./abi/AFundamentalDispute";
 import { ButtonLink } from "./ButtonLink";
-import { tokenContract } from "./contracts";
+import { contracts } from "./contracts";
 import { targetChainId } from "./EthereumProviders";
 import { extractContractError } from "./extractContractError";
 import { HoverLabel } from "./HoverLabel";
 import { promiseNotify } from "./promiseNotify";
 import { usePromiseFn } from "./usePromiseFn";
 
+gql`
+  query MintButton($address: String!) {
+    foldedFacesTokens(where: { ownerAddress: $address }) {
+      id
+      tokenId
+      mintDiscountUsed
+    }
+  }
+`;
+
 export const MintButton = () => {
   const { switchNetwork } = useSwitchNetwork();
-  const { connector } = useAccount();
+  const { address } = useAccount();
+
+  const [{ data }] = useMintButtonQuery(
+    address ? { variables: { address } } : { pause: true }
+  );
+  const discountTokens =
+    data?.foldedFacesTokens
+      .filter((token) => !token.mintDiscountUsed)
+      .map((token) => token.tokenId) ?? [];
+  const discountToken = discountTokens[0];
+
+  const preparedFoldedFacesMintWrite = usePrepareContractWrite({
+    address: contracts.AFundamentalDispute,
+    abi: AFundamentalDisputeAbi,
+    functionName: "foldedFacesMint",
+    args: [ethers.BigNumber.from(discountToken ?? 0)],
+    overrides: {
+      value: ethers.utils.parseEther("0.08"),
+    },
+    enabled: !discountTokens.length,
+  });
+  const preparedMintWrite = usePrepareContractWrite({
+    address: contracts.AFundamentalDispute,
+    abi: AFundamentalDisputeAbi,
+    functionName: "mint",
+    overrides: {
+      value: ethers.utils.parseEther("0.1"),
+    },
+  });
+
+  const foldedFacesMintWrite = useContractWrite(
+    preparedFoldedFacesMintWrite.config
+  );
+  const mintWrite = useContractWrite(preparedMintWrite.config);
+  const writeAsync = foldedFacesMintWrite.writeAsync ?? mintWrite.writeAsync;
 
   const [mintResult, mint] = usePromiseFn(
-    async (quantity: number, onProgress: (message: string) => void) => {
-      if (!connector) {
-        throw new Error("Wallet not connected");
+    async (onProgress: (message: string) => void) => {
+      if (!writeAsync) {
+        throw new Error("Prepared transaction not ready");
       }
 
-      const signer = await connector.getSigner();
-      const contract = tokenContract.connect(signer);
-
       try {
-        onProgress(`Minting…`);
+        onProgress("Minting…");
 
-        const tx = await promiseNotify(
-          contract.mint({ value: utils.parseEther("0.1") })
-        ).after(1000 * 5, () =>
+        const tx = await promiseNotify(writeAsync()).after(1000 * 5, () =>
           onProgress("Please confirm transaction in your wallet…")
         );
         console.log("mint tx", tx);
@@ -51,7 +98,7 @@ export const MintButton = () => {
         throw new Error(`Transaction error: ${contractError}`);
       }
     },
-    [connector]
+    [writeAsync]
   );
 
   return (
@@ -83,7 +130,7 @@ export const MintButton = () => {
             onClick={(event) => {
               event.preventDefault();
               const toastId = toast.loading("Starting…");
-              mint(1, (message) => {
+              mint((message) => {
                 toast.update(toastId, { render: message });
               }).then(
                 () => {
@@ -91,7 +138,7 @@ export const MintButton = () => {
                   toast.update(toastId, {
                     isLoading: false,
                     type: "success",
-                    render: `Minted!`,
+                    render: <>Minted!</>,
                     autoClose: 5000,
                     closeButton: true,
                   });
@@ -108,7 +155,22 @@ export const MintButton = () => {
               );
             }}
           >
-            Mint a piece ☼
+            <HoverLabel
+              label="Mint a piece ☼"
+              labelHover={
+                foldedFacesMintWrite.writeAsync ? (
+                  <>
+                    Mint a discounted piece for{" "}
+                    <span className="font-sans text-xs font-bold">Ξ</span>0.08 ☼
+                  </>
+                ) : (
+                  <>
+                    Mint a piece for{" "}
+                    <span className="font-sans text-xs font-bold">Ξ</span>0.1 ☼
+                  </>
+                )
+              }
+            />
           </ButtonLink>
         );
       }}

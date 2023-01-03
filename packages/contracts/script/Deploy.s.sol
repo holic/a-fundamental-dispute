@@ -14,15 +14,12 @@ contract Deploy is Script {
     function run() public {
         vm.startBroadcast();
 
-        IERC721 foldedFaces = IERC721(
-            0xf01DfAC37DD149Cb686E05d06cd21930B011F10F
-        );
-        // TODO: genlight address
-        address artist = address(0xC9C022FCFebE730710aE93CA9247c5Ec9d9236d0);
-        address developer = address(0xC9C022FCFebE730710aE93CA9247c5Ec9d9236d0);
+        // TODO: update these addresses
+        address artist = address(msg.sender);
+        address developer = address(msg.sender);
 
         AFundamentalDispute token = new AFundamentalDispute(
-            foldedFaces,
+            IERC721(foldedFaces()),
             artist,
             developer
         );
@@ -35,6 +32,7 @@ contract Deploy is Script {
         vm.stopBroadcast();
 
         // Foundry's JSON serializing API is weeeiirdd
+        // TODO: only write this when we're broadcasting?
 
         string memory afdToken = "aftToken";
         afdToken.serialize("contractAddress", address(token));
@@ -59,6 +57,17 @@ contract Deploy is Script {
     function fileStore() public view returns (address) {
         if (chainId() == 5) {
             return 0x5E348d0975A920E9611F8140f84458998A53af94;
+        }
+        revert("Unsupported chain");
+    }
+
+    function foldedFaces() public view returns (address) {
+        if (chainId() == 1) {
+            return 0xf01DfAC37DD149Cb686E05d06cd21930B011F10F;
+        }
+        if (chainId() == 5) {
+            // Arbitrary ERC721 address on Goerli
+            return 0xec8cCFf076F3FDa20d8Bf3Ed296A2586c21598fC;
         }
         revert("Unsupported chain");
     }

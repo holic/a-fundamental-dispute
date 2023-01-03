@@ -3,6 +3,13 @@ import { AFundamentalDispute__factory } from "@web3-scaffold/contracts/types";
 
 import { provider, targetChainId } from "./EthereumProviders";
 
+export const contracts =
+  targetChainId === 5
+    ? {
+        AFundamentalDispute: goerliDeploys.AFundamentalDispute.contractAddress,
+      }
+    : {};
+
 export const tokenContract = AFundamentalDispute__factory.connect(
   goerliDeploys.AFundamentalDispute.contractAddress,
   provider({ chainId: targetChainId })

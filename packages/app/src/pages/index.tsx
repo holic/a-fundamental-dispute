@@ -74,6 +74,18 @@ const HomePage: NextPage = () => (
         <div>
           <MintButton />
           <p className="italic">218 of 218 pieces remaining.</p>
+          <p className="italic text-sm opacity-60">
+            <span className="font-sans text-xs font-bold">Ξ</span>0.1 per piece,{" "}
+            <span className="font-sans text-xs font-bold">Ξ</span>0.02 discount
+            for{" "}
+            <TextLink
+              href="https://opensea.io/collection/foldedfaces"
+              target="_blank"
+            >
+              Folded Faces
+            </TextLink>{" "}
+            holders
+          </p>
         </div>
 
         <div>

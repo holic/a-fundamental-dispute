@@ -1,6 +1,7 @@
 type AFundamentalDisputeToken @entity {
   id: ID!
   tokenId: Int!
+  ownerAddress: String!
   owner: Wallet!
   html: String!
 }
@@ -8,7 +9,10 @@ type AFundamentalDisputeToken @entity {
 type FoldedFacesToken @entity {
   id: ID!
   tokenId: Int!
+  ownerAddress: String!
   owner: Wallet!
+  # TODO: move this to Boolean! once it's fixed in ponder
+  mintDiscountUsed: Int!
 }
 
 type Wallet @entity {
