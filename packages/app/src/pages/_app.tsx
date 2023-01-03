@@ -21,6 +21,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>A Fundamental Dispute</title>
+        <link rel="shortcut icon" href="/favicon.jpg" type="image/jpeg" />
       </Head>
       <GraphProvider value={graphClient}>
         <EthereumProviders>

@@ -101,7 +101,9 @@ const HomePage: NextPage = () => {
 
           <div>
             <p>
-              <TextLink href="#">Learn about the collection ⇒</TextLink>
+              <Link href="/about" passHref>
+                <TextLink>Learn about the collection ⇒</TextLink>
+              </Link>
             </p>
             <p>
               <Link href="/art" passHref>
