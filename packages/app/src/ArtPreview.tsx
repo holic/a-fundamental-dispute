@@ -36,10 +36,7 @@ const ArtIframe = ({
   );
   // TODO: show message if token is not found?
   if (!data?.token) return null;
-  // return <iframe srcDoc={data.token.html} hidden={hidden} {...props} />;
-  return (
-    <iframe src={`/render.html?seed=${tokenId}`} hidden={hidden} {...props} />
-  );
+  return <iframe srcDoc={data.token.html} hidden={hidden} {...props} />;
 };
 
 type Props = {

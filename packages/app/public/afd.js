@@ -40,20 +40,36 @@ function setup() {
 const tick = () => new Promise((resolve) => requestAnimationFrame(resolve));
 
 async function draw() {
+  const statusMessage = createDiv("Rendering…");
+  statusMessage.style("position", "fixed");
+  statusMessage.style("left", "50%");
+  statusMessage.style("top", "50%");
+  statusMessage.style("transform", "translateX(-50%) translateY(-50%)");
+  statusMessage.style("padding", "0.25rem 0.5rem");
+  statusMessage.style("font-style", "italic");
+
   darkmode = random([1, 1, 2, 2, 2, 2, 3, 3, 4, 4]);
   backmix = random([3, 4]);
   if (darkmode == 1) {
     //darkmode
     background(palettes[0][0]);
+    statusMessage.style("backgroundColor", palettes[0][0]);
+    statusMessage.style("color", palettes[0][1]);
   } else if (darkmode == 2) {
     //regular
     background(palettes[1][0]);
+    statusMessage.style("backgroundColor", palettes[1][0]);
+    statusMessage.style("color", palettes[1][1]);
   } else if (darkmode == 3) {
     //dark + gold-lined clouds
     background(palettes[0][0]);
+    statusMessage.style("backgroundColor", palettes[0][0]);
+    statusMessage.style("color", palettes[0][1]);
   } else if (darkmode == 4) {
     //dark + gold-lined clouds
     background(palettes[backmix][0]);
+    statusMessage.style("backgroundColor", palettes[backmix][0]);
+    statusMessage.style("color", palettes[backmix][1]);
   }
 
   //i have a custom 'texture' generator at bottom of this that just draws thousands of transparent bezier squiggles
@@ -675,6 +691,8 @@ async function draw() {
     }
   }
   //end
+
+  statusMessage.remove();
 }
 
 function drawTree(treeheight) {
