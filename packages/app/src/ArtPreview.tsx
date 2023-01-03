@@ -27,13 +27,23 @@ const ArtIframe = ({
   IframeHTMLAttributes<HTMLIFrameElement>,
   HTMLIFrameElement
 >) => {
-  const [{ data }] = useArtPreviewQuery(
+  const [{ data, error, fetching }, executeQuery] = useArtPreviewQuery(
     hidden
       ? { pause: true }
       : {
           variables: { id: tokenId.toString() },
         }
   );
+
+  useEffect(() => {
+    if (data?.token || error || fetching || hidden) return;
+    const timer = setInterval(() => {
+      console.log("checking for token");
+      executeQuery();
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [data, error, executeQuery, fetching, hidden]);
+
   // TODO: show message if token is not found?
   if (!data?.token) return null;
   return <iframe srcDoc={data.token.html} hidden={hidden} {...props} />;

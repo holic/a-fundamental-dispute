@@ -1,5 +1,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { ethers } from "ethers";
+import Link from "next/link";
 import { toast } from "react-toastify";
 import { gql } from "urql";
 import {
@@ -13,7 +14,7 @@ import { useMintButtonQuery } from "../codegen/indexer";
 import { AFundamentalDisputeAbi } from "./abi/AFundamentalDispute";
 import { ButtonLink } from "./ButtonLink";
 import { holderPrice, publicPrice } from "./constants";
-import { contracts } from "./contracts";
+import { contracts, tokenContract } from "./contracts";
 import { targetChainId } from "./EthereumProviders";
 import { extractContractError } from "./extractContractError";
 import { HoverLabel } from "./HoverLabel";
@@ -66,12 +67,23 @@ export const MintButton = () => {
     preparedFoldedFacesMintWrite.config
   );
   const mintWrite = useContractWrite(preparedMintWrite.config);
-  const writeAsync = foldedFacesMintWrite.writeAsync ?? mintWrite.writeAsync;
+
+  const writeAsync = foldedFacesMintWrite.isSuccess
+    ? foldedFacesMintWrite.writeAsync
+    : mintWrite.isSuccess
+    ? mintWrite.writeAsync
+    : undefined;
 
   const [mintResult, mint] = usePromiseFn(
     async (onProgress: (message: string) => void) => {
+      if (!address) {
+        throw new Error("Not connected");
+      }
       if (!writeAsync) {
-        throw new Error("Prepared transaction not ready");
+        // TODO: parse prepared errors
+        throw new Error(
+          "You've already minted or there was an error preparing the transaction."
+        );
       }
 
       try {
@@ -92,33 +104,57 @@ export const MintButton = () => {
           .after(1000 * 30, () => onProgress("Still working on it…"));
         console.log("mint receipt", receipt);
 
-        return { receipt };
+        const tokenIds = await tokenContract.tokensOfOwner(address);
+        console.log("token IDs", tokenIds);
+        return { tx, receipt, tokenIds };
       } catch (error) {
         console.error("Transaction error:", error);
         const contractError = extractContractError(error);
         throw new Error(`Transaction error: ${contractError}`);
       }
     },
-    [writeAsync]
+    [address, writeAsync]
   );
 
   return (
     <ConnectButton.Custom>
       {({ mounted, account, chain, openConnectModal }) => {
-        if (mounted && !account) {
+        if (!mounted) {
+          return <ButtonLink disabled>Mint a piece ☼</ButtonLink>;
+        }
+
+        if (!account) {
           return (
             <ButtonLink onClick={openConnectModal}>
-              <HoverLabel label="Mint a piece ☼" labelHover="Connect wallet" />
+              <HoverLabel
+                label="Mint a piece ☼"
+                labelHover="Connect wallet ⇒"
+              />
             </ButtonLink>
           );
         }
-        if (mounted && chain && chain.id !== targetChainId) {
+
+        if (chain && chain.id !== targetChainId) {
           return (
             <ButtonLink onClick={() => switchNetwork?.(targetChainId)}>
-              <HoverLabel label="Mint a piece ☼" labelHover="Switch network" />
+              <HoverLabel
+                label="Mint a piece ☼"
+                labelHover="Switch network ⇒"
+              />
             </ButtonLink>
           );
         }
+
+        // TODO: parse prepared errors
+        // TODO: do balance check
+        if (!writeAsync) {
+          return (
+            <ButtonLink disabled>
+              <HoverLabel label="Mint a piece ☼" labelHover="Can't mint ☹︎" />
+            </ButtonLink>
+          );
+        }
+
         return (
           <ButtonLink
             disabled={mintResult.type === "pending"}
@@ -128,12 +164,24 @@ export const MintButton = () => {
               mint((message) => {
                 toast.update(toastId, { render: message });
               }).then(
-                () => {
-                  // TODO: show etherscan link?
+                ({ tokenIds }) => {
+                  const tokenId = tokenIds[tokenIds.length - 1];
                   toast.update(toastId, {
                     isLoading: false,
                     type: "success",
-                    render: <>Minted!</>,
+                    render: (
+                      <>
+                        Minted!{" "}
+                        <Link href={`/art/${tokenId.toString()}`}>
+                          <a
+                            className="underline"
+                            onClick={() => toast.dismiss()}
+                          >
+                            View your piece &rarr;
+                          </a>
+                        </Link>
+                      </>
+                    ),
                     autoClose: 5000,
                     closeButton: true,
                   });
@@ -153,15 +201,15 @@ export const MintButton = () => {
             <HoverLabel
               label="Mint a piece ☼"
               labelHover={
-                foldedFacesMintWrite.writeAsync ? (
+                preparedFoldedFacesMintWrite.isSuccess ? (
                   <>
                     Mint a discounted piece for{" "}
-                    <span className="font-sans text-xs font-bold">Ξ</span>0.08
+                    <span className="font-sans text-xs font-bold">Ξ</span>0.08 ⇒
                   </>
                 ) : (
                   <>
                     Mint a piece for{" "}
-                    <span className="font-sans text-xs font-bold">Ξ</span>0.1
+                    <span className="font-sans text-xs font-bold">Ξ</span>0.1 ⇒
                   </>
                 )
               }

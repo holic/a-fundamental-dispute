@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { AnchorHTMLAttributes, DetailedHTMLProps } from "react";
 
 export const linkClassNames =
-  "group text-left underline decoration-indigo-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-500";
+  "group text-left underline decoration-indigo-800 decoration-2 underline-offset-2 text-stone-300 transition hover:text-white hover:decoration-yellow-500 disabled:hover:decoration-red-700 disabled:cursor-not-allowed";
 
 type LinkProps = DetailedHTMLProps<
   AnchorHTMLAttributes<HTMLAnchorElement>,
