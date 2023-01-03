@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NFT__factory = void 0;
+exports.ERC721AQueryable__factory = void 0;
 const ethers_1 = require("ethers");
 const _abi = [
     {
@@ -24,17 +24,6 @@ const _abi = [
     {
         inputs: [],
         name: "InvalidQueryRange",
-        type: "error",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "supply",
-                type: "uint256",
-            },
-        ],
-        name: "MaxSupplyExceeded",
         type: "error",
     },
     {
@@ -141,25 +130,6 @@ const _abi = [
         anonymous: false,
         inputs: [
             {
-                indexed: false,
-                internalType: "string",
-                name: "previousBaseTokenURI",
-                type: "string",
-            },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "newBaseTokenURI",
-                type: "string",
-            },
-        ],
-        name: "BaseTokenURIUpdated",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
                 indexed: true,
                 internalType: "uint256",
                 name: "fromTokenId",
@@ -185,50 +155,6 @@ const _abi = [
             },
         ],
         name: "ConsecutiveTransfer",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [],
-        name: "Initialized",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: true,
-                internalType: "address",
-                name: "previousOwner",
-                type: "address",
-            },
-            {
-                indexed: true,
-                internalType: "address",
-                name: "newOwner",
-                type: "address",
-            },
-        ],
-        name: "OwnershipTransferred",
-        type: "event",
-    },
-    {
-        anonymous: false,
-        inputs: [
-            {
-                indexed: false,
-                internalType: "contract IRenderer",
-                name: "previousRenderer",
-                type: "address",
-            },
-            {
-                indexed: false,
-                internalType: "contract IRenderer",
-                name: "newRenderer",
-                type: "address",
-            },
-        ],
-        name: "RendererUpdated",
         type: "event",
     },
     {
@@ -288,19 +214,6 @@ const _abi = [
                 internalType: "uint256",
                 name: "",
                 type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "baseTokenURI",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
             },
         ],
         stateMutability: "view",
@@ -433,75 +346,12 @@ const _abi = [
     },
     {
         inputs: [],
-        name: "maxSupply",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
         name: "name",
         outputs: [
             {
                 internalType: "string",
                 name: "",
                 type: "string",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "startTokenId",
-                type: "uint256",
-            },
-            {
-                internalType: "uint256",
-                name: "quantity",
-                type: "uint256",
-            },
-        ],
-        name: "normalizeOwnership",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-            },
-        ],
-        name: "numberMinted",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "owner",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
             },
         ],
         stateMutability: "view",
@@ -519,68 +369,6 @@ const _abi = [
         outputs: [
             {
                 internalType: "address",
-                name: "",
-                type: "address",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "renderer",
-        outputs: [
-            {
-                internalType: "contract IRenderer",
-                name: "",
-                type: "address",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "renounceOwnership",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "tokenId",
-                type: "uint256",
-            },
-            {
-                internalType: "uint256",
-                name: "salePrice",
-                type: "uint256",
-            },
-        ],
-        name: "royaltyInfo",
-        outputs: [
-            {
-                internalType: "address",
-                name: "",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "royaltyProvider",
-        outputs: [
-            {
-                internalType: "contract IERC2981",
                 name: "",
                 type: "address",
             },
@@ -653,58 +441,6 @@ const _abi = [
             },
         ],
         name: "setApprovalForAll",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "string",
-                name: "_baseTokenURI",
-                type: "string",
-            },
-        ],
-        name: "setBaseTokenURI",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint96",
-                name: "_royaltyBasisPoints",
-                type: "uint96",
-            },
-        ],
-        name: "setDefaultRoyalty",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "contract IRenderer",
-                name: "_renderer",
-                type: "address",
-            },
-        ],
-        name: "setRenderer",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "contract IERC2981",
-                name: "_royaltyProvider",
-                type: "address",
-            },
-        ],
-        name: "setRoyaltyProvider",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",
@@ -810,19 +546,6 @@ const _abi = [
     },
     {
         inputs: [],
-        name: "totalMinted",
-        outputs: [
-            {
-                internalType: "uint256",
-                name: "",
-                type: "uint256",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
         name: "totalSupply",
         outputs: [
             {
@@ -857,75 +580,8 @@ const _abi = [
         stateMutability: "payable",
         type: "function",
     },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "newOwner",
-                type: "address",
-            },
-        ],
-        name: "transferOwnership",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "to",
-                type: "address",
-            },
-        ],
-        name: "withdrawAll",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "contract IERC20",
-                name: "token",
-                type: "address",
-            },
-            {
-                internalType: "address",
-                name: "to",
-                type: "address",
-            },
-        ],
-        name: "withdrawAllERC20",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "contract IERC721",
-                name: "token",
-                type: "address",
-            },
-            {
-                internalType: "uint256",
-                name: "tokenId",
-                type: "uint256",
-            },
-            {
-                internalType: "address",
-                name: "to",
-                type: "address",
-            },
-        ],
-        name: "withdrawERC721",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
 ];
-class NFT__factory {
+class ERC721AQueryable__factory {
     static createInterface() {
         return new ethers_1.utils.Interface(_abi);
     }
@@ -933,5 +589,5 @@ class NFT__factory {
         return new ethers_1.Contract(address, _abi, signerOrProvider);
     }
 }
-exports.NFT__factory = NFT__factory;
-NFT__factory.abi = _abi;
+exports.ERC721AQueryable__factory = ERC721AQueryable__factory;
+ERC721AQueryable__factory.abi = _abi;

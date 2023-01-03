@@ -71,10 +71,10 @@ contract AFDTest is Test {
 
         assertEq(token.balanceOf(artist), 10);
         assertEq(token.balanceOf(developer), 10);
-        assertEq(token.ownershipOf(1).extraData, 1445488);
-        assertEq(token.ownershipOf(2).extraData, 1445488);
-        assertEq(token.ownershipOf(11).extraData, 13126949);
-        assertEq(token.ownershipOf(12).extraData, 13126949);
+        assertEq(token.explicitOwnershipOf(1).extraData, 1445488);
+        assertEq(token.explicitOwnershipOf(2).extraData, 1445488);
+        assertEq(token.explicitOwnershipOf(11).extraData, 13126949);
+        assertEq(token.explicitOwnershipOf(12).extraData, 13126949);
     }
 
     function testMint() public {
@@ -195,13 +195,13 @@ contract AFDTest is Test {
 
     function testStableSeed() public {
         assertEq(token.ownerOf(1), artist);
-        assertEq(token.ownershipOf(1).extraData, 1445488);
+        assertEq(token.explicitOwnershipOf(1).extraData, 1445488);
 
         vm.prank(artist);
         token.safeTransferFrom(artist, address(minter), 1);
 
         assertEq(token.ownerOf(1), minter);
-        assertEq(token.ownershipOf(1).extraData, 1445488);
+        assertEq(token.explicitOwnershipOf(1).extraData, 1445488);
     }
 
     function testWithdraw() public {

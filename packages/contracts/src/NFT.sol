@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
+import {IERC721A} from "erc721a/contracts/IERC721A.sol";
 import {ERC721A} from "erc721a/contracts/ERC721A.sol";
+import {ERC721AQueryable} from "erc721a/contracts/extensions/ERC721AQueryable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC2981, IERC165} from "@openzeppelin/contracts/interfaces/IERC2981.sol";
 import {ERC2981} from "@openzeppelin/contracts/token/common/ERC2981.sol";
@@ -12,7 +14,7 @@ import {OwnablePayable} from "./OwnablePayable.sol";
 /// @title  ERC721 base contract
 /// @notice ERC721-specific functionality to keep the actual NFT contract more
 ///         readable and focused on the mint/project mechanics.
-abstract contract NFT is ERC721A, OwnablePayable, ERC2981 {
+abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     uint256 public immutable maxSupply;
     // TODO: upgradeable transfer hooks?
 
@@ -47,7 +49,7 @@ abstract contract NFT is ERC721A, OwnablePayable, ERC2981 {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721A, ERC2981)
+        override(ERC721A, IERC721A, ERC2981)
         returns (bool)
     {
         return
@@ -87,21 +89,13 @@ abstract contract NFT is ERC721A, OwnablePayable, ERC2981 {
     function tokenURI(uint256 tokenId)
         public
         view
-        override
+        override(ERC721A, IERC721A)
         returns (string memory)
     {
         if (address(renderer) != address(0)) {
             return renderer.tokenURI(tokenId);
         }
         return super.tokenURI(tokenId);
-    }
-
-    function ownershipOf(uint256 tokenId)
-        public
-        view
-        returns (TokenOwnership memory)
-    {
-        return _ownershipOf(tokenId);
     }
 
     // ***************** //

@@ -66,7 +66,7 @@ contract AFDRenderer is IRenderer {
     }
 
     function seedOf(uint256 tokenId) public view returns (uint32) {
-        return uint32(uint256(keccak256(abi.encode(tokenId, token.ownershipOf(tokenId).extraData))));
+        return uint32(uint256(keccak256(abi.encode(tokenId, token.explicitOwnershipOf(tokenId).extraData))));
     }
 
     function toString(uint256 value) internal pure returns (string memory str) {

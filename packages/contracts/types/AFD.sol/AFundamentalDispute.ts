@@ -54,6 +54,8 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseTokenURI()": FunctionFragment;
+    "explicitOwnershipOf(uint256)": FunctionFragment;
+    "explicitOwnershipsOf(uint256[])": FunctionFragment;
     "foldedFaces()": FunctionFragment;
     "foldedFacesMint(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
@@ -67,7 +69,6 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "numberMinted(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "ownershipOf(uint256)": FunctionFragment;
     "publicPrice()": FunctionFragment;
     "renderer()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -83,6 +84,8 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
+    "tokensOfOwner(address)": FunctionFragment;
+    "tokensOfOwnerIn(address,uint256,uint256)": FunctionFragment;
     "totalMinted()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
@@ -97,6 +100,8 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
       | "approve"
       | "balanceOf"
       | "baseTokenURI"
+      | "explicitOwnershipOf"
+      | "explicitOwnershipsOf"
       | "foldedFaces"
       | "foldedFacesMint"
       | "getApproved"
@@ -110,7 +115,6 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
       | "numberMinted"
       | "owner"
       | "ownerOf"
-      | "ownershipOf"
       | "publicPrice"
       | "renderer"
       | "renounceOwnership"
@@ -126,6 +130,8 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
       | "supportsInterface"
       | "symbol"
       | "tokenURI"
+      | "tokensOfOwner"
+      | "tokensOfOwnerIn"
       | "totalMinted"
       | "totalSupply"
       | "transferFrom"
@@ -146,6 +152,14 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "baseTokenURI",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "explicitOwnershipOf",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "explicitOwnershipsOf",
+    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "foldedFaces",
@@ -185,10 +199,6 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ownershipOf",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -255,6 +265,18 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "tokensOfOwner",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokensOfOwnerIn",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "totalMinted",
     values?: undefined
   ): string;
@@ -298,6 +320,14 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "explicitOwnershipOf",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "explicitOwnershipsOf",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "foldedFaces",
     data: BytesLike
   ): Result;
@@ -334,10 +364,6 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "ownershipOf",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "publicPrice",
     data: BytesLike
@@ -390,6 +416,14 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "tokensOfOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokensOfOwnerIn",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "totalMinted",
     data: BytesLike
   ): Result;
@@ -426,6 +460,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "Initialized()": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RendererUpdated(address,address)": EventFragment;
+    "TokenDiscountUsed(address,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
@@ -436,6 +471,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RendererUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokenDiscountUsed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -517,6 +553,18 @@ export type RendererUpdatedEvent = TypedEvent<
 
 export type RendererUpdatedEventFilter = TypedEventFilter<RendererUpdatedEvent>;
 
+export interface TokenDiscountUsedEventObject {
+  token: string;
+  tokenId: BigNumber;
+}
+export type TokenDiscountUsedEvent = TypedEvent<
+  [string, BigNumber],
+  TokenDiscountUsedEventObject
+>;
+
+export type TokenDiscountUsedEventFilter =
+  TypedEventFilter<TokenDiscountUsedEvent>;
+
 export interface TransferEventObject {
   from: string;
   to: string;
@@ -569,6 +617,16 @@ export interface AFundamentalDispute extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
 
+    explicitOwnershipOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[IERC721A.TokenOwnershipStructOutput]>;
+
+    explicitOwnershipsOf(
+      tokenIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<[IERC721A.TokenOwnershipStructOutput[]]>;
+
     foldedFaces(overrides?: CallOverrides): Promise<[string]>;
 
     foldedFacesMint(
@@ -619,11 +677,6 @@ export interface AFundamentalDispute extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    ownershipOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[IERC721A.TokenOwnershipStructOutput]>;
 
     publicPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -694,6 +747,18 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    tokensOfOwner(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
+    tokensOfOwnerIn(
+      owner: PromiseOrValue<string>,
+      start: PromiseOrValue<BigNumberish>,
+      stop: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
     totalMinted(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -741,6 +806,16 @@ export interface AFundamentalDispute extends BaseContract {
   ): Promise<BigNumber>;
 
   baseTokenURI(overrides?: CallOverrides): Promise<string>;
+
+  explicitOwnershipOf(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<IERC721A.TokenOwnershipStructOutput>;
+
+  explicitOwnershipsOf(
+    tokenIds: PromiseOrValue<BigNumberish>[],
+    overrides?: CallOverrides
+  ): Promise<IERC721A.TokenOwnershipStructOutput[]>;
 
   foldedFaces(overrides?: CallOverrides): Promise<string>;
 
@@ -792,11 +867,6 @@ export interface AFundamentalDispute extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  ownershipOf(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<IERC721A.TokenOwnershipStructOutput>;
 
   publicPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -867,6 +937,18 @@ export interface AFundamentalDispute extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  tokensOfOwner(
+    owner: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
+  tokensOfOwnerIn(
+    owner: PromiseOrValue<string>,
+    start: PromiseOrValue<BigNumberish>,
+    stop: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
   totalMinted(overrides?: CallOverrides): Promise<BigNumber>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
@@ -914,6 +996,16 @@ export interface AFundamentalDispute extends BaseContract {
     ): Promise<BigNumber>;
 
     baseTokenURI(overrides?: CallOverrides): Promise<string>;
+
+    explicitOwnershipOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<IERC721A.TokenOwnershipStructOutput>;
+
+    explicitOwnershipsOf(
+      tokenIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<IERC721A.TokenOwnershipStructOutput[]>;
 
     foldedFaces(overrides?: CallOverrides): Promise<string>;
 
@@ -963,11 +1055,6 @@ export interface AFundamentalDispute extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    ownershipOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<IERC721A.TokenOwnershipStructOutput>;
 
     publicPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1035,6 +1122,18 @@ export interface AFundamentalDispute extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    tokensOfOwner(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    tokensOfOwnerIn(
+      owner: PromiseOrValue<string>,
+      start: PromiseOrValue<BigNumberish>,
+      stop: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
 
     totalMinted(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1137,6 +1236,15 @@ export interface AFundamentalDispute extends BaseContract {
       newRenderer?: null
     ): RendererUpdatedEventFilter;
 
+    "TokenDiscountUsed(address,uint256)"(
+      token?: null,
+      tokenId?: null
+    ): TokenDiscountUsedEventFilter;
+    TokenDiscountUsed(
+      token?: null,
+      tokenId?: null
+    ): TokenDiscountUsedEventFilter;
+
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
@@ -1162,6 +1270,16 @@ export interface AFundamentalDispute extends BaseContract {
     ): Promise<BigNumber>;
 
     baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
+
+    explicitOwnershipOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    explicitOwnershipsOf(
+      tokenIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     foldedFaces(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1210,11 +1328,6 @@ export interface AFundamentalDispute extends BaseContract {
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    ownershipOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1288,6 +1401,18 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    tokensOfOwner(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokensOfOwnerIn(
+      owner: PromiseOrValue<string>,
+      start: PromiseOrValue<BigNumberish>,
+      stop: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     totalMinted(overrides?: CallOverrides): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1337,6 +1462,16 @@ export interface AFundamentalDispute extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    explicitOwnershipOf(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    explicitOwnershipsOf(
+      tokenIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     foldedFaces(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     foldedFacesMint(
@@ -1384,11 +1519,6 @@ export interface AFundamentalDispute extends BaseContract {
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    ownershipOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1459,6 +1589,18 @@ export interface AFundamentalDispute extends BaseContract {
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokensOfOwner(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokensOfOwnerIn(
+      owner: PromiseOrValue<string>,
+      start: PromiseOrValue<BigNumberish>,
+      stop: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -16,6 +16,8 @@ contract AFundamentalDispute is NFT {
     IERC721 public immutable foldedFaces;
     BitMaps.BitMap internal foldedFacesUsed;
 
+    event TokenDiscountUsed(address token, uint256 tokenId);
+
     constructor(
         IERC721 _foldedFaces,
         address artist,
@@ -24,8 +26,8 @@ contract AFundamentalDispute is NFT {
         foldedFaces = _foldedFaces;
 
         // Mint ~9% of supply to creators in lieu of royalties
-        _mintERC2309(artist, 14);
-        _mintERC2309(developer, 6);
+        _mintERC2309(artist, 10);
+        _mintERC2309(developer, 10);
     }
 
     error MintLimitExceeded(uint256 limit);
@@ -68,6 +70,7 @@ contract AFundamentalDispute is NFT {
             revert TokenDiscountAlreadyUsed(address(foldedFaces), tokenId);
         }
         foldedFacesUsed.set(tokenId);
+        emit TokenDiscountUsed(address(foldedFaces), tokenId);
 
         _safeMint(msg.sender, 1);
     }
