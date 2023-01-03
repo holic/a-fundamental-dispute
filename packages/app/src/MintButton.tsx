@@ -12,6 +12,7 @@ import {
 import { useMintButtonQuery } from "../codegen/indexer";
 import { AFundamentalDisputeAbi } from "./abi/AFundamentalDispute";
 import { ButtonLink } from "./ButtonLink";
+import { holderPrice, publicPrice } from "./constants";
 import { contracts } from "./contracts";
 import { targetChainId } from "./EthereumProviders";
 import { extractContractError } from "./extractContractError";
@@ -48,7 +49,7 @@ export const MintButton = () => {
     functionName: "foldedFacesMint",
     args: [ethers.BigNumber.from(discountToken ?? 0)],
     overrides: {
-      value: ethers.utils.parseEther("0.08"),
+      value: ethers.utils.parseEther(holderPrice),
     },
     enabled: !discountTokens.length,
   });
@@ -57,7 +58,7 @@ export const MintButton = () => {
     abi: AFundamentalDisputeAbi,
     functionName: "mint",
     overrides: {
-      value: ethers.utils.parseEther("0.1"),
+      value: ethers.utils.parseEther(publicPrice),
     },
   });
 
@@ -107,20 +108,14 @@ export const MintButton = () => {
         if (mounted && !account) {
           return (
             <ButtonLink onClick={openConnectModal}>
-              <HoverLabel
-                label="Mint a piece ☼"
-                labelHover="Connect wallet ☼"
-              />
+              <HoverLabel label="Mint a piece ☼" labelHover="Connect wallet" />
             </ButtonLink>
           );
         }
         if (mounted && chain && chain.id !== targetChainId) {
           return (
             <ButtonLink onClick={() => switchNetwork?.(targetChainId)}>
-              <HoverLabel
-                label="Mint a piece ☼"
-                labelHover="Switch network ☼"
-              />
+              <HoverLabel label="Mint a piece ☼" labelHover="Switch network" />
             </ButtonLink>
           );
         }
@@ -161,12 +156,12 @@ export const MintButton = () => {
                 foldedFacesMintWrite.writeAsync ? (
                   <>
                     Mint a discounted piece for{" "}
-                    <span className="font-sans text-xs font-bold">Ξ</span>0.08 ☼
+                    <span className="font-sans text-xs font-bold">Ξ</span>0.08
                   </>
                 ) : (
                   <>
                     Mint a piece for{" "}
-                    <span className="font-sans text-xs font-bold">Ξ</span>0.1 ☼
+                    <span className="font-sans text-xs font-bold">Ξ</span>0.1
                   </>
                 )
               }

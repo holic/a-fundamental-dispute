@@ -1,4 +1,5 @@
 import { ArtPreview } from "./ArtPreview";
+import { maxSupply } from "./constants";
 import { PendingIcon } from "./PendingIcon";
 
 type Props = {
@@ -23,7 +24,7 @@ export const Gallery = ({ tokenIds }: Props) => {
         >
           <ArtPreview tokenId={tokenId} disablePointerEvents />
           <span className="absolute bottom-full right-0 text-sm leading-relaxed">
-            {tokenId}/218
+            {tokenId}/{maxSupply}
           </span>
         </a>
       ))}

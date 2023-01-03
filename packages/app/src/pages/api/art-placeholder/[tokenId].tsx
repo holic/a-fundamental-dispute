@@ -2,6 +2,8 @@ import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 
+import { maxSupply } from "../../../constants";
+
 const bg = fs.readFileSync(
   path.join(process.cwd(), "public/art-placeholder-bg.jpg")
 );
@@ -22,7 +24,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
       <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-size="16px" style="text-shadow: 0 2px 2px #333">
         <tspan x="50%" font-size="28px" font-weight="bold">A Fundamental Dispute
         </tspan>
-        <tspan x="50%" dy="1.5em" font-size="20px">${tokenId}/218</tspan>
+        <tspan x="50%" dy="1.5em" font-size="20px">${tokenId}/${maxSupply}</tspan>
         <tspan x="50%" dy="8em" font-style="italic">Still rendering…</tspan>
         <tspan x="50%" dy="1.25em" font-style="italic">
           View your piece at <tspan font-weight="bold">afundamentaldispute.com</tspan>

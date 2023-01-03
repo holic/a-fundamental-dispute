@@ -71,6 +71,6 @@ const handleTokenDiscountUsed: TokenDiscountUsedHandler = async (
 
 export const AFundamentalDispute = {
   ConsecutiveTransfer: handleConsecutiveTransfer,
-  Transfer: handleTransfer,
   TokenDiscountUsed: handleTokenDiscountUsed,
+  Transfer: handleTransfer,
 };
