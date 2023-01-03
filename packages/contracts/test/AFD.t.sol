@@ -6,6 +6,7 @@ import {ContentStore} from "ethfs/ContentStore.sol";
 import {FileStore} from "ethfs/FileStore.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
 import {AFundamentalDispute} from "../src/AFD.sol";
+import {NFT} from "../src/NFT.sol";
 import {AFDRenderer} from "../src/AFDRenderer.sol";
 import {IRenderer} from "../src/IRenderer.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -247,5 +248,23 @@ contract AFDTest is Test {
         vm.prank(owner);
         token.withdrawAllERC20(erc20, artist);
         assertEq(erc20.balanceOf(artist), 100);
+    }
+
+    function testMaxSupply() public {
+        for (uint256 i = 1; i <= 198; i++) {
+            address wallet = makeAddr(string.concat("wallet", vm.toString(i)));
+            vm.deal(wallet, 1 ether);
+            vm.prank(wallet);
+            token.mint{value: 0.1 ether}();
+        }
+
+        vm.prank(minter);
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                NFT.MaxSupplyExceeded.selector,
+                218
+            )
+        );
+        token.mint{value: 0.1 ether}();
     }
 }
