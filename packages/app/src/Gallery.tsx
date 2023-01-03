@@ -21,7 +21,7 @@ export const Gallery = ({ tokenIds }: Props) => {
           href={`/art/${tokenId}`}
           className="block w-full aspect-[400/550] relative hover:scale-110 transition duration-500 text-stone-500 hover:text-stone-300"
         >
-          <ArtPreview tokenId={tokenId} />
+          <ArtPreview tokenId={tokenId} disablePointerEvents />
           <span className="absolute bottom-full right-0 text-sm leading-relaxed">
             {tokenId}/218
           </span>

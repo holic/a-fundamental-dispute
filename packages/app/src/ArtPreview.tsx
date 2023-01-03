@@ -41,9 +41,10 @@ const ArtIframe = ({
 
 type Props = {
   tokenId: number;
+  disablePointerEvents?: boolean;
 };
 
-export const ArtPreview = ({ tokenId }: Props) => {
+export const ArtPreview = ({ tokenId, disablePointerEvents }: Props) => {
   const containerRef = useRef<HTMLIFrameElement>(null);
   const [shown, setShown] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -54,11 +55,14 @@ export const ArtPreview = ({ tokenId }: Props) => {
     const element = containerRef.current;
     if (!element) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        setShown(entry.isIntersecting);
-      });
-    });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setShown(entry.isIntersecting);
+        });
+      },
+      { rootMargin: "-20%" }
+    );
 
     observer.observe(element);
     return () => {
@@ -67,20 +71,16 @@ export const ArtPreview = ({ tokenId }: Props) => {
   }, [shown]);
 
   return (
-    <div ref={containerRef} className="w-full h-full relative bg-stone-900">
-      <div
-        className={classNames(
-          "absolute inset-0 bg-stone-900 flex items-center justify-center text-stone-600 font-mono text-sm pointer-events-none transition duration-1000",
-          loaded ? "opacity-0" : "opacity-100"
-        )}
-      >
-        Rendering…
-      </div>
+    <div ref={containerRef} className="w-full h-full bg-stone-900">
       <ArtIframe
         tokenId={tokenId}
         hidden={!shown}
-        className="w-full h-full pointer-events-none"
         onLoad={() => setLoaded(true)}
+        className={classNames(
+          `w-full h-full transition duration-[3s]`,
+          loaded ? "opacity-100" : "opacity-0",
+          disablePointerEvents ? "pointer-events-none" : null
+        )}
       />
     </div>
   );
