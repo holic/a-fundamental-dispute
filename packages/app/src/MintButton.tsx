@@ -63,6 +63,27 @@ export const MintButton = () => {
     },
   });
 
+  if (preparedFoldedFacesMintWrite.isError) {
+    try {
+      console.log(
+        "preparedFoldedFacesMintWrite.error",
+        extractContractError(preparedFoldedFacesMintWrite.error)
+      );
+    } catch (e) {
+      // ignore
+    }
+  }
+  if (preparedMintWrite.isError) {
+    try {
+      console.log(
+        "preparedMintWrite.error",
+        extractContractError(preparedMintWrite.error)
+      );
+    } catch (e) {
+      // ignore
+    }
+  }
+
   const foldedFacesMintWrite = useContractWrite(
     preparedFoldedFacesMintWrite.config
   );
