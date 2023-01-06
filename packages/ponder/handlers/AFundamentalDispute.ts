@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 import {
   ConsecutiveTransferHandler,
   Context,
@@ -7,9 +9,12 @@ import {
 
 const htmlForToken = async (context: Context, tokenId: number) => {
   // TODO: add support for renderer upgrades
-  return await context.contracts.AFDRenderer.fullscreenHtml(BigInt(tokenId), {
-    blockTag: 8247930,
-  });
+  return await context.contracts.AFDRenderer.fullscreenHtml(
+    BigNumber.from(tokenId),
+    {
+      blockTag: 8247930,
+    }
+  );
 };
 
 const handleConsecutiveTransfer: ConsecutiveTransferHandler = async (
@@ -65,7 +70,7 @@ const handleTokenDiscountUsed: TokenDiscountUsedHandler = async (
   }
 
   await FoldedFacesToken.update(tokenId.toString(), {
-    mintDiscountUsed: 1,
+    mintDiscountUsed: true,
   });
 };
 

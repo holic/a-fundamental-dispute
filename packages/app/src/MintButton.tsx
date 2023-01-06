@@ -23,10 +23,11 @@ import { usePromiseFn } from "./usePromiseFn";
 
 gql`
   query MintButton($address: String!) {
-    foldedFacesTokens(where: { ownerAddress: $address }) {
+    foldedFacesTokens(
+      where: { ownerAddress: $address, mintDiscountUsed: false }
+    ) {
       id
       tokenId
-      mintDiscountUsed
     }
   }
 `;
@@ -39,9 +40,7 @@ export const MintButton = () => {
     address ? { variables: { address } } : { pause: true }
   );
   const discountTokens =
-    data?.foldedFacesTokens
-      .filter((token) => !token.mintDiscountUsed)
-      .map((token) => token.tokenId) ?? [];
+    data?.foldedFacesTokens.map((token) => token.tokenId) ?? [];
 
   const preparedFoldedFacesMintWrite = usePrepareContractWrite({
     address: contracts.AFundamentalDispute,

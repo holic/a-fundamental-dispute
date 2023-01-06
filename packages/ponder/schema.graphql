@@ -11,8 +11,7 @@ type FoldedFacesToken @entity {
   tokenId: Int!
   ownerAddress: String!
   owner: Wallet!
-  # TODO: move this to Boolean! once it's fixed in ponder
-  mintDiscountUsed: Int!
+  mintDiscountUsed: Boolean!
 }
 
 type Wallet @entity {

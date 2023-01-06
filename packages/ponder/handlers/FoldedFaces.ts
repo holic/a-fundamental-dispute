@@ -17,7 +17,7 @@ const handleTransfer: TransferHandler = async (event, context) => {
       tokenId: event.params.tokenId.toNumber(),
       ownerAddress: event.params.to,
       owner: event.params.to,
-      mintDiscountUsed: 0,
+      mintDiscountUsed: false,
     });
   }
 };

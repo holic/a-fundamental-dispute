@@ -66,7 +66,7 @@ export type AFundamentalDisputeTokenFilter = {
 export type FoldedFacesToken = {
   readonly __typename?: 'FoldedFacesToken';
   readonly id: Scalars['ID'];
-  readonly mintDiscountUsed: Scalars['Int'];
+  readonly mintDiscountUsed: Scalars['Boolean'];
   readonly owner?: Maybe<Wallet>;
   readonly ownerAddress: Scalars['String'];
   readonly tokenId: Scalars['Int'];
@@ -77,14 +77,10 @@ export type FoldedFacesTokenFilter = {
   readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
   readonly id_not?: InputMaybe<Scalars['ID']>;
   readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly mintDiscountUsed?: InputMaybe<Scalars['Int']>;
-  readonly mintDiscountUsed_gt?: InputMaybe<Scalars['Int']>;
-  readonly mintDiscountUsed_gte?: InputMaybe<Scalars['Int']>;
-  readonly mintDiscountUsed_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
-  readonly mintDiscountUsed_lt?: InputMaybe<Scalars['Int']>;
-  readonly mintDiscountUsed_lte?: InputMaybe<Scalars['Int']>;
-  readonly mintDiscountUsed_not?: InputMaybe<Scalars['Int']>;
-  readonly mintDiscountUsed_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
+  readonly mintDiscountUsed?: InputMaybe<Scalars['Boolean']>;
+  readonly mintDiscountUsed_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
+  readonly mintDiscountUsed_not?: InputMaybe<Scalars['Boolean']>;
+  readonly mintDiscountUsed_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
   readonly ownerAddress?: InputMaybe<Scalars['String']>;
   readonly ownerAddress_ends_with?: InputMaybe<Scalars['String']>;
   readonly ownerAddress_ends_with_nocase?: InputMaybe<Scalars['String']>;
@@ -185,7 +181,7 @@ export type MintButtonQueryVariables = Exact<{
 }>;
 
 
-export type MintButtonQuery = { readonly __typename?: 'Query', readonly foldedFacesTokens: ReadonlyArray<{ readonly __typename?: 'FoldedFacesToken', readonly id: string, readonly tokenId: number, readonly mintDiscountUsed: number }> };
+export type MintButtonQuery = { readonly __typename?: 'Query', readonly foldedFacesTokens: ReadonlyArray<{ readonly __typename?: 'FoldedFacesToken', readonly id: string, readonly tokenId: number }> };
 
 export type GalleryPageQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -207,10 +203,9 @@ export function useArtPreviewQuery(options: Omit<Urql.UseQueryArgs<ArtPreviewQue
 };
 export const MintButtonDocument = gql`
     query MintButton($address: String!) {
-  foldedFacesTokens(where: {ownerAddress: $address}) {
+  foldedFacesTokens(where: {ownerAddress: $address, mintDiscountUsed: false}) {
     id
     tokenId
-    mintDiscountUsed
   }
 }
     `;
