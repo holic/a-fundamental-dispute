@@ -42,13 +42,12 @@ export const MintButton = () => {
     data?.foldedFacesTokens
       .filter((token) => !token.mintDiscountUsed)
       .map((token) => token.tokenId) ?? [];
-  const discountToken = discountTokens[0];
 
   const preparedFoldedFacesMintWrite = usePrepareContractWrite({
     address: contracts.AFundamentalDispute,
     abi: AFundamentalDisputeAbi,
     functionName: "foldedFacesMint",
-    args: [ethers.BigNumber.from(discountToken ?? 0)],
+    args: [discountTokens.map(ethers.BigNumber.from)],
     overrides: {
       value: ethers.utils.parseEther(holderPrice),
     },
@@ -62,6 +61,12 @@ export const MintButton = () => {
       value: ethers.utils.parseEther(publicPrice),
     },
   });
+
+  console.log(
+    "preparedFoldedFacesMintWrite.status",
+    preparedFoldedFacesMintWrite.status
+  );
+  console.log("preparedMintWrite.status", preparedMintWrite.status);
 
   if (preparedFoldedFacesMintWrite.isError) {
     try {
@@ -88,7 +93,26 @@ export const MintButton = () => {
     preparedFoldedFacesMintWrite.config
   );
   const mintWrite = useContractWrite(preparedMintWrite.config);
+  console.log("foldedFacesMintWrite.status", foldedFacesMintWrite.status);
+  console.log("mintWrite.status", mintWrite.status);
 
+  if (foldedFacesMintWrite.isError) {
+    try {
+      console.log(
+        "foldedFacesMintWrite.error",
+        extractContractError(foldedFacesMintWrite.error)
+      );
+    } catch (e) {
+      // ignore
+    }
+  }
+  if (mintWrite.isError) {
+    try {
+      console.log("mintWrite.error", extractContractError(mintWrite.error));
+    } catch (e) {
+      // ignore
+    }
+  }
   const writeAsync = foldedFacesMintWrite.isSuccess
     ? foldedFacesMintWrite.writeAsync
     : mintWrite.isSuccess

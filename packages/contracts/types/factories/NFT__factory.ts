@@ -31,7 +31,7 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "supply",
+        name: "mintsLeft",
         type: "uint256",
       },
     ],
@@ -41,6 +41,17 @@ const _abi = [
   {
     inputs: [],
     name: "MintERC2309QuantityExceedsLimit",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "mintsLeft",
+        type: "uint256",
+      },
+    ],
+    name: "MintLimitExceeded",
     type: "error",
   },
   {
@@ -86,6 +97,17 @@ const _abi = [
   {
     inputs: [],
     name: "URIQueryForNonexistentToken",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "expectedPayment",
+        type: "uint256",
+      },
+    ],
+    name: "WrongPayment",
     type: "error",
   },
   {

@@ -10,7 +10,7 @@ import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 contract OwnablePayable is Ownable {
     function withdrawAll(address to) external onlyOwner {
         require(address(this).balance > 0, "Zero balance");
-        (bool sent, ) = to.call{value: address(this).balance}("");
+        (bool sent,) = to.call{value: address(this).balance}("");
         require(sent, "Failed to withdraw");
     }
 
@@ -18,11 +18,10 @@ contract OwnablePayable is Ownable {
         token.transfer(to, token.balanceOf(address(this)));
     }
 
-    function withdrawERC721(
-        IERC721 token,
-        uint256 tokenId,
-        address to
-    ) external onlyOwner {
+    function withdrawERC721(IERC721 token, uint256 tokenId, address to)
+        external
+        onlyOwner
+    {
         token.safeTransferFrom(address(this), to, tokenId);
     }
 }

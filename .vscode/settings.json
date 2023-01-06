@@ -1,5 +1,8 @@
 {
   "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true

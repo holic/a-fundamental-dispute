@@ -44,7 +44,7 @@ export const AFundamentalDisputeAbi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "supply",
+        name: "mintsLeft",
         type: "uint256",
       },
     ],
@@ -60,7 +60,7 @@ export const AFundamentalDisputeAbi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "limit",
+        name: "mintsLeft",
         type: "uint256",
       },
     ],
@@ -85,12 +85,12 @@ export const AFundamentalDisputeAbi = [
         type: "address",
       },
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
       },
     ],
-    name: "NotTokenOwner",
+    name: "NoValidTokenDiscount",
     type: "error",
   },
   {
@@ -101,22 +101,6 @@ export const AFundamentalDisputeAbi = [
   {
     inputs: [],
     name: "OwnershipNotInitializedForExtraData",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "token",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "TokenDiscountAlreadyUsed",
     type: "error",
   },
   {
@@ -491,9 +475,9 @@ export const AFundamentalDisputeAbi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        internalType: "uint256[]",
+        name: "tokenIds",
+        type: "uint256[]",
       },
     ],
     name: "foldedFacesMint",

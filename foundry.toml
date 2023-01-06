@@ -23,3 +23,6 @@ fs_permissions = [
 # Enable YUL compiler to avoid stack too deep errors
 # Much slower but it works
 via_ir = true
+
+[fmt]
+line_length = 80

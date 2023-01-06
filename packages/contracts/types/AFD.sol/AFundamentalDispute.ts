@@ -57,7 +57,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "explicitOwnershipOf(uint256)": FunctionFragment;
     "explicitOwnershipsOf(uint256[])": FunctionFragment;
     "foldedFaces()": FunctionFragment;
-    "foldedFacesMint(uint256)": FunctionFragment;
+    "foldedFacesMint(uint256[])": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "hasUsedFoldedFaces(uint256)": FunctionFragment;
     "holderPrice()": FunctionFragment;
@@ -167,7 +167,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "foldedFacesMint",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -630,7 +630,7 @@ export interface AFundamentalDispute extends BaseContract {
     foldedFaces(overrides?: CallOverrides): Promise<[string]>;
 
     foldedFacesMint(
-      tokenId: PromiseOrValue<BigNumberish>,
+      tokenIds: PromiseOrValue<BigNumberish>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -820,7 +820,7 @@ export interface AFundamentalDispute extends BaseContract {
   foldedFaces(overrides?: CallOverrides): Promise<string>;
 
   foldedFacesMint(
-    tokenId: PromiseOrValue<BigNumberish>,
+    tokenIds: PromiseOrValue<BigNumberish>[],
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1010,7 +1010,7 @@ export interface AFundamentalDispute extends BaseContract {
     foldedFaces(overrides?: CallOverrides): Promise<string>;
 
     foldedFacesMint(
-      tokenId: PromiseOrValue<BigNumberish>,
+      tokenIds: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1284,7 +1284,7 @@ export interface AFundamentalDispute extends BaseContract {
     foldedFaces(overrides?: CallOverrides): Promise<BigNumber>;
 
     foldedFacesMint(
-      tokenId: PromiseOrValue<BigNumberish>,
+      tokenIds: PromiseOrValue<BigNumberish>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1475,7 +1475,7 @@ export interface AFundamentalDispute extends BaseContract {
     foldedFaces(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     foldedFacesMint(
-      tokenId: PromiseOrValue<BigNumberish>,
+      tokenIds: PromiseOrValue<BigNumberish>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

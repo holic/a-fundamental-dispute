@@ -20,7 +20,12 @@ contract AFDRenderer is IRenderer {
         emit Initialized();
     }
 
-    function tokenURI(uint256 tokenId) external view override returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        external
+        view
+        override
+        returns (string memory)
+    {
         string memory tokenIdString = toString(tokenId);
         string memory seedString = toString(seedOf(tokenId));
 
@@ -46,7 +51,11 @@ contract AFDRenderer is IRenderer {
         );
     }
 
-    function fullscreenHtml(uint256 tokenId) public view returns (string memory) {
+    function fullscreenHtml(uint256 tokenId)
+        public
+        view
+        returns (string memory)
+    {
         string memory tokenIdString = toString(tokenId);
         string memory seedString = toString(seedOf(tokenId));
 
@@ -66,10 +75,22 @@ contract AFDRenderer is IRenderer {
     }
 
     function seedOf(uint256 tokenId) public view returns (uint32) {
-        return uint32(uint256(keccak256(abi.encode(tokenId, token.explicitOwnershipOf(tokenId).extraData))));
+        return uint32(
+            uint256(
+                keccak256(
+                    abi.encode(
+                        tokenId, token.explicitOwnershipOf(tokenId).extraData
+                    )
+                )
+            )
+        );
     }
 
-    function toString(uint256 value) internal pure returns (string memory str) {
+    function toString(uint256 value)
+        internal
+        pure
+        returns (string memory str)
+    {
         assembly {
             // The maximum value of a uint256 contains 78 digits (1 byte per digit), but
             // we allocate 0xa0 bytes to keep the free memory pointer 32-byte word aligned.

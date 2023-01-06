@@ -18,11 +18,13 @@ contract AFundamentalDispute is NFT {
 
     event TokenDiscountUsed(address token, uint256 tokenId);
 
-    constructor(
-        IERC721 _foldedFaces,
-        address artist,
-        address developer
-    ) NFT("A Fundamental Dispute", "AFUNDAMENTALDISPUTE", 218) {
+    // ****************** //
+    // *** INITIALIZE *** //
+    // ****************** //
+
+    constructor(IERC721 _foldedFaces, address artist, address developer)
+        NFT("A Fundamental Dispute", "AFUNDAMENTALDISPUTE", 218)
+    {
         foldedFaces = _foldedFaces;
 
         // Mint ~9% of supply to creators in lieu of royalties
@@ -30,72 +32,73 @@ contract AFundamentalDispute is NFT {
         _mintERC2309(developer, 10);
     }
 
-    error MintLimitExceeded(uint256 limit);
-    error WrongPayment(uint256 expectedPayment);
-    error NotTokenOwner(address token, uint256 tokenId);
-    error TokenDiscountAlreadyUsed(address token, uint256 tokenId);
+    // ******************* //
+    // *** PUBLIC MINT *** //
+    // ******************* //
 
-    function mint() external payable withinMaxSupply(1) {
-        // TODO: discount for holders
-
-        if (msg.value != publicPrice) {
-            revert WrongPayment(publicPrice);
-        }
-        if (_numberMinted(msg.sender) > 0) {
-            revert MintLimitExceeded(1);
-        }
-
+    function mint()
+        external
+        payable
+        hasExactPayment(publicPrice)
+        withinMaxSupply(1)
+        withinMintLimit(1, 1)
+    {
         _safeMint(msg.sender, 1);
     }
+
+    // ******************* //
+    // *** HOLDER MINT *** //
+    // ******************* //
+
+    error NoValidTokenDiscount(address token, uint256[] tokenIds);
 
     function hasUsedFoldedFaces(uint256 tokenId) public view returns (bool) {
         return foldedFacesUsed.get(tokenId);
     }
 
-    function foldedFacesMint(uint256 tokenId)
+    function foldedFacesMint(uint256[] calldata tokenIds)
         external
         payable
+        hasExactPayment(holderPrice)
         withinMaxSupply(1)
+        withinMintLimit(1, 1)
     {
-        if (msg.value != holderPrice) {
-            revert WrongPayment(holderPrice);
-        }
-        if (_numberMinted(msg.sender) > 0) {
-            revert MintLimitExceeded(1);
-        }
-        if (foldedFaces.ownerOf(tokenId) != msg.sender) {
-            revert NotTokenOwner(address(foldedFaces), tokenId);
-        }
-        if (hasUsedFoldedFaces(tokenId)) {
-            revert TokenDiscountAlreadyUsed(address(foldedFaces), tokenId);
-        }
-        foldedFacesUsed.set(tokenId);
-        emit TokenDiscountUsed(address(foldedFaces), tokenId);
+        uint256 tokenId;
+        for (uint256 i = 0; i < tokenIds.length; i++) {
+            tokenId = tokenIds[i];
+            if (foldedFacesUsed.get(tokenId)) continue;
+            if (foldedFaces.ownerOf(tokenId) != msg.sender) continue;
 
-        _safeMint(msg.sender, 1);
+            foldedFacesUsed.set(tokenId);
+            emit TokenDiscountUsed(address(foldedFaces), tokenId);
+            _safeMint(msg.sender, 1);
+            return;
+        }
+
+        revert NoValidTokenDiscount(address(foldedFaces), tokenIds);
     }
 
-    // Token seed
-    function _extraData(
-        address from,
-        address to,
-        uint24 previousExtraData
-    ) internal view override returns (uint24) {
+    // ******************* //
+    // *** AFTER MINT *** //
+    // ******************* //
+
+    function _extraData(address from, address to, uint24 previousExtraData)
+        internal
+        view
+        override
+        returns (uint24)
+    {
         if (previousExtraData != 0) {
             return previousExtraData;
         }
-        return
-            uint24(
-                uint256(
-                    keccak256(
-                        abi.encode(
-                            block.difficulty,
-                            blockhash(block.number - 1),
-                            from,
-                            to
-                        )
+        return uint24(
+            uint256(
+                keccak256(
+                    abi.encode(
+                        block.difficulty, blockhash(block.number - 1), from, to
                     )
                 )
-            );
+            )
+        );
     }
 }

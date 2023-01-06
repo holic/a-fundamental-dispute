@@ -3,9 +3,12 @@ pragma solidity ^0.8.13;
 
 import {IERC721A} from "erc721a/contracts/IERC721A.sol";
 import {ERC721A} from "erc721a/contracts/ERC721A.sol";
-import {ERC721AQueryable} from "erc721a/contracts/extensions/ERC721AQueryable.sol";
+import {ERC721AQueryable} from
+    "erc721a/contracts/extensions/ERC721AQueryable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {IERC2981, IERC165} from "@openzeppelin/contracts/interfaces/IERC2981.sol";
+import {
+    IERC2981, IERC165
+} from "@openzeppelin/contracts/interfaces/IERC2981.sol";
 import {ERC2981} from "@openzeppelin/contracts/token/common/ERC2981.sol";
 import {IRenderer} from "./IRenderer.sol";
 import {OwnablePayable} from "./OwnablePayable.sol";
@@ -25,19 +28,16 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     event Initialized();
     event RendererUpdated(IRenderer previousRenderer, IRenderer newRenderer);
     event BaseTokenURIUpdated(
-        string previousBaseTokenURI,
-        string newBaseTokenURI
+        string previousBaseTokenURI, string newBaseTokenURI
     );
 
     // ****************** //
     // *** INITIALIZE *** //
     // ****************** //
 
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint256 _maxSupply
-    ) ERC721A(name, symbol) {
+    constructor(string memory name, string memory symbol, uint256 _maxSupply)
+        ERC721A(name, symbol)
+    {
         maxSupply = _maxSupply;
         emit Initialized();
     }
@@ -49,23 +49,33 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721A, IERC721A, ERC2981)
+        override (ERC721A, IERC721A, ERC2981)
         returns (bool)
     {
-        return
-            ERC721A.supportsInterface(interfaceId) ||
-            ERC2981.supportsInterface(interfaceId);
+        return ERC721A.supportsInterface(interfaceId)
+            || ERC2981.supportsInterface(interfaceId);
     }
 
     // ************ //
     // *** MINT *** //
     // ************ //
 
-    error MaxSupplyExceeded(uint256 supply);
+    error MintLimitExceeded(uint256 mintsLeft);
+    error MaxSupplyExceeded(uint256 mintsLeft);
+    error WrongPayment(uint256 expectedPayment);
+
+    modifier withinMintLimit(uint256 limit, uint256 numToBeMinted) {
+        uint256 numMinted = _numberMinted(msg.sender);
+        if (numMinted + numToBeMinted > limit) {
+            revert MintLimitExceeded(limit - numMinted);
+        }
+        _;
+    }
 
     modifier withinMaxSupply(uint256 numToBeMinted) {
-        if (totalMinted() + numToBeMinted > maxSupply) {
-            revert MaxSupplyExceeded(maxSupply);
+        uint256 numMinted = _totalMinted();
+        if (numMinted + numToBeMinted > maxSupply) {
+            revert MaxSupplyExceeded(maxSupply - numMinted);
         }
         _;
     }
@@ -76,6 +86,13 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
 
     function numberMinted(address owner) public view returns (uint256) {
         return _numberMinted(owner);
+    }
+
+    modifier hasExactPayment(uint256 expectedPayment) {
+        if (msg.value != expectedPayment) {
+            revert WrongPayment(expectedPayment);
+        }
+        _;
     }
 
     // ****************** //
@@ -89,7 +106,7 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     function tokenURI(uint256 tokenId)
         public
         view
-        override(ERC721A, IERC721A)
+        override (ERC721A, IERC721A)
         returns (string memory)
     {
         if (address(renderer) != address(0)) {
@@ -131,7 +148,10 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
         renderer = _renderer;
     }
 
-    function setBaseTokenURI(string calldata _baseTokenURI) external onlyOwner {
+    function setBaseTokenURI(string calldata _baseTokenURI)
+        external
+        onlyOwner
+    {
         emit BaseTokenURIUpdated(baseTokenURI, _baseTokenURI);
         baseTokenURI = _baseTokenURI;
     }

@@ -83,10 +83,7 @@ contract AFDTest is Test {
         assertEq(token.balanceOf(minter), 0);
 
         vm.expectRevert(
-            abi.encodeWithSelector(
-                AFundamentalDispute.WrongPayment.selector,
-                0.1 ether
-            )
+            abi.encodeWithSelector(NFT.WrongPayment.selector, 0.1 ether)
         );
         token.mint{value: 1 ether}();
 
@@ -97,37 +94,32 @@ contract AFDTest is Test {
         assertEq(token.ownerOf(tokenId), minter);
 
         vm.expectRevert(
-            abi.encodeWithSelector(
-                AFundamentalDispute.MintLimitExceeded.selector,
-                1
-            )
+            abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
         token.mint{value: 0.1 ether}();
         vm.stopPrank();
     }
 
     function testFoldedFacesMint() public {
+        uint256[] memory tokenIds = new uint256[](1);
+        tokenIds[0] = 0;
+
         vm.startPrank(holder);
         assertEq(
-            token.balanceOf(holder),
-            0,
-            "expected holder to have no AFD tokens"
+            token.balanceOf(holder), 0, "expected holder to have no AFD tokens"
         );
 
         vm.expectRevert(
-            abi.encodeWithSelector(
-                AFundamentalDispute.WrongPayment.selector,
-                0.08 ether
-            )
+            abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
         );
-        token.foldedFacesMint{value: 1 ether}(0);
+        token.foldedFacesMint{value: 1 ether}(tokenIds);
 
         vm.expectRevert(bytes("ERC721: invalid token ID"));
-        token.foldedFacesMint{value: 0.08 ether}(0);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
 
         foldedFaces.mint(0);
         assertEq(token.hasUsedFoldedFaces(0), false);
-        token.foldedFacesMint{value: 0.08 ether}(0);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
         assertEq(token.hasUsedFoldedFaces(0), true);
 
         foldedFaces.safeTransferFrom(holder, minter, 0);
@@ -136,9 +128,7 @@ contract AFDTest is Test {
 
         vm.startPrank(minter);
         assertEq(
-            token.balanceOf(minter),
-            0,
-            "expected minter to have no AFD tokens"
+            token.balanceOf(minter), 0, "expected minter to have no AFD tokens"
         );
         foldedFaces.mint(2);
         assertEq(foldedFaces.balanceOf(minter), 2);
@@ -149,14 +139,53 @@ contract AFDTest is Test {
 
         vm.expectRevert(
             abi.encodeWithSelector(
-                AFundamentalDispute.TokenDiscountAlreadyUsed.selector,
+                AFundamentalDispute.NoValidTokenDiscount.selector,
                 address(foldedFaces),
-                0
+                tokenIds
             )
         );
-        token.foldedFacesMint{value: 0.08 ether}(0);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
 
-        token.foldedFacesMint{value: 0.08 ether}(2);
+        tokenIds[0] = 2;
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+
+        vm.stopPrank();
+    }
+
+    function testManyFoldedFacesMint() public {
+        uint256[] memory tokenIds = new uint256[](6);
+        tokenIds[0] = 0;
+        tokenIds[1] = 1;
+        tokenIds[2] = 2;
+        tokenIds[3] = 3;
+        tokenIds[4] = 4;
+        tokenIds[5] = 5;
+
+        vm.startPrank(owner);
+        foldedFaces.mint(0);
+        foldedFaces.mint(1);
+        foldedFaces.mint(2);
+        foldedFaces.mint(3);
+        foldedFaces.mint(4);
+        vm.stopPrank();
+
+        vm.startPrank(holder);
+        assertEq(
+            token.balanceOf(holder), 0, "expected holder to have no AFD tokens"
+        );
+
+        vm.expectRevert(
+            abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
+        );
+        token.foldedFacesMint{value: 1 ether}(tokenIds);
+
+        vm.expectRevert(bytes("ERC721: invalid token ID"));
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+
+        foldedFaces.mint(5);
+        assertEq(token.hasUsedFoldedFaces(5), false);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        assertEq(token.hasUsedFoldedFaces(5), true);
 
         vm.stopPrank();
     }
@@ -168,15 +197,15 @@ contract AFDTest is Test {
 
         bytes32[] memory checksums = new bytes32[](1);
 
-        (bytes32 p5jsChecksum, ) = contentStore.addContent(p5jsScript);
+        (bytes32 p5jsChecksum,) = contentStore.addContent(p5jsScript);
         checksums[0] = p5jsChecksum;
         fileStore.createFile("p5-1.5.0.js.gz", checksums);
 
-        (bytes32 adfChecksum, ) = contentStore.addContent(afdScript);
+        (bytes32 adfChecksum,) = contentStore.addContent(afdScript);
         checksums[0] = adfChecksum;
         fileStore.createFile("afd-20230102.2.min.js.gz", checksums);
 
-        (bytes32 gunzipChecksum, ) = contentStore.addContent(gunzipScript);
+        (bytes32 gunzipChecksum,) = contentStore.addContent(gunzipScript);
         checksums[0] = gunzipChecksum;
         fileStore.createFile("gunzipScripts-0.0.1.js", checksums);
 
@@ -193,6 +222,9 @@ contract AFDTest is Test {
 
         assertEq(token.tokenURI(1), "https://example.com/tokens/1");
     }
+
+    // TODO: test gas using DynamicBuffer assembly rather than string.concat
+    //       to avoid call stack depth issues
 
     function testStableSeed() public {
         assertEq(token.ownerOf(1), artist);
@@ -260,10 +292,7 @@ contract AFDTest is Test {
 
         vm.prank(minter);
         vm.expectRevert(
-            abi.encodeWithSelector(
-                NFT.MaxSupplyExceeded.selector,
-                218
-            )
+            abi.encodeWithSelector(NFT.MaxSupplyExceeded.selector, 0)
         );
         token.mint{value: 0.1 ether}();
     }
