@@ -27,9 +27,7 @@ const ArtPage: NextPage = () => {
         <div className="w-full max-w-[1000px] flex flex-col gap-2">
           <div className="flex justify-between gap-2">
             <div>
-              <Link href="/" passHref>
-                <TextLink>A Fundamental Dispute</TextLink>
-              </Link>
+              <TextLink href="/">A Fundamental Dispute</TextLink>
             </div>
             <div>
               {tokenId}/{maxSupply}

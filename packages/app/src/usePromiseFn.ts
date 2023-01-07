@@ -1,12 +1,6 @@
-import {
-  DependencyList,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-type PromiseState<TValue> =
+type UsePromiseState<TValue> =
   | { type: "idle"; value: TValue | undefined }
   | { type: "pending"; value: TValue | undefined }
   | { type: "fulfilled"; value: TValue }
@@ -15,16 +9,24 @@ type PromiseState<TValue> =
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AsyncFunction = (...args: any[]) => PromiseLike<any>;
 
+export type UsePromiseOptions = {
+  enabled?: boolean;
+};
+
 export const usePromiseFn = <TFunc extends AsyncFunction>(
-  promiseFn: TFunc,
-  deps: DependencyList = []
+  createPromise: TFunc,
+  options: UsePromiseOptions = {}
 ): [
-  PromiseState<Awaited<ReturnType<TFunc>>>,
-  (...args: Parameters<TFunc>) => ReturnType<TFunc>
+  UsePromiseState<Awaited<ReturnType<TFunc>>>,
+  ((...args: Parameters<TFunc>) => ReturnType<TFunc>) | null
 ] => {
+  const enabled = options.enabled ?? true;
+
   const mounted = useRef(false);
   const lastPromiseId = useRef(0);
-  const [state, setState] = useState<PromiseState<Awaited<ReturnType<TFunc>>>>({
+  const [state, setState] = useState<
+    UsePromiseState<Awaited<ReturnType<TFunc>>>
+  >({
     type: "idle",
     value: undefined,
   });
@@ -36,22 +38,30 @@ export const usePromiseFn = <TFunc extends AsyncFunction>(
     };
   }, []);
 
-  const currentValue = state.type === "rejected" ? undefined : state.value;
+  useEffect(() => {
+    if (!enabled && state.type !== "idle") {
+      lastPromiseId.current++;
+      setState({
+        type: "idle",
+        value: undefined,
+      });
+    }
+  }, [enabled, state.type]);
 
-  const mutate = useCallback(
+  const createAndResolvePromise = useCallback(
     (...args: Parameters<TFunc>) => {
       if (!mounted.current) {
         throw new Error(
-          "usePromiseFn: tried to call promise fn while not mounted"
+          "usePromiseFn: tried to create promise while not mounted"
         );
       }
 
       setState({
         type: "pending",
-        value: currentValue,
+        value: undefined,
       });
       const promiseId = ++lastPromiseId.current;
-      const promise = promiseFn(...args) as ReturnType<TFunc>;
+      const promise = createPromise(...args) as ReturnType<TFunc>;
       promise.then(
         (value) =>
           mounted.current &&
@@ -64,9 +74,8 @@ export const usePromiseFn = <TFunc extends AsyncFunction>(
       );
       return promise;
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [...deps, currentValue]
+    [createPromise]
   );
 
-  return [state, mutate];
+  return [state, enabled ? createAndResolvePromise : null];
 };

@@ -101,14 +101,10 @@ const HomePage: NextPage = () => {
 
           <div>
             <p>
-              <Link href="/about" passHref>
-                <TextLink>Learn about the collection ⇒</TextLink>
-              </Link>
+              <TextLink href="/about">Learn about the collection ⇒</TextLink>
             </p>
             <p>
-              <Link href="/art" passHref>
-                <TextLink>View the gallery ⇒</TextLink>
-              </Link>
+              <TextLink href="/art">View the gallery ⇒</TextLink>
             </p>
           </div>
         </div>
