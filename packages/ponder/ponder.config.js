@@ -12,7 +12,9 @@ const foldedFaces = {
 
 /** @type {import('@ponder/core').PonderConfig} */
 module.exports = {
-  plugins: [graphqlPlugin()],
+  plugins: [
+    graphqlPlugin({ port: parseInt(process.env.PORT ?? "0") || 42069 }),
+  ],
   database:
     process.env.NODE_ENV === "production"
       ? {
