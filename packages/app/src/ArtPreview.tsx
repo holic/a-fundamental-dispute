@@ -39,7 +39,7 @@ const ArtIframe = ({
     if (data?.token || error || fetching || hidden) return;
     const timer = setInterval(() => {
       console.log("checking for token");
-      executeQuery();
+      executeQuery({ requestPolicy: "cache-and-network" });
     }, 1000);
     return () => clearInterval(timer);
   }, [data, error, executeQuery, fetching, hidden]);
