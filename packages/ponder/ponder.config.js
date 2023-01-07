@@ -1,5 +1,5 @@
 const { graphqlPlugin } = require("@ponder/graphql");
-const goerliDeploys = require("../contracts/deploys/goerli.json");
+const goerliDeploys = require("@web3-scaffold/contracts/deploys/goerli.json");
 
 /** @type {import('@ponder/core').PonderConfig['sources'][0]} */
 const foldedFaces = {
@@ -36,14 +36,14 @@ module.exports = {
           {
             name: "AFundamentalDispute",
             network: "goerli",
-            abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
+            abi: "./node_modules/@web3-scaffold/contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
             address: goerliDeploys.AFundamentalDispute.contractAddress,
             startBlock: goerliDeploys.AFundamentalDispute.blockNumber,
           },
           {
             name: "AFDRenderer",
             network: "goerli",
-            abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
+            abi: "./node_modules/@web3-scaffold/contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
             address: goerliDeploys.AFDRenderer.contractAddress,
             startBlock: goerliDeploys.AFDRenderer.blockNumber,
           },
