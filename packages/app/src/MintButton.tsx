@@ -135,7 +135,7 @@ const ActualMintButton = ({ address }: { address: string }) => {
 
   if (writeConfigPending) {
     return (
-      <ButtonLink disabled aria-busy>
+      <ButtonLink pending>
         <HoverLabel label="Mint a piece ☼" labelHover="Loading…" />
       </ButtonLink>
     );
@@ -162,7 +162,7 @@ const ActualMintButton = ({ address }: { address: string }) => {
 
   return (
     <ButtonLink
-      disabled={mintResult.type === "pending"}
+      pending={mintResult.type === "pending"}
       onClick={(event) => {
         event.preventDefault();
         const toastId = toast.loading("Preparing…");
@@ -200,24 +200,28 @@ const ActualMintButton = ({ address }: { address: string }) => {
         );
       }}
     >
-      <HoverLabel
-        label="Mint a piece ☼"
-        labelHover={
-          writeConfig?.config.functionName === "foldedFacesMint" ? (
-            <>
-              Mint a discounted piece for{" "}
-              <span className="font-sans text-xs font-bold">Ξ</span>
-              {holderPrice} ⇒
-            </>
-          ) : (
-            <>
-              Mint a piece for{" "}
-              <span className="font-sans text-xs font-bold">Ξ</span>
-              {publicPrice} ⇒
-            </>
-          )
-        }
-      />
+      {mintResult.type === "pending" ? (
+        "Minting…"
+      ) : (
+        <HoverLabel
+          label="Mint a piece ☼"
+          labelHover={
+            writeConfig?.config.functionName === "foldedFacesMint" ? (
+              <>
+                Mint a discounted piece for{" "}
+                <span className="font-sans text-xs font-bold">Ξ</span>
+                {holderPrice} ⇒
+              </>
+            ) : (
+              <>
+                Mint a piece for{" "}
+                <span className="font-sans text-xs font-bold">Ξ</span>
+                {publicPrice} ⇒
+              </>
+            )
+          }
+        />
+      )}
     </ButtonLink>
   );
 };
