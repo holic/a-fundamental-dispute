@@ -1,12 +1,12 @@
 {
   "AFundamentalDispute": {
+    "contractAddress": "0x0D3973199d86110b3B64Bc335daf9Bc6F53fc526",
     "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170",
-    "blockNumber": 8247258,
-    "contractAddress": "0x11F6deB7A15ea1D9748BE504145C8a714242BD54"
+    "blockNumber": 8269134
   },
   "AFDRenderer": {
-    "contractAddress": "0x38b4099937912e394a28c35e855714a612ada348",
-    "blockNumber": 8247930,
+    "contractAddress": "0x5d7D7729059bfD693bd71CEd67306DA939eaA64c",
+    "blockNumber": 8269134,
     "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170"
   }
 }

@@ -1,4 +1,5 @@
 const { graphqlPlugin } = require("@ponder/graphql");
+const goerliDeploys = require("../contracts/deploys/goerli.json");
 
 /** @type {import('@ponder/core').PonderConfig['sources'][0]} */
 const foldedFaces = {
@@ -36,15 +37,15 @@ module.exports = {
             name: "AFundamentalDispute",
             network: "goerli",
             abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
-            address: "0x11F6deB7A15ea1D9748BE504145C8a714242BD54",
-            startBlock: 8247260,
+            address: goerliDeploys.AFundamentalDispute.contractAddress,
+            startBlock: goerliDeploys.AFundamentalDispute.blockNumber,
           },
           {
             name: "AFDRenderer",
             network: "goerli",
             abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
-            address: "0x38b4099937912e394a28c35e855714a612ada348",
-            startBlock: 8247930,
+            address: goerliDeploys.AFDRenderer.contractAddress,
+            startBlock: goerliDeploys.AFDRenderer.blockNumber,
           },
         ];
       default:

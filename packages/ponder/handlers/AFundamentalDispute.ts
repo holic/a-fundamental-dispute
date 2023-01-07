@@ -10,10 +10,7 @@ import {
 const htmlForToken = async (context: Context, tokenId: number) => {
   // TODO: add support for renderer upgrades
   return await context.contracts.AFDRenderer.fullscreenHtml(
-    BigNumber.from(tokenId),
-    {
-      blockTag: 8247930,
-    }
+    BigNumber.from(tokenId)
   );
 };
 
