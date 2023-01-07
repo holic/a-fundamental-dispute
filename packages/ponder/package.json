@@ -7,8 +7,7 @@
   },
   "dependencies": {
     "@ponder/core": "0.0.19",
-    "@ponder/graphql": "0.0.11",
-    "@web3-scaffold/contracts": "workspace:*"
+    "@ponder/graphql": "0.0.11"
   },
   "devDependencies": {
     "ethers": "^5.6.9"
