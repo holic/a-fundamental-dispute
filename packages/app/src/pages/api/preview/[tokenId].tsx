@@ -7,6 +7,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!apiUrl) {
     throw new Error("Missing PREVIEW_API_URL env var");
   }
+  const sharedSecret = process.env.PREVIEW_API_SHARED_SECRET;
+  if (!sharedSecret) {
+    throw new Error("Missing PREVIEW_API_SHARED_SECRET env var");
+  }
 
   const tokenId = parseInt(req.query.tokenId as string);
   if (!tokenId) {
@@ -20,7 +24,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ html }),
+    body: JSON.stringify({
+      sharedSecret,
+      cacheKey: `${rendererContract.address}/${tokenId}.png`,
+      html,
+    }),
   });
 
   if (!response.ok) {

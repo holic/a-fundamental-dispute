@@ -1,7 +1,10 @@
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import chromium from "chrome-aws-lambda";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Browser } from "puppeteer";
 import type { Browser as BrowserCore } from "puppeteer-core";
+
+import { s3Client } from "../../s3Client";
 
 const getBrowserInstance = async () => {
   const executablePath = await chromium.executablePath;
@@ -26,7 +29,7 @@ const getBrowserInstance = async () => {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.query.key !== process.env.SHARED_SECRET) {
+  if (req.body.sharedSecret !== process.env.SHARED_SECRET) {
     res.status(401).json({ error: { code: "UNAUTHORIZED" } });
     return;
   }
@@ -36,6 +39,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(400).json({ error: { code: "MISSING_HTML" } });
     return;
   }
+
+  const cacheKey = req.body.cacheKey as string;
+  if (!html) {
+    res.status(400).json({ error: { code: "MISSING_CACHE_KEY" } });
+    return;
+  }
+
+  // TODO: check cache key and return early if exists
 
   const width = parseInt(req.body.width as string) || 400;
   const height = parseInt(req.body.height as string) || 550;
@@ -58,6 +69,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     await page.waitForFunction("window.renderComplete === true");
 
     const imageBuffer = await page.screenshot({ type: "png" });
+
+    console.log("Storing image:", cacheKey);
+    const putCommand = new PutObjectCommand({
+      Bucket: "afd-images",
+      Key: cacheKey,
+      Body: imageBuffer,
+      ACL: "public-read",
+    });
+    await s3Client.send(putCommand);
 
     res.setHeader("Content-Type", "image/png");
     res.send(imageBuffer);
