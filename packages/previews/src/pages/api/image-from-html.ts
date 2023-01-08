@@ -27,6 +27,7 @@ const getBrowserInstance = async () => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.query.key !== process.env.SHARED_SECRET) {
     res.status(401).json({ error: { code: "UNAUTHORIZED" } });
+    return;
   }
 
   const html = req.body.html as string;
