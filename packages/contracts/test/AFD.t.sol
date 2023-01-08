@@ -199,7 +199,7 @@ contract AFDTest is Test {
 
         (bytes32 p5jsChecksum,) = contentStore.addContent(p5jsScript);
         checksums[0] = p5jsChecksum;
-        fileStore.createFile("p5-1.5.0.js.gz", checksums);
+        fileStore.createFile("p5-v1.5.0.min.js.gz", checksums);
 
         (bytes32 adfChecksum,) = contentStore.addContent(afdScript);
         checksums[0] = adfChecksum;

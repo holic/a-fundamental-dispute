@@ -693,6 +693,8 @@ async function draw() {
   //end
 
   statusMessage.remove();
+  window.renderComplete = true;
+  window.postMessage("renderComplete", "*");
 }
 
 function drawTree(treeheight) {
