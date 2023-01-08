@@ -42,9 +42,9 @@ contract AFDRenderer is IRenderer {
             "%252F218%2520%25E2%2580%2594%2520A%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520*%2520%257B%250A%2520%2520%2520%2520%2520%2520box-sizing%253A%2520border-box%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520html%252C%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520display%253A%2520block%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%2520auto%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body.fullscreen%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%25201200px%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%25201650px%2520!important%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body%253Anot(.fullscreen)%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520padding%253A%25208vmin%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%2520",
             seedString,
             "%253B%250A%250A%2520%2520%2520%2520document.addEventListener(%2522click%2522%252C%2520(event)%2520%253D%253E%2520%257B%250A%2520%2520%2520%2520%2520%2520const%2520x%2520%253D%2520event.clientX%2520%252F%2520document.body.clientWidth%253B%250A%2520%2520%2520%2520%2520%2520const%2520y%2520%253D%2520event.clientY%2520%252F%2520document.body.clientHeight%253B%250A%2520%2520%2520%2520%2520%2520document.body.classList.toggle(%2522fullscreen%2522)%253B%250A%2520%2520%2520%2520%2520%2520document.body.scrollTo(%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520left%253A%2520document.body.scrollWidth%2520*%2520x%2520-%2520document.body.clientWidth%2520%252F%25202%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520top%253A%2520document.body.scrollHeight%2520*%2520y%2520-%2520document.body.clientHeight%2520%252F%25202%250A%2520%2520%2520%2520%2520%2520%257D)%253B%250A%2520%2520%2520%2520%257D)%253B%250A%2520%2520%253C%252Fscript%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
-            fileStore.getFile("p5-1.5.0.js.gz").read(),
+            fileStore.getFile("p5-v1.5.0.min.js.gz").read(),
             "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
-            fileStore.getFile("afd-20230102.2.min.js.gz").read(),
+            fileStore.getFile("afd-20230108.js.gz").read(),
             "%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
             fileStore.getFile("gunzipScripts-0.0.1.js").read(),
             "%2522%253E%253C%252Fscript%253E%250A%22%7D"
@@ -65,9 +65,9 @@ contract AFDRenderer is IRenderer {
             "/218 &mdash; A Fundamental Dispute</title>\n\n  <style>\n    * {\n      box-sizing: border-box;\n    }\n    html,\n    body {\n      width: 100vw;\n      height: 100vh;\n      margin: 0;\n      background: #111;\n    }\n    canvas {\n      display: block;\n      margin: auto;\n      width: 100% !important;\n      height: 100% !important;\n      object-fit: contain;\n    }\n  </style>\n\n  <script>\n    const seed = ",
             seedString,
             ";\n  </script>\n\n  <script type=\"text/javascript+gzip\" src=\"data:text/javascript;base64,",
-            fileStore.getFile("p5-1.5.0.js.gz").read(),
+            fileStore.getFile("p5-v1.5.0.min.js.gz").read(),
             "\"></script>\n  <script type=\"text/javascript+gzip\" src=\"data:text/javascript;base64,",
-            fileStore.getFile("afd-20230102.2.min.js.gz").read(),
+            fileStore.getFile("afd-20230108.js.gz").read(),
             "\"></script>\n  <script src=\"data:text/javascript;base64,",
             fileStore.getFile("gunzipScripts-0.0.1.js").read(),
             "\"></script>"

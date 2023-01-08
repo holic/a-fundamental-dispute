@@ -1,16 +1,14 @@
 import { useContractRead } from "wagmi";
 
-import { AFundamentalDisputeAbi } from "./abi/AFundamentalDispute";
-import { contracts } from "./contracts";
-import { targetChainId } from "./EthereumProviders";
+import { getContracts } from "./contracts";
 import { useIsMounted } from "./useIsMounted";
+
+const contracts = getContracts();
 
 export const useTotalMinted = () => {
   const isMounted = useIsMounted();
   const { data } = useContractRead({
-    chainId: targetChainId,
-    address: contracts.AFundamentalDispute,
-    abi: AFundamentalDisputeAbi,
+    ...contracts.AFundamentalDispute,
     functionName: "totalMinted",
     watch: true,
     enabled: isMounted,

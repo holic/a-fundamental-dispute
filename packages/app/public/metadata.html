@@ -99,8 +99,8 @@
   const tokens = {
     "@TOKENID": "tokenIdString",
     "@SEED": "seedString",
-    "@P5JS": 'fileStore.getFile("p5-1.5.0.js.gz").read()',
-    "@GENART": 'fileStore.getFile("afd-20230102.2.min.js.gz").read()',
+    "@P5JS": 'fileStore.getFile("p5-v1.5.0.min.js.gz").read()',
+    "@GENART": 'fileStore.getFile("afd-20230108.js.gz").read()',
     "@GUNZIP": 'fileStore.getFile("gunzipScripts-0.0.1.js").read()'
   };
 
@@ -134,6 +134,7 @@
     document
       .querySelector("template#render")
       .innerHTML.trim()
+      .replace(/—/g, "&mdash;")
       .replace(/___([A-Z0-9]+)___/g, "###@$1###")
       .split(/###/g)
       .map((token) =>
