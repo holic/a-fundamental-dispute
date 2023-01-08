@@ -2,8 +2,7 @@
   "name": "@web3-scaffold/previews",
   "private": true,
   "engines": {
-    "node": "16",
-    "pnpm": "7"
+    "node": "14"
   },
   "scripts": {
     "dev": "PORT=3100 next dev",

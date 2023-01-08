@@ -21,6 +21,7 @@ const getBrowserInstance = async () => {
     args: chromium.args,
     headless: chromium.headless,
     ignoreHTTPSErrors: true,
+    // ignoreDefaultArgs: ["--disable-extensions"],
   });
 };
 
