@@ -21,6 +21,7 @@ export type AFundamentalDisputeToken = {
   readonly id: Scalars['ID'];
   readonly owner?: Maybe<Wallet>;
   readonly ownerAddress: Scalars['String'];
+  readonly seed: Scalars['Int'];
   readonly tokenId: Scalars['Int'];
 };
 
@@ -53,6 +54,14 @@ export type AFundamentalDisputeTokenFilter = {
   readonly ownerAddress_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly ownerAddress_starts_with?: InputMaybe<Scalars['String']>;
   readonly ownerAddress_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly seed?: InputMaybe<Scalars['Int']>;
+  readonly seed_gt?: InputMaybe<Scalars['Int']>;
+  readonly seed_gte?: InputMaybe<Scalars['Int']>;
+  readonly seed_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
+  readonly seed_lt?: InputMaybe<Scalars['Int']>;
+  readonly seed_lte?: InputMaybe<Scalars['Int']>;
+  readonly seed_not?: InputMaybe<Scalars['Int']>;
+  readonly seed_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
   readonly tokenId?: InputMaybe<Scalars['Int']>;
   readonly tokenId_gt?: InputMaybe<Scalars['Int']>;
   readonly tokenId_gte?: InputMaybe<Scalars['Int']>;
