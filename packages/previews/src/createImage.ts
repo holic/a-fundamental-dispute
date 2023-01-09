@@ -64,6 +64,7 @@ export const createImage = async (cacheKey: string, html: string) => {
       Key: cacheKey,
       Body: imageBuffer,
       ACL: "public-read",
+      ContentType: "image/png",
     });
     s3Client.send(putCommand).then(() => console.log("Stored image", cacheKey));
   } catch (error: unknown) {

@@ -2,7 +2,8 @@
   "private": true,
   "name": "@web3-scaffold/previews",
   "scripts": {
-    "generate": "env $(cat .env.local | xargs) tsup src/generateTokenImages.ts --onSuccess 'node dist/generateTokenImages.js'"
+    "generate": "env $(cat .env.local | xargs) tsup src/generateTokenImages.ts --onSuccess 'node dist/generateTokenImages.js'",
+    "generate:test": "env $(cat .env.local | xargs) tsup src/generateTestImages.ts --onSuccess 'node dist/generateTestImages.js'"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.245.0",
