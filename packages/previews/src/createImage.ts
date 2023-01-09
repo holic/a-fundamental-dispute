@@ -57,7 +57,6 @@ export const createImage = async (cacheKey: string, html: string) => {
 
     const imageBuffer = await page.screenshot({ type: "png" });
     console.timeEnd("render");
-    console.log("image size", imageBuffer.length / 1024 / 1024, "mb");
 
     const putCommand = new PutObjectCommand({
       Bucket: "afd-images",
@@ -66,7 +65,12 @@ export const createImage = async (cacheKey: string, html: string) => {
       ACL: "public-read",
       ContentType: "image/png",
     });
-    s3Client.send(putCommand).then(() => console.log("Stored image", cacheKey));
+    await s3Client.send(putCommand);
+    console.log(
+      "Stored image",
+      cacheKey,
+      `(${imageBuffer.length / 1024 / 1024}mb)`
+    );
   } catch (error: unknown) {
     console.error("error while generating image", error);
   } finally {

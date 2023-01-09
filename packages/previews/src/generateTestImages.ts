@@ -1,4 +1,3 @@
-import goerliDeploys from "@web3-scaffold/contracts/deploys/goerli.json";
 import fs from "fs";
 
 import { createImage } from "./createImage";
@@ -41,7 +40,7 @@ export const generateImages = async () => {
     ></script>
     <!--<script src="http://127.0.0.1:3000/afd.js"></script>-->
     <script>${fs
-      .readFileSync(`${__dirname}/../../app/public/afd.js`)
+      .readFileSync(`${__dirname}/../../app/public/afd-latest.js`)
       .toString()}</script>
   `;
 
