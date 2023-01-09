@@ -19,43 +19,54 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const html = await rendererContract.fullscreenHtml(tokenId);
 
-  const response = await fetch(apiUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      sharedSecret,
-      cacheKey: `${rendererContract.address}/${tokenId}.png`,
-      html,
+  const response = await Promise.race([
+    await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sharedSecret,
+        cacheKey: `${rendererContract.address}/${tokenId}.png`,
+        html,
+      }),
     }),
-  });
+    new Promise((, reject) => reject(new Error("timeout")))),
+  ]);
 
-  if (!response.ok) {
-    console.error(
-      `Failed to generate preview for token ${tokenId}, bad response`,
-      response.status
-    );
-    throw new Error(`Failed to generate preview for token ${tokenId}`);
-  }
-  if (response.headers.get("Content-Type") !== "image/png") {
-    console.error(
-      `Failed to generate preview for token ${tokenId}, response was not an image`,
-      await response.text()
-    );
-    throw new Error(`Failed to generate preview for token ${tokenId}`);
+  // timeout
+  if (response === false) {
+    console.log("redirecting to", req.url);
+    res.redirect(req.url!);
+    return;
   }
 
-  console.log(
-    "got response",
-    response.headers.get("Content-Type"),
-    response.headers.get("Content-Length")
-  );
+  if (response)
+    if (!response.ok) {
+      console.error(
+        `Failed to generate preview for token ${tokenId}, bad response`,
+        response.status
+      );
+      throw new Error(`Failed to generate preview for token ${tokenId}`);
+    }
+  const json = await response.json();
+  if (!json.imageUrl) {
+    console.error(`Failed to generate preview for token ${tokenId}`, json);
+    throw new Error(`Failed to generate preview for token ${tokenId}`);
+  }
+  console.log("got json", json);
 
-  res.setHeader("Cache-Control", `s-maxage=${60 * 60 * 24}`);
+  res.redirect(json.imageUrl);
+  // console.log(
+  //   "got response",
+  //   response.headers.get("Content-Type"),
+  //   response.headers.get("Content-Length")
+  // );
 
-  res.setHeader("Content-Type", "image/png");
-  res.send(Buffer.from(await response.arrayBuffer()));
+  // res.setHeader("Cache-Control", `s-maxage=${60 * 60 * 24}`);
+
+  // res.setHeader("Content-Type", "image/png");
+  // res.send(Buffer.from(await response.arrayBuffer()));
 };
 
 export default handler;

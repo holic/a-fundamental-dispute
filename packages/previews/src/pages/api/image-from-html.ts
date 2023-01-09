@@ -1,10 +1,10 @@
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { HeadObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import chromium from "chrome-aws-lambda";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Browser } from "puppeteer";
 import type { Browser as BrowserCore } from "puppeteer-core";
 
-import { s3Client } from "../../s3Client";
+import { s3Client, s3Endpoint } from "../../s3Client";
 
 const getBrowserInstance = async () => {
   const executablePath = await chromium.executablePath;
@@ -46,7 +46,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  // TODO: check cache key and return early if exists
+  const bucketName = "afd-images";
+  const imageUrl = `${s3Endpoint}/${bucketName}/${cacheKey}`;
+
+  try {
+    const headCommand = new HeadObjectCommand({
+      Bucket: bucketName,
+      Key: cacheKey,
+    });
+    const headResponse = await s3Client.send(headCommand);
+    if (headResponse.$metadata.httpStatusCode === 200) {
+      // TODO: check if image is 0 bytes and >age and allow to regenerate
+      res.json({ imageUrl, isReady: !!headResponse.ContentLength });
+      return;
+    }
+  } catch (error) {
+    // Do nothing
+  }
+
+  console.log("Creating image placeholder:", cacheKey);
+  const putCommand = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: cacheKey,
+    Body: "",
+    ACL: "public-read",
+  });
+  await s3Client.send(putCommand);
 
   const width = parseInt(req.body.width as string) || 400;
   const height = parseInt(req.body.height as string) || 550;
@@ -72,15 +97,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log("Storing image:", cacheKey);
     const putCommand = new PutObjectCommand({
-      Bucket: "afd-images",
+      Bucket: bucketName,
       Key: cacheKey,
       Body: imageBuffer,
       ACL: "public-read",
     });
     await s3Client.send(putCommand);
 
-    res.setHeader("Content-Type", "image/png");
-    res.send(imageBuffer);
+    res.json({ imageUrl });
   } catch (error: unknown) {
     // TODO: log this to some error tracking service?
     console.error("error while generating image", error);
