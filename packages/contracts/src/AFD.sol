@@ -40,8 +40,8 @@ contract AFundamentalDispute is NFT {
         external
         payable
         hasExactPayment(publicPrice)
-        withinMaxSupply(1)
-        withinMintLimit(1, 1)
+        withinMaxSupply
+        withinMintLimit(2)
     {
         _safeMint(msg.sender, 1);
     }
@@ -60,8 +60,8 @@ contract AFundamentalDispute is NFT {
         external
         payable
         hasExactPayment(holderPrice)
-        withinMaxSupply(1)
-        withinMintLimit(1, 1)
+        withinMaxSupply
+        withinMintLimit(2)
     {
         uint256 tokenId;
         for (uint256 i = 0; i < tokenIds.length; i++) {

@@ -53,7 +53,7 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override (ERC721A, IERC721A, ERC2981)
+        override(ERC721A, IERC721A, ERC2981)
         returns (bool)
     {
         return ERC721A.supportsInterface(interfaceId)
@@ -68,17 +68,17 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     error MaxSupplyExceeded(uint256 mintsLeft);
     error WrongPayment(uint256 expectedPayment);
 
-    modifier withinMintLimit(uint256 limit, uint256 numToBeMinted) {
+    modifier withinMintLimit(uint256 limit) {
         uint256 numMinted = _numberMinted(msg.sender);
-        if (numMinted + numToBeMinted > limit) {
+        if (numMinted + 1 > limit) {
             revert MintLimitExceeded(limit - numMinted);
         }
         _;
     }
 
-    modifier withinMaxSupply(uint256 numToBeMinted) {
+    modifier withinMaxSupply() {
         uint256 numMinted = _totalMinted();
-        if (numMinted + numToBeMinted > maxSupply) {
+        if (numMinted + 1 > maxSupply) {
             revert MaxSupplyExceeded(maxSupply - numMinted);
         }
         _;
@@ -110,7 +110,7 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
     function tokenURI(uint256 tokenId)
         public
         view
-        override (ERC721A, IERC721A)
+        override(ERC721A, IERC721A)
         returns (string memory)
     {
         if (address(renderer) != address(0)) {

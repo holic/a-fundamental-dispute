@@ -92,6 +92,7 @@ contract AFDTest is Test {
         uint256 tokenId = token.totalMinted();
         assertEq(tokenId, 43);
         assertEq(token.ownerOf(tokenId), minter);
+        token.mint{value: 0.1 ether}();
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
@@ -131,11 +132,17 @@ contract AFDTest is Test {
             token.balanceOf(minter), 0, "expected minter to have no AFD tokens"
         );
         foldedFaces.mint(2);
-        assertEq(foldedFaces.balanceOf(minter), 2);
+        foldedFaces.mint(3);
+        foldedFaces.mint(4);
+        assertEq(foldedFaces.balanceOf(minter), 4);
         assertEq(foldedFaces.ownerOf(0), minter);
         assertEq(foldedFaces.ownerOf(2), minter);
+        assertEq(foldedFaces.ownerOf(3), minter);
+        assertEq(foldedFaces.ownerOf(4), minter);
         assertEq(token.hasUsedFoldedFaces(0), true);
         assertEq(token.hasUsedFoldedFaces(2), false);
+        assertEq(token.hasUsedFoldedFaces(3), false);
+        assertEq(token.hasUsedFoldedFaces(4), false);
 
         vm.expectRevert(
             abi.encodeWithSelector(
@@ -147,6 +154,14 @@ contract AFDTest is Test {
         token.foldedFacesMint{value: 0.08 ether}(tokenIds);
 
         tokenIds[0] = 2;
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        tokenIds[0] = 3;
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+
+        tokenIds[0] = 4;
+        vm.expectRevert(
+            abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
+        );
         token.foldedFacesMint{value: 0.08 ether}(tokenIds);
 
         vm.stopPrank();
