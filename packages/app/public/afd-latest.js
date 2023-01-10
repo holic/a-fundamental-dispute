@@ -48,7 +48,7 @@ function setup() {
 const tick = () => new Promise((resolve) => requestAnimationFrame(resolve));
 
 async function draw() {
-  darkmode = random([1, 1, 2, 2, 2, 2, 3, 3, 4, 4]);
+  darkmode = random([1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4]);
   backmix = random([3, 4, 5]);
   if (darkmode == 1) {
     //darkmode
@@ -224,7 +224,7 @@ async function draw() {
   }
   //hatching background
   rectMode(CENTER);
-  let frame = random([100, 100, 100, 50, 150, 100, 175, 100, 75]);
+  let frame = random([100, 100, 100, 100, 50, 150, 100, 175, 100, 75]);
 
   //density of hatching lines
   let spacingx = random([1, 2, 3, 4, 5, 10, 1, 2]);
@@ -632,7 +632,7 @@ async function draw() {
   size = spacingset;
   mixedcloudtype = random([1, 2, 2, 2, 2, 2, 2, 2, 2, 2]);
   if (darkmode == 2 || darkmode == 4) {
-    blueclouds = random([1, 1, 2, 2, 2, 2, 2, 2]);
+    blueclouds = random([1, 1, 2, 2, 2, 2, 2, 2, 2]);
   } else {
     blueclouds = 2;
   }
