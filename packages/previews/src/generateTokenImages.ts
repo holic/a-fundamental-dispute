@@ -29,6 +29,8 @@ export const generateImages = async () => {
       token.html
     );
   }
+
+  process.exit();
 };
 
 generateImages();

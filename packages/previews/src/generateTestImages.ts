@@ -45,9 +45,16 @@ export const generateImages = async () => {
   `;
 
   const tokens = new Array(436).fill(null).map((_, i) => i + 1);
-  for (const token of tokens) {
-    await createImage(`test/${token}.png`, html());
+  const batchSize = 8;
+  for (let i = 0; i < tokens.length; i += batchSize) {
+    await Promise.all(
+      tokens
+        .slice(i, i + batchSize)
+        .map((token) => createImage(`test/${token}.png`, html()))
+    );
   }
+
+  process.exit();
 };
 
 generateImages();

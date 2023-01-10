@@ -27,7 +27,7 @@ const getBrowserInstance = async () => {
   });
 };
 
-let browser: Browser | BrowserCore | null = null;
+let browser: Promise<Browser> | null = null;
 
 export const createImage = async (cacheKey: string, html: string) => {
   const width = 400;
@@ -35,46 +35,48 @@ export const createImage = async (cacheKey: string, html: string) => {
   const pixelDensity = 2;
 
   try {
-    if (!browser?.isConnected()) {
+    if (!browser) {
       console.log("Starting browser instance");
-      console.time("browser start");
-      browser = await getBrowserInstance();
-      console.timeEnd("browser start");
+      browser = getBrowserInstance();
     }
 
     console.log("Rendering", cacheKey);
-    console.time("render");
-    const page = await browser.newPage();
-    await page.setViewport({
-      width,
-      height,
-      deviceScaleFactor: pixelDensity,
-    });
+    console.time(`Rendered ${cacheKey}`);
+    const page = await (await browser).newPage();
+    try {
+      await page.setViewport({
+        width,
+        height,
+        deviceScaleFactor: pixelDensity,
+      });
 
-    await page.setContent(html);
-    await page.waitForNetworkIdle();
-    await page.waitForFunction("window.renderComplete === true");
+      await page.setContent(html);
+      await page.waitForNetworkIdle();
+      await page.waitForFunction("window.renderComplete === true");
 
-    const imageBuffer = await page.screenshot({ type: "png" });
-    console.timeEnd("render");
+      const imageBuffer = await page.screenshot({ type: "png" });
+      console.timeEnd(`Rendered ${cacheKey}`);
 
-    const putCommand = new PutObjectCommand({
-      Bucket: "afd-images",
-      Key: cacheKey,
-      Body: imageBuffer,
-      ACL: "public-read",
-      ContentType: "image/png",
-    });
-    await s3Client.send(putCommand);
-    console.log(
-      "Stored image",
-      cacheKey,
-      `(${imageBuffer.length / 1024 / 1024}mb)`
-    );
+      const putCommand = new PutObjectCommand({
+        Bucket: "afd-images",
+        Key: cacheKey,
+        Body: imageBuffer,
+        ACL: "public-read",
+        ContentType: "image/png",
+      });
+      await s3Client.send(putCommand);
+      console.log(
+        "Stored image",
+        cacheKey,
+        `(${imageBuffer.length / 1024 / 1024}mb)`
+      );
+    } finally {
+      await page.close();
+    }
   } catch (error: unknown) {
     console.error("error while generating image", error);
   } finally {
-    if (browser !== null) {
+    if (browser != null) {
       // await browser.close();
     }
   }
