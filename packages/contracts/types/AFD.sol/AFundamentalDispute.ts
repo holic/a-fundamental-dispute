@@ -456,8 +456,10 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BaseTokenURIUpdated(string,string)": EventFragment;
+    "BatchMetadataUpdate(uint256,uint256)": EventFragment;
     "ConsecutiveTransfer(uint256,uint256,address,address)": EventFragment;
     "Initialized()": EventFragment;
+    "MetadataUpdate(uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RendererUpdated(address,address)": EventFragment;
     "TokenDiscountUsed(address,uint256)": EventFragment;
@@ -467,8 +469,10 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BaseTokenURIUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BatchMetadataUpdate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ConsecutiveTransfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MetadataUpdate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RendererUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenDiscountUsed"): EventFragment;
@@ -511,6 +515,18 @@ export type BaseTokenURIUpdatedEvent = TypedEvent<
 export type BaseTokenURIUpdatedEventFilter =
   TypedEventFilter<BaseTokenURIUpdatedEvent>;
 
+export interface BatchMetadataUpdateEventObject {
+  _fromTokenId: BigNumber;
+  _toTokenId: BigNumber;
+}
+export type BatchMetadataUpdateEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  BatchMetadataUpdateEventObject
+>;
+
+export type BatchMetadataUpdateEventFilter =
+  TypedEventFilter<BatchMetadataUpdateEvent>;
+
 export interface ConsecutiveTransferEventObject {
   fromTokenId: BigNumber;
   toTokenId: BigNumber;
@@ -529,6 +545,16 @@ export interface InitializedEventObject {}
 export type InitializedEvent = TypedEvent<[], InitializedEventObject>;
 
 export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
+
+export interface MetadataUpdateEventObject {
+  _tokenId: BigNumber;
+}
+export type MetadataUpdateEvent = TypedEvent<
+  [BigNumber],
+  MetadataUpdateEventObject
+>;
+
+export type MetadataUpdateEventFilter = TypedEventFilter<MetadataUpdateEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -1202,6 +1228,15 @@ export interface AFundamentalDispute extends BaseContract {
       newBaseTokenURI?: null
     ): BaseTokenURIUpdatedEventFilter;
 
+    "BatchMetadataUpdate(uint256,uint256)"(
+      _fromTokenId?: null,
+      _toTokenId?: null
+    ): BatchMetadataUpdateEventFilter;
+    BatchMetadataUpdate(
+      _fromTokenId?: null,
+      _toTokenId?: null
+    ): BatchMetadataUpdateEventFilter;
+
     "ConsecutiveTransfer(uint256,uint256,address,address)"(
       fromTokenId?: PromiseOrValue<BigNumberish> | null,
       toTokenId?: null,
@@ -1217,6 +1252,9 @@ export interface AFundamentalDispute extends BaseContract {
 
     "Initialized()"(): InitializedEventFilter;
     Initialized(): InitializedEventFilter;
+
+    "MetadataUpdate(uint256)"(_tokenId?: null): MetadataUpdateEventFilter;
+    MetadataUpdate(_tokenId?: null): MetadataUpdateEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,

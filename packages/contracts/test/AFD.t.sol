@@ -70,12 +70,12 @@ contract AFDTest is Test {
         token.setRenderer(renderer);
         vm.stopPrank();
 
-        assertEq(token.balanceOf(artist), 10);
-        assertEq(token.balanceOf(developer), 10);
+        assertEq(token.balanceOf(artist), 21);
+        assertEq(token.balanceOf(developer), 21);
         assertEq(token.explicitOwnershipOf(1).extraData, 1445488);
         assertEq(token.explicitOwnershipOf(2).extraData, 1445488);
-        assertEq(token.explicitOwnershipOf(11).extraData, 13126949);
-        assertEq(token.explicitOwnershipOf(12).extraData, 13126949);
+        assertEq(token.explicitOwnershipOf(22).extraData, 13126949);
+        assertEq(token.explicitOwnershipOf(23).extraData, 13126949);
     }
 
     function testMint() public {
@@ -90,7 +90,7 @@ contract AFDTest is Test {
         token.mint{value: 0.1 ether}();
         assertEq(token.balanceOf(minter), 1);
         uint256 tokenId = token.totalMinted();
-        assertEq(tokenId, 21);
+        assertEq(tokenId, 43);
         assertEq(token.ownerOf(tokenId), minter);
 
         vm.expectRevert(
@@ -283,7 +283,7 @@ contract AFDTest is Test {
     }
 
     function testMaxSupply() public {
-        for (uint256 i = 1; i <= 198; i++) {
+        for (uint256 i = 1; i <= 394; i++) {
             address wallet = makeAddr(string.concat("wallet", vm.toString(i)));
             vm.deal(wallet, 1 ether);
             vm.prank(wallet);

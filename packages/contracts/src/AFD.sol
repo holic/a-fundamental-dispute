@@ -23,13 +23,13 @@ contract AFundamentalDispute is NFT {
     // ****************** //
 
     constructor(IERC721 _foldedFaces, address artist, address developer)
-        NFT("A Fundamental Dispute", "AFUNDAMENTALDISPUTE", 218)
+        NFT("A Fundamental Dispute", "AFUNDAMENTALDISPUTE", 436)
     {
         foldedFaces = _foldedFaces;
 
         // Mint ~9% of supply to creators in lieu of royalties
-        _mintERC2309(artist, 10);
-        _mintERC2309(developer, 10);
+        _mintERC2309(artist, 21);
+        _mintERC2309(developer, 21);
     }
 
     // ******************* //

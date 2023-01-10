@@ -182,6 +182,25 @@ const _abi = [
         anonymous: false,
         inputs: [
             {
+                indexed: false,
+                internalType: "uint256",
+                name: "_fromTokenId",
+                type: "uint256",
+            },
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "_toTokenId",
+                type: "uint256",
+            },
+        ],
+        name: "BatchMetadataUpdate",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
                 indexed: true,
                 internalType: "uint256",
                 name: "fromTokenId",
@@ -213,6 +232,19 @@ const _abi = [
         anonymous: false,
         inputs: [],
         name: "Initialized",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: false,
+                internalType: "uint256",
+                name: "_tokenId",
+                type: "uint256",
+            },
+        ],
+        name: "MetadataUpdate",
         type: "event",
     },
     {

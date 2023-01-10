@@ -4,7 +4,7 @@ import Head from "next/head";
 import { maxSupply } from "../constants";
 
 const TestPage: NextPage = () => {
-  const tokenIds = new Array(436).fill(0).map((_, i) => i + 1);
+  const tokenIds = new Array(maxSupply).fill(0).map((_, i) => i + 1);
 
   return (
     <>
