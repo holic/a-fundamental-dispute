@@ -82,7 +82,7 @@ contract AFDRenderer is IRenderer {
                         tokenId, token.explicitOwnershipOf(tokenId).extraData
                     )
                 )
-            )
+            ) / 2
         );
     }
 

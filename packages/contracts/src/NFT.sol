@@ -31,6 +31,10 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
         string previousBaseTokenURI, string newBaseTokenURI
     );
 
+    // https://eips.ethereum.org/EIPS/eip-4906
+    event MetadataUpdate(uint256 _tokenId);
+    event BatchMetadataUpdate(uint256 _fromTokenId, uint256 _toTokenId);
+
     // ****************** //
     // *** INITIALIZE *** //
     // ****************** //
@@ -145,6 +149,7 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
 
     function setRenderer(IRenderer _renderer) external onlyOwner {
         emit RendererUpdated(renderer, _renderer);
+        emit BatchMetadataUpdate(_startTokenId(), _totalMinted());
         renderer = _renderer;
     }
 
@@ -153,6 +158,7 @@ abstract contract NFT is ERC721A, ERC721AQueryable, OwnablePayable, ERC2981 {
         onlyOwner
     {
         emit BaseTokenURIUpdated(baseTokenURI, _baseTokenURI);
+        emit BatchMetadataUpdate(_startTokenId(), _totalMinted());
         baseTokenURI = _baseTokenURI;
     }
 
