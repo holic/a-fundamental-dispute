@@ -50,7 +50,7 @@ export const generateImages = async () => {
     await Promise.all(
       tokens
         .slice(i, i + batchSize)
-        .map((token) => createImage(`test/${token}.png`, html()))
+        .map((token) => createImage(`test/${token}`, html()))
     );
   }
 

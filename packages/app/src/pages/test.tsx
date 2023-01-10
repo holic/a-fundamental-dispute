@@ -18,7 +18,7 @@ const TestPage: NextPage = () => {
             className="block w-full aspect-[400/550] relative hover:scale-110 transition duration-500 text-stone-500 hover:text-stone-300"
           >
             <img
-              src={`https://nyc3.digitaloceanspaces.com/afd-images/test/${tokenId}.png`}
+              src={`https://nyc3.digitaloceanspaces.com/afd-images/test/${tokenId}.jpg`}
               loading="lazy"
             />
             <span className="absolute bottom-full right-0 text-sm leading-relaxed">

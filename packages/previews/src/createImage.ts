@@ -53,23 +53,46 @@ export const createImage = async (cacheKey: string, html: string) => {
       await page.setContent(html);
       await page.waitForNetworkIdle();
       await page.waitForFunction("window.renderComplete === true");
-
-      const imageBuffer = await page.screenshot({ type: "png" });
       console.timeEnd(`Rendered ${cacheKey}`);
 
-      const putCommand = new PutObjectCommand({
-        Bucket: "afd-images",
-        Key: cacheKey,
-        Body: imageBuffer,
-        ACL: "public-read",
-        ContentType: "image/png",
-      });
-      await s3Client.send(putCommand);
-      console.log(
-        "Stored image",
-        cacheKey,
-        `(${imageBuffer.length / 1024 / 1024}mb)`
-      );
+      const png = await page.screenshot({ type: "png" });
+      const jpg = await page.screenshot({ type: "jpeg" });
+
+      s3Client
+        .send(
+          new PutObjectCommand({
+            Bucket: "afd-images",
+            Key: `${cacheKey}.png`,
+            Body: png,
+            ACL: "public-read",
+            ContentType: "image/png",
+          })
+        )
+        .then(() => {
+          console.log(
+            "Stored image",
+            `${cacheKey}.png`,
+            `(${(png.length / 1024 / 1024).toPrecision(2)} mb)`
+          );
+        });
+
+      s3Client
+        .send(
+          new PutObjectCommand({
+            Bucket: "afd-images",
+            Key: `${cacheKey}.jpg`,
+            Body: jpg,
+            ACL: "public-read",
+            ContentType: "image/jpeg",
+          })
+        )
+        .then(() => {
+          console.log(
+            "Stored image",
+            `${cacheKey}.jpg`,
+            `(${(jpg.length / 1024 / 1024).toPrecision(2)} mb)`
+          );
+        });
     } finally {
       await page.close();
     }

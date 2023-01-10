@@ -25,7 +25,7 @@ export const generateImages = async () => {
   const tokens = json.data.tokens;
   for (const token of tokens) {
     await createImage(
-      `${goerliDeploys.AFDRenderer.contractAddress}/${token.tokenId}.png`,
+      `${goerliDeploys.AFDRenderer.contractAddress}/${token.tokenId}`,
       token.html
     );
   }

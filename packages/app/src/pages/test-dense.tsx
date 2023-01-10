@@ -15,7 +15,7 @@ const TestPage: NextPage = () => {
         {tokenIds.map((tokenId) => (
           <div key={tokenId} className="block w-full aspect-[400/550]">
             <img
-              src={`https://nyc3.digitaloceanspaces.com/afd-images/test/${tokenId}.png`}
+              src={`https://nyc3.digitaloceanspaces.com/afd-images/test/${tokenId}.jpg`}
               loading="lazy"
             />
           </div>
