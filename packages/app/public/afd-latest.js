@@ -227,8 +227,16 @@ async function draw() {
   let frame = random([100, 100, 100, 100, 50, 150, 100, 175, 100, 75]);
 
   //density of hatching lines
-  let spacingx = random([1, 2, 3, 4, 5, 10, 1, 2]);
+  let spacingx = random([1, 2, 3, 4, 5, 10, 2, 2]);
   let spacingy = random([2, 3, 4, 5, spacingx, spacingx,2, 3, 4, 5, spacingx, spacingx, 20]);
+
+  hatchcoverage = random([1,1,1,1,2])
+
+  if (hatchcoverage == 1) {
+    hatchamt = 0.6
+  } else {
+    hatchamt = 0.45
+  }
 
   //hatch style
   weightofhatchmarks = 1; //random([1,2])
@@ -398,7 +406,7 @@ async function draw() {
         }
 
         //this creates patches of no hatching lines so it feels 'foggy' and 'sketch-like'
-        if (n > 0.6) {
+        if (n > hatchamt) {
         } else {
           line(x, y, x + anglex + extralinex, y - angley - extraline);
         }
