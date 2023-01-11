@@ -10,7 +10,7 @@ import {BitMaps} from "@openzeppelin/contracts/utils/structs/BitMaps.sol";
 contract AFundamentalDispute is NFT {
     using BitMaps for BitMaps.BitMap;
 
-    uint256 public constant publicPrice = 0.1 ether;
+    uint256 public constant publicPrice = 0.12 ether;
     uint256 public constant holderPrice = 0.08 ether;
 
     IERC721 public immutable foldedFaces;

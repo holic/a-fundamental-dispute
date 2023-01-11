@@ -83,21 +83,21 @@ contract AFDTest is Test {
         assertEq(token.balanceOf(minter), 0);
 
         vm.expectRevert(
-            abi.encodeWithSelector(NFT.WrongPayment.selector, 0.1 ether)
+            abi.encodeWithSelector(NFT.WrongPayment.selector, 0.12 ether)
         );
         token.mint{value: 1 ether}();
 
-        token.mint{value: 0.1 ether}();
+        token.mint{value: 0.12 ether}();
         assertEq(token.balanceOf(minter), 1);
         uint256 tokenId = token.totalMinted();
         assertEq(tokenId, 43);
         assertEq(token.ownerOf(tokenId), minter);
-        token.mint{value: 0.1 ether}();
+        token.mint{value: 0.12 ether}();
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        token.mint{value: 0.1 ether}();
+        token.mint{value: 0.12 ether}();
         vm.stopPrank();
     }
 
@@ -254,19 +254,19 @@ contract AFDTest is Test {
 
     function testWithdraw() public {
         vm.prank(minter);
-        token.mint{value: 0.1 ether}();
+        token.mint{value: 0.12 ether}();
 
         vm.prank(holder);
-        token.mint{value: 0.1 ether}();
+        token.mint{value: 0.12 ether}();
 
-        assertEq(address(token).balance, 0.2 ether);
+        assertEq(address(token).balance, 0.24 ether);
         assertEq(artist.balance, 0 ether);
 
         vm.expectRevert(bytes("Ownable: caller is not the owner"));
         token.withdrawAll(artist);
         vm.prank(owner);
         token.withdrawAll(artist);
-        assertEq(artist.balance, 0.2 ether);
+        assertEq(artist.balance, 0.24 ether);
 
         assertEq(foldedFaces.balanceOf(address(token)), 0);
         vm.prank(minter);
@@ -302,13 +302,13 @@ contract AFDTest is Test {
             address wallet = makeAddr(string.concat("wallet", vm.toString(i)));
             vm.deal(wallet, 1 ether);
             vm.prank(wallet);
-            token.mint{value: 0.1 ether}();
+            token.mint{value: 0.12 ether}();
         }
 
         vm.prank(minter);
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MaxSupplyExceeded.selector, 0)
         );
-        token.mint{value: 0.1 ether}();
+        token.mint{value: 0.12 ether}();
     }
 }
