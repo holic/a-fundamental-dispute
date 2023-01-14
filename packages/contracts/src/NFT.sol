@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import {IERC721A} from "erc721a/contracts/IERC721A.sol";
-import {ERC721A} from "erc721a/contracts/ERC721A.sol";
+import {ERC721A, IERC721A} from "erc721a/contracts/ERC721A.sol";
 import {ERC721AQueryable} from
     "erc721a/contracts/extensions/ERC721AQueryable.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {
-    IERC2981, IERC165
-} from "@openzeppelin/contracts/interfaces/IERC2981.sol";
-import {ERC2981} from "@openzeppelin/contracts/token/common/ERC2981.sol";
+    ERC2981,
+    IERC2981,
+    IERC165
+} from "@openzeppelin/contracts/token/common/ERC2981.sol";
 import {IRenderer} from "./IRenderer.sol";
 import {OwnablePayable} from "./OwnablePayable.sol";
 

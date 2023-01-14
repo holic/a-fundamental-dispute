@@ -82,6 +82,21 @@ contract AFundamentalDispute is NFT {
     // *** AFTER MINT *** //
     // ******************* //
 
+    function generateSeed(bytes memory entropy) public view returns (uint24) {
+        return uint24(
+            uint256(
+                keccak256(
+                    abi.encode(
+                        block.difficulty,
+                        blockhash(block.number - 1),
+                        msg.sender,
+                        entropy
+                    )
+                )
+            )
+        );
+    }
+
     function _extraData(address from, address to, uint24 previousExtraData)
         internal
         view
@@ -91,14 +106,23 @@ contract AFundamentalDispute is NFT {
         if (previousExtraData != 0) {
             return previousExtraData;
         }
-        return uint24(
-            uint256(
-                keccak256(
-                    abi.encode(
-                        block.difficulty, blockhash(block.number - 1), from, to
-                    )
-                )
-            )
+        return generateSeed(abi.encode(from, to));
+    }
+
+    uint256 public lastDispute = block.number;
+    uint256 public disputes = 218;
+
+    function dispute(uint256 tokenId) external {
+        require(disputes > 0, "Can't dispute");
+        require(
+            block.number - lastDispute >= 2180, "Last dispute was too recent"
         );
+        require(_exists(tokenId), "Token does not exist");
+        require(msg.sender == ownerOf(tokenId), "Not your token");
+
+        disputes -= 1;
+        lastDispute = block.number;
+        _setExtraDataAt(tokenId, generateSeed(abi.encode(tokenId, disputes)));
+        emit MetadataUpdate(tokenId);
     }
 }
