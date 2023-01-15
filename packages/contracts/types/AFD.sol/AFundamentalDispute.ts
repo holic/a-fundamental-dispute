@@ -55,6 +55,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "baseTokenURI()": FunctionFragment;
     "dispute(uint256)": FunctionFragment;
+    "disputes()": FunctionFragment;
     "explicitOwnershipOf(uint256)": FunctionFragment;
     "explicitOwnershipsOf(uint256[])": FunctionFragment;
     "foldedFaces()": FunctionFragment;
@@ -64,6 +65,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "hasUsedFoldedFaces(uint256)": FunctionFragment;
     "holderPrice()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "lastDispute()": FunctionFragment;
     "maxSupply()": FunctionFragment;
     "mint()": FunctionFragment;
     "name()": FunctionFragment;
@@ -104,6 +106,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
       | "balanceOf"
       | "baseTokenURI"
       | "dispute"
+      | "disputes"
       | "explicitOwnershipOf"
       | "explicitOwnershipsOf"
       | "foldedFaces"
@@ -113,6 +116,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
       | "hasUsedFoldedFaces"
       | "holderPrice"
       | "isApprovedForAll"
+      | "lastDispute"
       | "maxSupply"
       | "mint"
       | "name"
@@ -163,6 +167,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     functionFragment: "dispute",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "disputes", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "explicitOwnershipOf",
     values: [PromiseOrValue<BigNumberish>]
@@ -198,6 +203,10 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "lastDispute",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "maxSupply", values?: undefined): string;
   encodeFunctionData(functionFragment: "mint", values?: undefined): string;
@@ -338,6 +347,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "dispute", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "disputes", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "explicitOwnershipOf",
     data: BytesLike
@@ -372,6 +382,10 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "lastDispute",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "maxSupply", data: BytesLike): Result;
@@ -672,6 +686,8 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    disputes(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     explicitOwnershipOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -715,6 +731,8 @@ export interface AFundamentalDispute extends BaseContract {
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    lastDispute(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     maxSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -881,6 +899,8 @@ export interface AFundamentalDispute extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  disputes(overrides?: CallOverrides): Promise<BigNumber>;
+
   explicitOwnershipOf(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -920,6 +940,8 @@ export interface AFundamentalDispute extends BaseContract {
     operator: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  lastDispute(overrides?: CallOverrides): Promise<BigNumber>;
 
   maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1086,6 +1108,8 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    disputes(overrides?: CallOverrides): Promise<BigNumber>;
+
     explicitOwnershipOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1125,6 +1149,8 @@ export interface AFundamentalDispute extends BaseContract {
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    lastDispute(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1387,6 +1413,8 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    disputes(overrides?: CallOverrides): Promise<BigNumber>;
+
     explicitOwnershipOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1426,6 +1454,8 @@ export interface AFundamentalDispute extends BaseContract {
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    lastDispute(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1593,6 +1623,8 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    disputes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     explicitOwnershipOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1632,6 +1664,8 @@ export interface AFundamentalDispute extends BaseContract {
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    lastDispute(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     maxSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

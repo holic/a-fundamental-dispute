@@ -314,17 +314,17 @@ contract AFDTest is Test {
 
     function testDispute() public {
         vm.prank(minter);
-        vm.expectRevert("Nothing to dispute yet");
+        vm.expectRevert("Now is not the time");
         token.dispute(1);
 
         vm.roll(block.number + 2810);
 
         vm.prank(minter);
-        vm.expectRevert("This is not yours to dispute");
+        vm.expectRevert("We are in agreement");
         token.dispute(1);
 
         vm.prank(minter);
-        vm.expectRevert("We agree, no dispute exists");
+        vm.expectRevert("There is nothing to dispute");
         token.dispute(100);
 
         vm.prank(minter);
@@ -343,13 +343,13 @@ contract AFDTest is Test {
         }
 
         vm.prank(minter);
-        vm.expectRevert("You dispute too much, try listening");
+        vm.expectRevert("It's time to listen");
         token.dispute(43);
     }
 
     function testDisputeBulkMints() public {
         vm.prank(artist);
-        vm.expectRevert("Nothing to dispute yet");
+        vm.expectRevert("Now is not the time");
         token.dispute(2);
 
         vm.roll(block.number + 2810);
@@ -373,7 +373,7 @@ contract AFDTest is Test {
         assertEq(token.tokenSeed(23), 4150326);
 
         vm.prank(artist);
-        vm.expectRevert("Nothing to dispute yet");
+        vm.expectRevert("Now is not the time");
         token.dispute(3);
 
         vm.roll(block.number + 2810);
