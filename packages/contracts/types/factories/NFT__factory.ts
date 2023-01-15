@@ -395,7 +395,7 @@ const _abi = [
           },
         ],
         internalType: "struct IERC721A.TokenOwnership",
-        name: "",
+        name: "ownership",
         type: "tuple",
       },
     ],
