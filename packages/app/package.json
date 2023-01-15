@@ -18,7 +18,7 @@
     "@ethersproject/contracts": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@headlessui/react": "^1.7.7",
-    "@rainbow-me/rainbowkit": "0.8.0",
+    "@rainbow-me/rainbowkit": "0.8.1",
     "@web3-scaffold/contracts": "workspace:*",
     "classnames": "^2.3.1",
     "ethers": "5.7.2",
@@ -28,7 +28,7 @@
     "react-dom": "18.2.0",
     "react-toastify": "^9.1.1",
     "urql": "^2.2.3",
-    "wagmi": "0.8.10",
+    "wagmi": "^0.9",
     "zustand": "^3.7.2"
   },
   "devDependencies": {

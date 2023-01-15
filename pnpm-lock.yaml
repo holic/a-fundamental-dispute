@@ -36,7 +36,7 @@ importers:
       '@graphql-codegen/typescript-operations': ^2.5.3
       '@graphql-codegen/typescript-urql': ^3.7.0
       '@headlessui/react': ^1.7.7
-      '@rainbow-me/rainbowkit': 0.8.0
+      '@rainbow-me/rainbowkit': 0.8.1
       '@types/node': 17.0.0
       '@types/react': ^18.0.26
       '@web3-scaffold/contracts': workspace:*
@@ -54,14 +54,14 @@ importers:
       tailwindcss: ^3.2.4
       typescript: ^4.5.5
       urql: ^2.2.3
-      wagmi: 0.8.10
+      wagmi: ^0.9
       zustand: ^3.7.2
     dependencies:
       '@ethersproject/address': 5.7.0
       '@ethersproject/contracts': 5.7.0
       '@ethersproject/providers': 5.7.2
       '@headlessui/react': 1.7.7_biqbaboplfbrettd7655fr4n2y
-      '@rainbow-me/rainbowkit': 0.8.0_7dzb4y6j3pihpssrwkfz5wy5va
+      '@rainbow-me/rainbowkit': 0.8.1_imhbbmdvnpugztnf3ig3ttouje
       '@web3-scaffold/contracts': link:../contracts
       classnames: 2.3.1
       ethers: 5.7.2
@@ -71,7 +71,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
       urql: 2.2.3_onqnqwb3ubg5opvemcqf7c2qhy
-      wagmi: 0.8.10_hxki675ksiapmlckjpbfpg7d5q
+      wagmi: 0.9.6_hxki675ksiapmlckjpbfpg7d5q
       zustand: 3.7.2_react@18.2.0
     devDependencies:
       '@graphql-codegen/cli': 2.12.0_c5ryxwbwdqy4v44dtooqrawtmi
@@ -3116,6 +3116,10 @@ packages:
       '@pedrouid/environment': 1.0.1
     dev: false
 
+  /@ledgerhq/connect-kit-loader/1.0.2:
+    resolution: {integrity: sha512-TQ21IjcZOw/scqypaVFY3jHVqI7X7Hta3qN/us6FvTol3AY06UmrhhXGww0E9xHmAbdX241ddwXEiMBSQZFr9g==}
+    dev: false
+
   /@metamask/safe-event-emitter/2.0.0:
     resolution: {integrity: sha512-/kSXhY692qiV1MXu6EeOZvg5nECLclxNXcKCxJ3cXQgYuRymRHpdx/t7JXfsK+JLjwA1e1c1/SBrlQYpusC29Q==}
     dev: false
@@ -3359,14 +3363,14 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rainbow-me/rainbowkit/0.8.0_7dzb4y6j3pihpssrwkfz5wy5va:
-    resolution: {integrity: sha512-4nqH5OGcNzYMe/fYSBU7qM8H102UzZ6PwURMA5z6puDct0BGpeBk0dofqaGATSDam+4RdEmKaqOz5r/1Lc3/0g==}
+  /@rainbow-me/rainbowkit/0.8.1_imhbbmdvnpugztnf3ig3ttouje:
+    resolution: {integrity: sha512-A8BjihvgCY/xjQWOpqgOce+uO4mmIV4Qlo3XMF87kk5WNmyLLaPx2oYTJQz1uOinWE77h4G0HozJr5wnrermgw==}
     engines: {node: '>=12.4'}
     peerDependencies:
       ethers: '>=5.5.1'
       react: '>=17'
       react-dom: '>=17'
-      wagmi: 0.8.x
+      wagmi: 0.9.x
     dependencies:
       '@vanilla-extract/css': 1.9.1
       '@vanilla-extract/dynamic': 2.0.2
@@ -3377,7 +3381,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-remove-scroll: 2.5.4_kzbn2opkn2327fwg5yzwzya5o4
-      wagmi: 0.8.10_hxki675ksiapmlckjpbfpg7d5q
+      wagmi: 0.9.6_hxki675ksiapmlckjpbfpg7d5q
     transitivePeerDependencies:
       - '@types/react'
     dev: false
@@ -3817,10 +3821,41 @@ packages:
       '@vanilla-extract/css': 1.9.1
     dev: false
 
-  /@wagmi/core/0.7.9_traajsqg4qgkl7u6spesgflsfu:
-    resolution: {integrity: sha512-97KCELUP5Q1AagRyE7SmpLh4/v3xdcy/XMbybLvvtQbgmi3y5oEzy4h/wJMY1hEZlmicqyWZAHHm6xIr1tP5HA==}
+  /@wagmi/chains/0.1.7:
+    resolution: {integrity: sha512-t9qm4FyzwzJhAcLtnh9HUeOmueSEOXwXlR0RCcS/vhtLSUnzaUfEkjAeu4+7AIujYWjrtdS/Zvlc+PwTjuwTUQ==}
+    dev: false
+
+  /@wagmi/connectors/0.1.2_spihceyhmivdfxrgpuqn2o4jxy:
+    resolution: {integrity: sha512-YfhZMQMqBl69xbhs5rokGjAVfKN9Ynlsw4SgU/BGuxKpHY9VRWUGAEhgpHRTVcs72qBick3HNQv4wuFqx0Z1CQ==}
     peerDependencies:
-      '@coinbase/wallet-sdk': '>=3.3.0'
+      '@wagmi/core': 0.8.x
+      ethers: ^5.0.0
+    peerDependenciesMeta:
+      '@wagmi/core':
+        optional: true
+    dependencies:
+      '@coinbase/wallet-sdk': 3.6.2
+      '@ledgerhq/connect-kit-loader': 1.0.2
+      '@wagmi/core': 0.8.6_traajsqg4qgkl7u6spesgflsfu
+      '@walletconnect/ethereum-provider': 1.8.0
+      abitype: 0.1.8_typescript@4.7.3
+      ethers: 5.7.2
+      eventemitter3: 4.0.7
+    transitivePeerDependencies:
+      - '@babel/core'
+      - bufferutil
+      - debug
+      - encoding
+      - react-native
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /@wagmi/core/0.8.6_traajsqg4qgkl7u6spesgflsfu:
+    resolution: {integrity: sha512-z1Sg/gNJGv8qlorYWkjK6f+nXhLfQ/VRxMoqXt0rsTEjZVJlIC5JldQ7v0RIlDA++QQgYn8UG2IJ2kr7oVbbhQ==}
+    peerDependencies:
+      '@coinbase/wallet-sdk': '>=3.6.0'
       '@walletconnect/ethereum-provider': '>=1.7.5'
       ethers: '>=5.5.1'
     peerDependenciesMeta:
@@ -3830,15 +3865,25 @@ packages:
         optional: true
     dependencies:
       '@coinbase/wallet-sdk': 3.6.2
+      '@wagmi/chains': 0.1.7
+      '@wagmi/connectors': 0.1.2_spihceyhmivdfxrgpuqn2o4jxy
       '@walletconnect/ethereum-provider': 1.8.0
-      abitype: 0.1.8_typescript@4.7.3
+      abitype: 0.2.5_typescript@4.7.3
       ethers: 5.7.2
       eventemitter3: 4.0.7
       zustand: 4.1.4_react@18.2.0
     transitivePeerDependencies:
+      - '@babel/core'
+      - bufferutil
+      - debug
+      - encoding
       - immer
       - react
+      - react-native
+      - supports-color
       - typescript
+      - utf-8-validate
+      - zod
     dev: false
 
   /@walletconnect/browser-utils/1.8.0:
@@ -4104,6 +4149,19 @@ packages:
       typescript: '>=4.7.4'
     dependencies:
       typescript: 4.9.4
+    dev: false
+
+  /abitype/0.2.5_typescript@4.7.3:
+    resolution: {integrity: sha512-t1iiokWYpkrziu4WL2Gb6YdGvaP9ZKs7WnA39TI8TsW2E99GVRgDPW/xOKhzoCdyxOYt550CNYEFluCwGaFHaA==}
+    engines: {pnpm: '>=7'}
+    peerDependencies:
+      typescript: '>=4.7.4'
+      zod: '>=3.19.1'
+    peerDependenciesMeta:
+      zod:
+        optional: true
+    dependencies:
+      typescript: 4.7.3
     dev: false
 
   /abort-controller/3.0.0:
@@ -9437,7 +9495,7 @@ packages:
       '@babel/runtime': 7.19.0
       eventemitter3: 4.0.7
       uuid: 8.3.2
-      ws: 8.8.1_22kvxa7zeyivx4jp72v2w3pkvy
+      ws: 8.11.0_22kvxa7zeyivx4jp72v2w3pkvy
     optionalDependencies:
       bufferutil: 4.0.6
       utf-8-validate: 5.0.9
@@ -10505,8 +10563,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /wagmi/0.8.10_hxki675ksiapmlckjpbfpg7d5q:
-    resolution: {integrity: sha512-svS/Debs6maJX3TlPDXNo+UDfZn8VCHzN2xcMMjPjcu2Z9k2iwFwC0TMLxM1itluzrTcw9n8F8E+f6gb+Aw+EQ==}
+  /wagmi/0.9.6_hxki675ksiapmlckjpbfpg7d5q:
+    resolution: {integrity: sha512-Y+ikhwyU7+iWHn/GbEkC42c0GBW+ZUzaxTQKyESun2yqrhnxQNhIZSSNnhqw1mws3bjDeUrUeEj3kk0ML6VbgQ==}
     peerDependencies:
       ethers: '>=5.5.1'
       react: '>=17.0.0'
@@ -10515,9 +10573,9 @@ packages:
       '@tanstack/query-sync-storage-persister': 4.19.1
       '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-query-persist-client': 4.19.1_tbzjkhe5jt5eajidrzbcozbyna
-      '@wagmi/core': 0.7.9_traajsqg4qgkl7u6spesgflsfu
+      '@wagmi/core': 0.8.6_traajsqg4qgkl7u6spesgflsfu
       '@walletconnect/ethereum-provider': 1.8.0
-      abitype: 0.1.8_typescript@4.7.3
+      abitype: 0.2.5_typescript@4.7.3
       ethers: 5.7.2
       react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -10533,6 +10591,7 @@ packages:
       - supports-color
       - typescript
       - utf-8-validate
+      - zod
     dev: false
 
   /wcwidth/1.0.1:
@@ -10749,21 +10808,8 @@ packages:
       utf-8-validate:
         optional: true
 
-  /ws/8.8.1:
-    resolution: {integrity: sha512-bGy2JzvzkPowEJV++hF07hAD6niYSr0JzBNo/J29WsB57A2r7Wlc1UFcTR9IzrPvuNVO4B8LGqF8qcpsVOhJCA==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: true
-
-  /ws/8.8.1_22kvxa7zeyivx4jp72v2w3pkvy:
-    resolution: {integrity: sha512-bGy2JzvzkPowEJV++hF07hAD6niYSr0JzBNo/J29WsB57A2r7Wlc1UFcTR9IzrPvuNVO4B8LGqF8qcpsVOhJCA==}
+  /ws/8.11.0_22kvxa7zeyivx4jp72v2w3pkvy:
+    resolution: {integrity: sha512-HPG3wQd9sNQoT9xHyNCXoDUa+Xw/VevmY9FoHyQ+g+rrMn4j6FB4np7Z0OhdTgjx6MgQLK7jwSy1YecU1+4Asg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -10777,6 +10823,19 @@ packages:
       bufferutil: 4.0.6
       utf-8-validate: 5.0.9
     dev: false
+
+  /ws/8.8.1:
+    resolution: {integrity: sha512-bGy2JzvzkPowEJV++hF07hAD6niYSr0JzBNo/J29WsB57A2r7Wlc1UFcTR9IzrPvuNVO4B8LGqF8qcpsVOhJCA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: true
 
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
