@@ -4,7 +4,6 @@ pragma solidity ^0.8.13;
 import "forge-std/Script.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
-import {NFT} from "../src/NFT.sol";
 import {AFundamentalDispute} from "../src/AFD.sol";
 import {AFDRenderer} from "../src/AFDRenderer.sol";
 
@@ -24,7 +23,7 @@ contract Deploy is Script {
             developer
         );
         AFDRenderer renderer = new AFDRenderer(
-            NFT(token),
+            token,
             IFileStore(fileStore())
         );
         token.setRenderer(renderer);

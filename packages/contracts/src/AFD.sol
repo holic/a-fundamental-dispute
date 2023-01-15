@@ -27,9 +27,13 @@ contract AFundamentalDispute is NFT {
     {
         foldedFaces = _foldedFaces;
 
-        // Mint ~9% of supply to creators in lieu of royalties
+        // Mint ~10% of supply to creators in lieu of royalties
         _mintERC2309(artist, 21);
         _mintERC2309(developer, 21);
+
+        for (uint256 i = 1; i < totalMinted(); i++) {
+            _initializeOwnershipAt(i);
+        }
     }
 
     // ******************* //
@@ -43,7 +47,7 @@ contract AFundamentalDispute is NFT {
         withinMaxSupply
         withinMintLimit(2)
     {
-        _safeMint(msg.sender, 1);
+        _mint(msg.sender, 1);
     }
 
     // ******************* //
@@ -71,16 +75,26 @@ contract AFundamentalDispute is NFT {
 
             foldedFacesUsed.set(tokenId);
             emit TokenDiscountUsed(address(foldedFaces), tokenId);
-            _safeMint(msg.sender, 1);
+            _mint(msg.sender, 1);
             return;
         }
 
         revert NoValidTokenDiscount(address(foldedFaces), tokenIds);
     }
 
-    // ******************* //
-    // *** AFTER MINT *** //
-    // ******************* //
+    // **************** //
+    // *** INTERNAL *** //
+    // **************** //
+
+    function tokenSeed(uint256 tokenId) public view returns (uint24) {
+        return uint24(
+            uint256(
+                keccak256(
+                    abi.encode(tokenId, explicitOwnershipOf(tokenId).extraData)
+                )
+            )
+        );
+    }
 
     function generateSeed(bytes memory entropy) public view returns (uint24) {
         return uint24(

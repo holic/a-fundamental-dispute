@@ -6,7 +6,7 @@
     "pnpm": "7"
   },
   "scripts": {
-    "test": "forge test",
+    "test": "forge test --gas-report",
     "test:fork": "source .env && forge test --fork-url $RPC_URL --match-contract Forked",
     "build": "pnpm abi:clean && pnpm abi:compile && pnpm abi:types",
     "abi:clean": "rm -rf abi types",

@@ -3,7 +3,6 @@ pragma solidity ^0.8.13;
 
 import "forge-std/Script.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
-import {NFT} from "../src/NFT.sol";
 import {AFundamentalDispute} from "../src/AFD.sol";
 import {AFDRenderer} from "../src/AFDRenderer.sol";
 
@@ -16,7 +15,7 @@ contract UpgradeRenderer is Script {
         AFundamentalDispute token =
             AFundamentalDispute(0x11F6deB7A15ea1D9748BE504145C8a714242BD54);
         AFDRenderer renderer = new AFDRenderer(
-            NFT(token),
+            token,
             IFileStore(fileStore())
         );
         token.setRenderer(renderer);

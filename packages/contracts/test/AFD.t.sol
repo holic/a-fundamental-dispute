@@ -72,10 +72,10 @@ contract AFDTest is Test {
 
         assertEq(token.balanceOf(artist), 21);
         assertEq(token.balanceOf(developer), 21);
-        assertEq(token.explicitOwnershipOf(1).extraData, 14869485);
-        assertEq(token.explicitOwnershipOf(2).extraData, 14869485);
-        assertEq(token.explicitOwnershipOf(22).extraData, 9191178);
-        assertEq(token.explicitOwnershipOf(23).extraData, 9191178);
+        assertEq(token.tokenSeed(1), 7510132);
+        assertEq(token.tokenSeed(2), 3534495);
+        assertEq(token.tokenSeed(22), 16225373);
+        assertEq(token.tokenSeed(23), 4150326);
     }
 
     function testMint() public {
@@ -226,7 +226,7 @@ contract AFDTest is Test {
 
         assertEq(
             token.tokenURI(1),
-            "data:application/json,%7B%22name%22%3A%22A%20Fundamental%20Dispute%201%2F218%22%2C%22description%22%3A%22%E2%80%94%20a%20long-form%20generative%20art%20collection%20using%20p5.js%2C%20made%20fully%20on-chain%20with%20EthFS.%5Cn%5Cn%20%20Art%20by%20%40genlight%2C%20website%20and%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F1%22%2C%22image%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fapi%2Fart-placeholder%2F1%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%250A%2520%2520%253Cmeta%2520charset%253D%2522UTF-8%2522%253E%250A%2520%2520%253Cmeta%2520name%253D%2522viewport%2522%2520content%253D%2522width%253Ddevice-width%252C%2520initial-scale%253D1.0%2522%253E%250A%2520%2520%253Ctitle%253E1%252F218%2520%25E2%2580%2594%2520A%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520*%2520%257B%250A%2520%2520%2520%2520%2520%2520box-sizing%253A%2520border-box%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520html%252C%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520display%253A%2520block%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%2520auto%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body.fullscreen%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%25201200px%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%25201650px%2520!important%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body%253Anot(.fullscreen)%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520padding%253A%25208vmin%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%25202637777978%253B%250A%250A%2520%2520%2520%2520document.addEventListener(%2522click%2522%252C%2520(event)%2520%253D%253E%2520%257B%250A%2520%2520%2520%2520%2520%2520const%2520x%2520%253D%2520event.clientX%2520%252F%2520document.body.clientWidth%253B%250A%2520%2520%2520%2520%2520%2520const%2520y%2520%253D%2520event.clientY%2520%252F%2520document.body.clientHeight%253B%250A%2520%2520%2520%2520%2520%2520document.body.classList.toggle(%2522fullscreen%2522)%253B%250A%2520%2520%2520%2520%2520%2520document.body.scrollTo(%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520left%253A%2520document.body.scrollWidth%2520*%2520x%2520-%2520document.body.clientWidth%2520%252F%25202%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520top%253A%2520document.body.scrollHeight%2520*%2520y%2520-%2520document.body.clientHeight%2520%252F%25202%250A%2520%2520%2520%2520%2520%2520%257D)%253B%250A%2520%2520%2520%2520%257D)%253B%250A%2520%2520%253C%252Fscript%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is p5.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is afd.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is gunzipScripts.js */%2522%253E%253C%252Fscript%253E%250A%22%7D"
+            "data:application/json,%7B%22name%22%3A%22A%20Fundamental%20Dispute%201%2F218%22%2C%22description%22%3A%22%E2%80%94%20a%20long-form%20generative%20art%20collection%20using%20p5.js%2C%20made%20fully%20on-chain%20with%20EthFS.%5Cn%5Cn%20%20Art%20by%20%40genlight%2C%20website%20and%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F1%22%2C%22image%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fapi%2Fart-placeholder%2F1%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%250A%2520%2520%253Cmeta%2520charset%253D%2522UTF-8%2522%253E%250A%2520%2520%253Cmeta%2520name%253D%2522viewport%2522%2520content%253D%2522width%253Ddevice-width%252C%2520initial-scale%253D1.0%2522%253E%250A%2520%2520%253Ctitle%253E1%252F218%2520%25E2%2580%2594%2520A%2520Fundamental%2520Dispute%253C%252Ftitle%253E%250A%250A%2520%2520%253Cstyle%253E%250A%2520%2520%2520%2520*%2520%257B%250A%2520%2520%2520%2520%2520%2520box-sizing%253A%2520border-box%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520html%252C%250A%2520%2520%2520%2520body%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100vw%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100vh%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%25200%253B%250A%2520%2520%2520%2520%2520%2520background%253A%2520%2523111%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520display%253A%2520block%253B%250A%2520%2520%2520%2520%2520%2520margin%253A%2520auto%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body.fullscreen%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520width%253A%25201200px%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%25201650px%2520!important%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520body%253Anot(.fullscreen)%2520canvas%2520%257B%250A%2520%2520%2520%2520%2520%2520padding%253A%25208vmin%253B%250A%2520%2520%2520%2520%2520%2520width%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520height%253A%2520100%2525%2520!important%253B%250A%2520%2520%2520%2520%2520%2520object-fit%253A%2520contain%253B%250A%2520%2520%2520%2520%257D%250A%2520%2520%253C%252Fstyle%253E%250A%250A%2520%2520%253Cscript%253E%250A%2520%2520%2520%2520const%2520seed%2520%253D%25207510132%253B%250A%250A%2520%2520%2520%2520document.addEventListener(%2522click%2522%252C%2520(event)%2520%253D%253E%2520%257B%250A%2520%2520%2520%2520%2520%2520const%2520x%2520%253D%2520event.clientX%2520%252F%2520document.body.clientWidth%253B%250A%2520%2520%2520%2520%2520%2520const%2520y%2520%253D%2520event.clientY%2520%252F%2520document.body.clientHeight%253B%250A%2520%2520%2520%2520%2520%2520document.body.classList.toggle(%2522fullscreen%2522)%253B%250A%2520%2520%2520%2520%2520%2520document.body.scrollTo(%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520left%253A%2520document.body.scrollWidth%2520*%2520x%2520-%2520document.body.clientWidth%2520%252F%25202%252C%250A%2520%2520%2520%2520%2520%2520%2520%2520top%253A%2520document.body.scrollHeight%2520*%2520y%2520-%2520document.body.clientHeight%2520%252F%25202%250A%2520%2520%2520%2520%2520%2520%257D)%253B%250A%2520%2520%2520%2520%257D)%253B%250A%2520%2520%253C%252Fscript%253E%250A%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is p5.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is afd.js */%2522%253E%253C%252Fscript%253E%250A%2520%2520%253Cscript%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C/* pretend this is gunzipScripts.js */%2522%253E%253C%252Fscript%253E%250A%22%7D"
         );
 
         MockRenderer renderer = new MockRenderer();
@@ -243,13 +243,13 @@ contract AFDTest is Test {
 
     function testStableSeed() public {
         assertEq(token.ownerOf(1), artist);
-        assertEq(token.explicitOwnershipOf(1).extraData, 14869485);
+        assertEq(token.tokenSeed(1), 7510132);
 
         vm.prank(artist);
         token.safeTransferFrom(artist, address(minter), 1);
 
         assertEq(token.ownerOf(1), minter);
-        assertEq(token.explicitOwnershipOf(1).extraData, 14869485);
+        assertEq(token.tokenSeed(1), 7510132);
     }
 
     function testWithdraw() public {
@@ -310,5 +310,58 @@ contract AFDTest is Test {
             abi.encodeWithSelector(NFT.MaxSupplyExceeded.selector, 0)
         );
         token.mint{value: 0.12 ether}();
+    }
+
+    function testDispute() public {
+        vm.prank(minter);
+        vm.expectRevert("Last dispute was too recent");
+        token.dispute(1);
+
+        vm.roll(block.number + 2810);
+
+        vm.prank(minter);
+        vm.expectRevert("Not your token");
+        token.dispute(1);
+
+        vm.prank(minter);
+        vm.expectRevert("Token does not exist");
+        token.dispute(100);
+
+        vm.prank(minter);
+        token.mint{value: 0.12 ether}();
+        assertEq(token.ownerOf(43), minter);
+        assertEq(token.tokenSeed(43), 6342930);
+
+        vm.prank(minter);
+        token.dispute(43);
+        assertEq(token.tokenSeed(43), 7838456);
+
+        for (uint256 i = 1; i <= 217; i++) {
+            vm.roll(block.number + 2810);
+            vm.prank(minter);
+            token.dispute(43);
+        }
+
+        vm.prank(minter);
+        vm.expectRevert("Can't dispute");
+        token.dispute(43);
+    }
+
+    function testDisputeBulkMints() public {
+        vm.prank(artist);
+        vm.expectRevert("Last dispute was too recent");
+        token.dispute(2);
+
+        vm.roll(block.number + 2810);
+
+        assertEq(token.tokenSeed(1), 7510132);
+        assertEq(token.tokenSeed(2), 3534495);
+        assertEq(token.tokenSeed(3), 9475496);
+
+        vm.prank(artist);
+        token.dispute(2);
+        assertEq(token.tokenSeed(1), 7510132);
+        assertEq(token.tokenSeed(2), 14568129);
+        assertEq(token.tokenSeed(3), 9475496);
     }
 }

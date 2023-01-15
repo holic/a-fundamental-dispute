@@ -3,18 +3,18 @@ pragma solidity ^0.8.13;
 
 import {IFileStore} from "ethfs/IFileStore.sol";
 import {File} from "ethfs/File.sol";
-import {NFT} from "./NFT.sol";
+import {AFundamentalDispute} from "./AFD.sol";
 import {IRenderer} from "./IRenderer.sol";
 
 /// @author frolic.eth
 /// @title  A Fundamental Dispute renderer
 contract AFDRenderer is IRenderer {
-    NFT public immutable token;
+    AFundamentalDispute public immutable token;
     IFileStore public immutable fileStore;
 
     event Initialized();
 
-    constructor(NFT _token, IFileStore _fileStore) {
+    constructor(AFundamentalDispute _token, IFileStore _fileStore) {
         token = _token;
         fileStore = _fileStore;
         emit Initialized();
@@ -27,7 +27,7 @@ contract AFDRenderer is IRenderer {
         returns (string memory)
     {
         string memory tokenIdString = toString(tokenId);
-        string memory seedString = toString(seedOf(tokenId));
+        string memory seedString = toString(token.tokenSeed(tokenId));
 
         return string.concat(
             "data:application/json,",
@@ -57,7 +57,7 @@ contract AFDRenderer is IRenderer {
         returns (string memory)
     {
         string memory tokenIdString = toString(tokenId);
-        string memory seedString = toString(seedOf(tokenId));
+        string memory seedString = toString(token.tokenSeed(tokenId));
 
         return string.concat(
             "<meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>",
@@ -71,18 +71,6 @@ contract AFDRenderer is IRenderer {
             "\"></script>\n  <script src=\"data:text/javascript;base64,",
             fileStore.getFile("gunzipScripts-0.0.1.js").read(),
             "\"></script>"
-        );
-    }
-
-    function seedOf(uint256 tokenId) public view returns (uint32) {
-        return uint32(
-            uint256(
-                keccak256(
-                    abi.encode(
-                        tokenId, token.explicitOwnershipOf(tokenId).extraData
-                    )
-                )
-            ) / 2
         );
     }
 
