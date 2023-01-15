@@ -16,9 +16,8 @@ const htmlForToken = async (context: Context, tokenId: number) => {
 
 const seedForToken = async (context: Context, tokenId: number) => {
   // TODO: add support for renderer upgrades
-  // TODO: remove /2 once the contract has it
-  return Math.floor(
-    (await context.contracts.AFDRenderer.seedOf(BigNumber.from(tokenId))) / 2
+  return await context.contracts.AFundamentalDispute.tokenSeed(
+    BigNumber.from(tokenId)
   );
 };
 
