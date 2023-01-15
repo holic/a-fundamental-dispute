@@ -123,16 +123,14 @@ contract AFundamentalDispute is NFT {
         return generateSeed(abi.encode(from, to));
     }
 
-    uint256 public lastDispute = block.number;
-    uint256 public disputes = 218;
+    uint256 internal lastDispute = block.number;
+    uint256 internal disputes = 218;
 
     function dispute(uint256 tokenId) external {
-        require(disputes > 0, "Can't dispute");
-        require(
-            block.number - lastDispute >= 2180, "Last dispute was too recent"
-        );
-        require(_exists(tokenId), "Token does not exist");
-        require(msg.sender == ownerOf(tokenId), "Not your token");
+        require(disputes > 0, "You dispute too much, try listening");
+        require(block.number - lastDispute >= 2180, "Nothing to dispute yet");
+        require(_exists(tokenId), "We agree, no dispute exists");
+        require(msg.sender == ownerOf(tokenId), "This is not yours to dispute");
 
         disputes -= 1;
         lastDispute = block.number;

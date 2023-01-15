@@ -29,7 +29,6 @@ export interface AFDRendererInterface extends utils.Interface {
   functions: {
     "fileStore()": FunctionFragment;
     "fullscreenHtml(uint256)": FunctionFragment;
-    "seedOf(uint256)": FunctionFragment;
     "token()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
   };
@@ -38,7 +37,6 @@ export interface AFDRendererInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "fileStore"
       | "fullscreenHtml"
-      | "seedOf"
       | "token"
       | "tokenURI"
   ): FunctionFragment;
@@ -46,10 +44,6 @@ export interface AFDRendererInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "fileStore", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "fullscreenHtml",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "seedOf",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "token", values?: undefined): string;
@@ -63,7 +57,6 @@ export interface AFDRendererInterface extends utils.Interface {
     functionFragment: "fullscreenHtml",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "seedOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
 
@@ -113,11 +106,6 @@ export interface AFDRenderer extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    seedOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
     token(overrides?: CallOverrides): Promise<[string]>;
 
     tokenURI(
@@ -133,11 +121,6 @@ export interface AFDRenderer extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  seedOf(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
   token(overrides?: CallOverrides): Promise<string>;
 
   tokenURI(
@@ -152,11 +135,6 @@ export interface AFDRenderer extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    seedOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<number>;
 
     token(overrides?: CallOverrides): Promise<string>;
 
@@ -179,11 +157,6 @@ export interface AFDRenderer extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    seedOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     token(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(
@@ -196,11 +169,6 @@ export interface AFDRenderer extends BaseContract {
     fileStore(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     fullscreenHtml(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    seedOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

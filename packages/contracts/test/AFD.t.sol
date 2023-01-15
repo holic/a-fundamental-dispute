@@ -314,17 +314,17 @@ contract AFDTest is Test {
 
     function testDispute() public {
         vm.prank(minter);
-        vm.expectRevert("Last dispute was too recent");
+        vm.expectRevert("Nothing to dispute yet");
         token.dispute(1);
 
         vm.roll(block.number + 2810);
 
         vm.prank(minter);
-        vm.expectRevert("Not your token");
+        vm.expectRevert("This is not yours to dispute");
         token.dispute(1);
 
         vm.prank(minter);
-        vm.expectRevert("Token does not exist");
+        vm.expectRevert("We agree, no dispute exists");
         token.dispute(100);
 
         vm.prank(minter);
@@ -343,13 +343,13 @@ contract AFDTest is Test {
         }
 
         vm.prank(minter);
-        vm.expectRevert("Can't dispute");
+        vm.expectRevert("You dispute too much, try listening");
         token.dispute(43);
     }
 
     function testDisputeBulkMints() public {
         vm.prank(artist);
-        vm.expectRevert("Last dispute was too recent");
+        vm.expectRevert("Nothing to dispute yet");
         token.dispute(2);
 
         vm.roll(block.number + 2810);
