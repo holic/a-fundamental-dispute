@@ -212,6 +212,25 @@ export const AFundamentalDisputeAbi = [
     anonymous: false,
     inputs: [
       {
+        indexed: false,
+        internalType: "uint256",
+        name: "_fromTokenId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_toTokenId",
+        type: "uint256",
+      },
+    ],
+    name: "BatchMetadataUpdate",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
         indexed: true,
         internalType: "uint256",
         name: "fromTokenId",
@@ -243,6 +262,19 @@ export const AFundamentalDisputeAbi = [
     anonymous: false,
     inputs: [],
     name: "Initialized",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "MetadataUpdate",
     type: "event",
   },
   {
@@ -385,6 +417,32 @@ export const AFundamentalDisputeAbi = [
         type: "uint256",
       },
     ],
+    name: "dispute",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "disputes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
     name: "explicitOwnershipOf",
     outputs: [
       {
@@ -411,7 +469,7 @@ export const AFundamentalDisputeAbi = [
           },
         ],
         internalType: "struct IERC721A.TokenOwnership",
-        name: "",
+        name: "ownership",
         type: "tuple",
       },
     ],
@@ -488,6 +546,25 @@ export const AFundamentalDisputeAbi = [
   {
     inputs: [
       {
+        internalType: "bytes",
+        name: "entropy",
+        type: "bytes",
+      },
+    ],
+    name: "generateSeed",
+    outputs: [
+      {
+        internalType: "uint24",
+        name: "",
+        type: "uint24",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
@@ -555,6 +632,19 @@ export const AFundamentalDisputeAbi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastDispute",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -885,6 +975,25 @@ export const AFundamentalDisputeAbi = [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "tokenSeed",
+    outputs: [
+      {
+        internalType: "uint24",
+        name: "",
+        type: "uint24",
       },
     ],
     stateMutability: "view",
