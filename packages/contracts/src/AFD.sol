@@ -30,10 +30,6 @@ contract AFundamentalDispute is NFT {
         // Mint ~10% of supply to creators in lieu of royalties
         _mintERC2309(artist, 21);
         _mintERC2309(developer, 21);
-
-        for (uint256 i = 1; i < totalMinted(); i++) {
-            _initializeOwnershipAt(i);
-        }
     }
 
     // ******************* //
@@ -131,6 +127,16 @@ contract AFundamentalDispute is NFT {
         require(block.number - lastDispute >= 2180, "Nothing to dispute yet");
         require(_exists(tokenId), "We agree, no dispute exists");
         require(msg.sender == ownerOf(tokenId), "This is not yours to dispute");
+
+        if (_ownershipAt(tokenId).extraData == 0) {
+            _initializeOwnershipAt(tokenId);
+        }
+        if (
+            tokenId + 1 < _nextTokenId()
+                && _ownershipAt(tokenId + 1).extraData == 0
+        ) {
+            _initializeOwnershipAt(tokenId + 1);
+        }
 
         disputes -= 1;
         lastDispute = block.number;
