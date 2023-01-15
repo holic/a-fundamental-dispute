@@ -13,14 +13,15 @@ export const useStore = createStore<State>(
   persist(() => ({ resolvedAddresses: {} }), { name: "resolved-ens" })
 );
 
-export const useENS = (address: string) => {
-  const addressLowercase = address.toLowerCase();
-  const resolved = useStore(
-    (state) => state.resolvedAddresses[addressLowercase]
+export const useENS = (address: string | null | undefined) => {
+  const addressLowercase = address?.toLowerCase();
+  const resolved = useStore((state) =>
+    addressLowercase ? state.resolvedAddresses[addressLowercase] : null
   );
 
   useEffect(() => {
     (async () => {
+      if (!addressLowercase) return;
       try {
         const data = await cachedFetch(
           `https://api.ensideas.com/ens/resolve/${addressLowercase}`

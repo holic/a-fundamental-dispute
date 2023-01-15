@@ -192,6 +192,13 @@ export type MintButtonQueryVariables = Exact<{
 
 export type MintButtonQuery = { readonly __typename?: 'Query', readonly foldedFacesTokens: ReadonlyArray<{ readonly __typename?: 'FoldedFacesToken', readonly id: string, readonly tokenId: number }> };
 
+export type TokenOwnerQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type TokenOwnerQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
+
 export type GalleryPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -221,6 +228,19 @@ export const MintButtonDocument = gql`
 
 export function useMintButtonQuery(options: Omit<Urql.UseQueryArgs<MintButtonQueryVariables>, 'query'>) {
   return Urql.useQuery<MintButtonQuery, MintButtonQueryVariables>({ query: MintButtonDocument, ...options });
+};
+export const TokenOwnerDocument = gql`
+    query TokenOwner($id: ID!) {
+  token: aFundamentalDisputeToken(id: $id) {
+    owner {
+      id
+    }
+  }
+}
+    `;
+
+export function useTokenOwnerQuery(options: Omit<Urql.UseQueryArgs<TokenOwnerQueryVariables>, 'query'>) {
+  return Urql.useQuery<TokenOwnerQuery, TokenOwnerQueryVariables>({ query: TokenOwnerDocument, ...options });
 };
 export const GalleryPageDocument = gql`
     query GalleryPage {

@@ -22,6 +22,9 @@
       width: 1200px !important;
       height: 1650px !important;
     }
+    body:not(.fullscreen) {
+      overflow: hidden;
+    }
     body:not(.fullscreen) canvas {
       padding: 8vmin;
       width: 100% !important;
@@ -55,7 +58,7 @@
   <script src="data:text/javascript;base64,___GUNZIP___"></script>
 </template>
 
-<template id="render">
+<template id="fullscreenHtml">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>___TOKENID___/218 &mdash; A Fundamental Dispute</title>
@@ -70,6 +73,7 @@
       height: 100vh;
       margin: 0;
       background: #111;
+      overflow: hidden;
     }
     canvas {
       display: block;
@@ -132,7 +136,7 @@
 
   console.log(
     document
-      .querySelector("template#render")
+      .querySelector("template#fullscreenHtml")
       .innerHTML.trim()
       .replace(/—/g, "&mdash;")
       .replace(/___([A-Z0-9]+)___/g, "###@$1###")

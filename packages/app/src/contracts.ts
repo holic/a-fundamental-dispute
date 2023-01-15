@@ -12,7 +12,7 @@ export const getContracts = () => {
     return {
       AFundamentalDispute: {
         // TODO: upgrade wagmi to see if the "No wagmi client found" issue is fixed
-        // chainId: targetChainId,
+        chainId: targetChainId,
         address: goerliDeploys.AFundamentalDispute.contractAddress,
         abi: AFundamentalDisputeAbi,
       },
@@ -20,6 +20,8 @@ export const getContracts = () => {
   }
   throw new Error("Unsupported chain ID");
 };
+
+export const contracts = getContracts();
 
 export const tokenContract = AFundamentalDispute__factory.connect(
   goerliDeploys.AFundamentalDispute.contractAddress,

@@ -15,7 +15,7 @@ import {
 import { useMintButtonQuery } from "../codegen/indexer";
 import { ButtonLink } from "./ButtonLink";
 import { holderPrice, publicPrice } from "./constants";
-import { getContracts, tokenContract } from "./contracts";
+import { contracts, tokenContract } from "./contracts";
 import { targetChainId } from "./EthereumProviders";
 import { extractContractError } from "./extractContractError";
 import { HoverLabel } from "./HoverLabel";
@@ -32,8 +32,6 @@ gql`
     }
   }
 `;
-
-const contracts = getContracts();
 
 const ActualMintButton = ({ address }: { address: string }) => {
   const [{ data }] = useMintButtonQuery(
@@ -184,7 +182,7 @@ const ActualMintButton = ({ address }: { address: string }) => {
                   </Link>
                 </>
               ),
-              autoClose: 5000,
+              autoClose: 15000,
               closeButton: true,
             });
           },
@@ -193,7 +191,7 @@ const ActualMintButton = ({ address }: { address: string }) => {
               isLoading: false,
               type: "error",
               render: String(error.message),
-              autoClose: 5000,
+              autoClose: 15000,
               closeButton: true,
             });
           }
