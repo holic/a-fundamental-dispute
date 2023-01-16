@@ -24,7 +24,7 @@ const ArtPage: NextPage = () => {
     <>
       <Head>
         {/* Using string interpolation here because Next.js complains if <title> has multiple children/nodes */}
-        <title>{`${tokenId}/${maxSupply} &mdash; A Fundamental Dispute`}</title>
+        <title>{`${tokenId}/${maxSupply} — A Fundamental Dispute`}</title>
       </Head>
       <TopBar />
       <div className="min-h-screen flex flex-col items-center justify-center p-[8vw]">

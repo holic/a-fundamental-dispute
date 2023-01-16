@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 
 import { holderPrice, maxSupply, publicPrice } from "../constants";
 import { MintButton } from "../MintButton";
@@ -44,7 +43,7 @@ const HomePage: NextPage = () => {
               A Fundamental Dispute
             </h1>
             <p className="italic">
-              &mdash; a long-form generative art collection using{" "}
+              — a long-form generative art collection using{" "}
               <TextLink href="https://p5js.org/" target="_blank">
                 p5.js
               </TextLink>

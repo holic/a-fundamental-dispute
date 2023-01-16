@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 const GalleryPage: NextPage<Props> = ({ tokenIds }) => (
   <>
     <Head>
-      <title>Gallery &mdash; A Fundamental Dispute</title>
+      <title>Gallery — A Fundamental Dispute</title>
 
       <meta
         property="og:image"
