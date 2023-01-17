@@ -28,12 +28,13 @@ const AboutPage: NextPage = () => {
           <div className="space-y-8">
             <h1 className="text-lg font-bold text-white">From the artist</h1>
             <p className="max-w-prose">
-              The title (<em>A Fundamental Dispute</em>) and number of pieces
-              (436) are inspired by a line in the Talmud: Rabbi Meir&apos;s
-              response is connected to the fundamental dispute over when night
-              begins (2b18). When you look at your piece, I hope you feel a hint
-              of what they felt&mdash;sincerity, curiosity, and gratitude for
-              the world and its mysteries / wonders.
+              The title (
+              <em className="text-stone-300">A Fundamental Dispute</em>) and
+              number of pieces (436) are inspired by a line in the Talmud: Rabbi
+              Meir&apos;s response is connected to the fundamental dispute over
+              when night begins (2b18). When you look at your piece, I hope you
+              feel a hint of what they felt&mdash;sincerity, curiosity, and
+              gratitude for the world and its mysteries and wonders.
             </p>
             <p className="max-w-prose">
               It is not possible to sort or filter pieces based on traits (e.g.
@@ -56,7 +57,8 @@ const AboutPage: NextPage = () => {
             <p className="max-w-prose">
               Every time you look at a sunset, sunrise, or sky filled with
               clouds, you&apos;re looking at something that will never exist
-              again in precisely that way. <em>AFD</em> is the opposite&mdash;a
+              again in precisely that way.{" "}
+              <em className="text-stone-300">AFD</em> is the opposite&mdash;a
               chance or an attempt to &ldquo;capture a cloud.&rdquo; These
               pieces are stored on-chain, forever.
             </p>
@@ -113,15 +115,16 @@ const AboutPage: NextPage = () => {
               their underlying art and metadata no longer reachable.
             </p> */}
             <p className="max-w-prose">
-              <em>A Fundamental Dispute</em> is a different kind of NFT project.
-              It exists fully on-chain, meaning that all of the code and data
-              needed to render the artwork in your browser is living
-              indefinitely on the Ethereum blockchain. The same blockchain
-              securing trillions of dollars in transactions is also securing
-              your piece of <em>A Fundamental Dispute</em>, ensuring it&apos;s
-              retrievable as long as Ethereum is confirming transactions.
-              It&apos;s one of the most durable ways data and computation can be
-              preserved online—inside the world computer.
+              <em className="text-stone-300">A Fundamental Dispute</em> is a
+              different kind of NFT project. It exists fully on-chain, meaning
+              that all of the code and data needed to render the artwork in your
+              browser is living indefinitely on the Ethereum blockchain. The
+              same blockchain securing trillions of dollars in transactions is
+              also securing your piece of{" "}
+              <em className="text-stone-300">A Fundamental Dispute</em>,
+              ensuring it&apos;s retrievable as long as Ethereum is confirming
+              transactions. It&apos;s one of the most durable ways data and
+              computation can be preserved online—inside the world computer.
             </p>
             <p className="max-w-prose">
               I grew up programming on a TI-83 calculator and building on the
@@ -130,7 +133,8 @@ const AboutPage: NextPage = () => {
               familiar and fun challenge for me. Writing smart contracts for the
               EVM is a very different programming paradigm, where there&apos;s a
               little room for error and a lot more at stake. Putting a
-              generative art project like <em>AFD</em> on-chain is particularly
+              generative art project like{" "}
+              <em className="text-stone-300">AFD</em> on-chain is particularly
               tricky because it depends on a heavy, but powerful, library called{" "}
               <TextLink href="https://p5js.org/" target="_blank">
                 p5.js
@@ -159,10 +163,10 @@ const AboutPage: NextPage = () => {
             <p className="max-w-prose">
               I&apos;m also a big fan of building in public and learning from
               those who do. It&apos;s what drew me to Adam&apos;s work. His
-              early <em>AFD</em> experiments caught my eye, and once I had a
-              concrete path towards putting something like <em>AFD</em> on
-              chain, I reached out to see if he wanted to collaborate. Now here
-              we are!
+              early <em className="text-stone-300">AFD</em> experiments caught
+              my eye, and once I had a concrete path towards putting something
+              like <em className="text-stone-300">AFD</em> on chain, I reached
+              out to see if he wanted to collaborate. Now here we are!
             </p>
             <p className="max-w-prose">
               I hope this work can demonstrate the power of fully on-chain
