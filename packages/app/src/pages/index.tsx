@@ -42,7 +42,7 @@ const HomePage: NextPage = () => {
             <h1 className="text-lg font-bold text-white">
               A Fundamental Dispute
             </h1>
-            <p className="italic">
+            {/* <p className="italic">
               — a long-form generative art collection using{" "}
               <TextLink href="https://p5js.org/" target="_blank">
                 p5.js
@@ -55,6 +55,34 @@ const HomePage: NextPage = () => {
                 </TextLink>
                 .
               </span>
+            </p> */}
+            <p className="italic">
+              &mdash;{" "}
+              <span className="transition relative group cursor-help underline underline-offset-2 decoration-dotted decoration-stone-700 hover:text-stone-500">
+                a series of digital sunsets
+                <span
+                  aria-hidden
+                  className="text-stone-500 pointer-events-none transition block opacity-0 group-hover:opacity-100 absolute top-full left-4 whitespace-nowrap"
+                >
+                  ↳{" "}
+                  <span className="text-yellow-100">
+                    long-form generative artwork using p5.js
+                  </span>
+                </span>
+              </span>{" "}
+              <span className="transition relative group cursor-help underline underline-offset-2 decoration-dotted decoration-stone-700 hover:text-stone-500">
+                living inside the world computer
+                <span
+                  aria-hidden
+                  className="text-stone-500 pointer-events-none transition block opacity-0 group-hover:opacity-100 absolute top-full left-4 whitespace-nowrap"
+                >
+                  ↳{" "}
+                  <span className="text-yellow-100">
+                    made fully on-chain with EthFS
+                  </span>
+                </span>
+              </span>
+              .
             </p>
           </div>
 
