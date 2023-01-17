@@ -26,6 +26,20 @@ const AboutPage: NextPage = () => {
       <div className="space-y-16 px-8 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20 lg:px-20 lg:py-24 max-w-4xl">
         <div className="space-y-12">
           <div className="space-y-8">
+            <h1 className="text-lg font-bold text-white">About</h1>
+            <p className="max-w-prose">
+              <em className="text-stone-300">A Fundamental Dispute</em> is a
+              different kind of NFT project. It exists fully on-chain, meaning
+              that all of the code and data needed to render the artwork in your
+              browser is living indefinitely on the Ethereum blockchain. The
+              same blockchain securing trillions of dollars in transactions is
+              also securing your piece of{" "}
+              <em className="text-stone-300">A Fundamental Dispute</em>,
+              ensuring it&apos;s retrievable as long as Ethereum is confirming
+              transactions. It&apos;s one of the most durable ways data and
+              computation can be preserved online—inside the world computer.
+            </p>
+            <hr className="border-1 border-stone-800" />
             <h1 className="text-lg font-bold text-white">From the artist</h1>
             <p className="max-w-prose">
               The title (
@@ -107,25 +121,7 @@ const AboutPage: NextPage = () => {
           <hr className="border-1 border-stone-800" />
           <div className="space-y-8">
             <h1 className="text-lg font-bold text-white">From the developer</h1>
-            {/* <p className="max-w-prose">
-              I am uninspired by most NFT projects. NFTs as a primitive have a
-              lot of potential, but we&apos;ve yet to unlock, or even discover,
-              all of their capabilities. If they haven&apos;t already been
-              rug-pulled, most NFT projects today will die by way of link rot,
-              their underlying art and metadata no longer reachable.
-            </p> */}
-            <p className="max-w-prose">
-              <em className="text-stone-300">A Fundamental Dispute</em> is a
-              different kind of NFT project. It exists fully on-chain, meaning
-              that all of the code and data needed to render the artwork in your
-              browser is living indefinitely on the Ethereum blockchain. The
-              same blockchain securing trillions of dollars in transactions is
-              also securing your piece of{" "}
-              <em className="text-stone-300">A Fundamental Dispute</em>,
-              ensuring it&apos;s retrievable as long as Ethereum is confirming
-              transactions. It&apos;s one of the most durable ways data and
-              computation can be preserved online—inside the world computer.
-            </p>
+
             <p className="max-w-prose">
               I grew up programming on a TI-83 calculator and building on the
               early-2000&apos;s web, so the constraints of the EVM (the{" "}
