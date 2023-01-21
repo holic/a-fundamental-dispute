@@ -6,7 +6,7 @@ export const generateImages = async () => {
   const html = () => `
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>___TOKENID___/218 — A Fundamental Dispute</title>
+    <title>___TOKENID___/436 — A Fundamental Dispute</title>
 
     <style>
       * {

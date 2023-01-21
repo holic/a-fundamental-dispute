@@ -16,14 +16,14 @@ const HomePage: NextPage = () => {
 
         <meta
           name="description"
-          content="— a long-form generative art collection using p5.js, made fully on-chain with EthFS."
+          content="— a series of digital sunsets living inside the world computer."
         />
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content="A Fundamental Dispute" />
         <meta
           property="og:description"
-          content="— a long-form generative art collection using p5.js, made fully on-chain with EthFS."
+          content="— a series of digital sunsets living inside the world computer."
         />
 
         <meta
@@ -42,20 +42,6 @@ const HomePage: NextPage = () => {
             <h1 className="text-lg font-bold text-white">
               A Fundamental Dispute
             </h1>
-            {/* <p className="italic">
-              — a long-form generative art collection using{" "}
-              <TextLink href="https://p5js.org/" target="_blank">
-                p5.js
-              </TextLink>
-              , made <span className="whitespace-nowrap">fully on-chain</span>{" "}
-              <span className="whitespace-nowrap">
-                with{" "}
-                <TextLink href="https://ethfs.xyz/" target="_blank">
-                  EthFS
-                </TextLink>
-                .
-              </span>
-            </p> */}
             <p className="italic">
               &mdash;{" "}
               <span className="transition relative group cursor-help underline underline-offset-2 decoration-dotted decoration-stone-700 hover:text-stone-500">
