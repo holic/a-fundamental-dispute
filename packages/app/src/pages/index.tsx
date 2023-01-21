@@ -44,11 +44,14 @@ const HomePage: NextPage = () => {
             </h1>
             <p className="italic">
               &mdash;{" "}
-              <span className="transition relative group cursor-help underline underline-offset-2 decoration-dotted decoration-stone-700 hover:text-stone-500">
+              <span
+                className="transition relative group sm:cursor-help sm:underline underline-offset-2 decoration-dotted decoration-stone-700 sm:hover:text-stone-500 sm:focus:text-stone-500"
+                tabIndex={-1}
+              >
                 a series of digital sunsets
                 <span
                   aria-hidden
-                  className="text-stone-500 pointer-events-none transition block opacity-0 group-hover:opacity-100 absolute top-full left-4 whitespace-nowrap"
+                  className="text-stone-500 pointer-events-none transition block opacity-0 sm:group-hover:opacity-100 sm:group-focus:opacity-100 absolute top-full left-4 whitespace-nowrap"
                 >
                   ↳{" "}
                   <span className="text-yellow-100">
@@ -56,11 +59,14 @@ const HomePage: NextPage = () => {
                   </span>
                 </span>
               </span>{" "}
-              <span className="transition relative group cursor-help underline underline-offset-2 decoration-dotted decoration-stone-700 hover:text-stone-500">
+              <span
+                className="transition relative group sm:cursor-help sm:underline underline-offset-2 decoration-dotted decoration-stone-700 sm:hover:text-stone-500 sm:focus:text-stone-500"
+                tabIndex={-1}
+              >
                 living inside the world computer
                 <span
                   aria-hidden
-                  className="text-stone-500 pointer-events-none transition block opacity-0 group-hover:opacity-100 absolute top-full left-4 whitespace-nowrap"
+                  className="text-stone-500 pointer-events-none transition block opacity-0 sm:group-hover:opacity-100 sm:group-focus:opacity-100 absolute top-full left-4 whitespace-nowrap"
                 >
                   ↳{" "}
                   <span className="text-yellow-100">
