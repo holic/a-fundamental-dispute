@@ -8,6 +8,7 @@ import {
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import * as allChains from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
 // Will default to goerli if nothing set in the ENV
@@ -29,13 +30,13 @@ const targetChains = [targetChain, allChains.mainnet];
 export const { chains, provider, webSocketProvider } = configureChains(
   targetChains,
   [
-    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
+    // alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
     publicProvider(),
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "Example NFT",
+  appName: "A Fundamental Dispute",
   chains,
 });
 
