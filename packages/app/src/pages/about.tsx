@@ -13,6 +13,11 @@ const AboutPage: NextPage = () => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content="About — A Fundamental Dispute" />
         <meta
+          name="og:description"
+          content="A Fundamental Dispute is a different kind of NFT project. It exists fully on-chain, meaning that all of the code and data needed to render the artwork in your browser is living indefinitely on the Ethereum blockchain. The same blockchain securing trillions of dollars in transactions is also securing your piece of A Fundamental Dispute, ensuring it's retrievable as long as Ethereum is confirming transactions. It's one of the most durable ways data and computation can be preserved online—inside the world computer."
+        />
+
+        <meta
           property="og:image"
           content={`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/thumbnail-2.jpg`}
         />
