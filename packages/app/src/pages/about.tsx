@@ -82,8 +82,7 @@ const AboutPage: NextPage = () => {
               clouds, you&apos;re looking at something that will never exist
               again in precisely that way.{" "}
               <em className="text-stone-300">AFD</em> is the opposite&mdash;a
-              chance or an attempt to &ldquo;capture a cloud.&rdquo; These
-              pieces are stored on-chain, forever.
+              chance or an attempt to &ldquo;capture a cloud.&rdquo;
             </p>
             <p className="max-w-prose">
               As a kid I used to take long, long drives across Texas with my
@@ -100,9 +99,7 @@ const AboutPage: NextPage = () => {
               circles, altering their position (this is the tough part), and
               then re-drawing those circles again, but with a fill.
               Cross-hatching is done via tiny dashed lines. Texture is done
-              through thousands of semi-transparent squiggly lines. From a
-              blockchain perspective, this project is much more interesting. I
-              encourage you to read more about EthFS and the contracts here.
+              through thousands of semi-transparent squiggly lines.
             </p>
             <p className="max-w-prose">
               Last year I felt perpetually stuck and captured by &ldquo;abstract
