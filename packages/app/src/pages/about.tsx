@@ -39,6 +39,21 @@ const AboutPage: NextPage = () => {
               transactions. It&apos;s one of the most durable ways data and
               computation can be preserved online—inside the world computer.
             </p>
+            <p className="max-w-prose">
+              <em className="text-stone-300">AFD</em> also has no legible
+              traits, meaning it is not possible to view or filter pieces based
+              on traits (e.g. sky, terrain, etc.). We find it strange that most
+              generative art is viewed from the lens of metadata. Each piece is
+              meant to be enjoyed holistically—like you would enjoy a real
+              sunset. And we&apos;ve snuck in a way for the collection to evolve
+              and mature over time.
+            </p>
+            <p className="max-w-prose">
+              No royalties are taken, meaning that your piece is yours, truly.
+              We have no desire to make money on you reselling your piece.
+              Instead, we are withholding some pieces, thus aligning incentives
+              between creators and collectors.
+            </p>
             <hr className="border-1 border-stone-800" />
             <h1 className="text-lg font-bold text-white">From the artist</h1>
             <p className="max-w-prose">
@@ -49,17 +64,6 @@ const AboutPage: NextPage = () => {
               when night begins (2b18). When you look at your piece, I hope you
               feel a hint of what they felt&mdash;sincerity, curiosity, and
               gratitude for the world and its mysteries and wonders.
-            </p>
-            <p className="max-w-prose">
-              It is not possible to sort or filter pieces based on traits (e.g.
-              sun present, color of background, etc.). There are also no
-              royalties taken on sales. Both of these are intentional. I find it
-              strange that most generative art is viewed from the lens of
-              metadata. Each piece is meant to be enjoyed
-              holistically&mdash;like you would enjoy a real sunset. I also have
-              no desire to make money on you reselling your piece. It&apos;s
-              yours. Instead, we are withholding some pieces for ourselves that
-              we might give away or sell at some point in the future.
             </p>
             <p className="max-w-prose">
               I&apos;ve been trying to learn to draw for as long as I can
