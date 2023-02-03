@@ -33,7 +33,7 @@ contract AFDRenderer is IRenderer {
             "data:application/json,",
             "%7B%22name%22%3A%22A%20Fundamental%20Dispute%20",
             tokenIdString,
-            "%2F436%22%2C%22description%22%3A%22%E2%80%94%20a%20series%20of%20digital%20sunsets%20living%20inside%20the%20world%20computer.%5Cn%5Cn%20%20Art%20by%20%40genlight%2C%20website%20and%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F",
+            "%2F436%22%2C%22description%22%3A%22%E2%80%94%20a%20series%20of%20digital%20sunsets%20living%20inside%20the%20world%20computer.%5Cn%5Cn%20%20Art%20by%20%40generativelight%2C%20website%20and%20contracts%20by%20%40frolic%22%2C%22external_url%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fart%2F",
             tokenIdString,
             "%22%2C%22image%22%3A%22https%3A%2F%2Fafundamentaldispute.com%2Fapi%2Fart-placeholder%2F",
             tokenIdString,

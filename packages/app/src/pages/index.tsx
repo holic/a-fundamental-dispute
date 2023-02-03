@@ -80,7 +80,10 @@ const HomePage: NextPage = () => {
 
           <p>
             Art by{" "}
-            <TextLink href="https://genlight.art/" target="_blank">
+            <TextLink
+              href="https://twitter.com/generativelight"
+              target="_blank"
+            >
               Adam
             </TextLink>
             , website and contracts{" "}

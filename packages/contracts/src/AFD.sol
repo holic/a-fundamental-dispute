@@ -92,7 +92,11 @@ contract AFundamentalDispute is NFT {
         );
     }
 
-    function generateSeed(bytes memory entropy) public view returns (uint24) {
+    function generateSeed(bytes memory extraEntropy)
+        public
+        view
+        returns (uint24)
+    {
         return uint24(
             uint256(
                 keccak256(
@@ -100,7 +104,7 @@ contract AFundamentalDispute is NFT {
                         block.difficulty,
                         blockhash(block.number - 1),
                         msg.sender,
-                        entropy
+                        extraEntropy
                     )
                 )
             )
@@ -140,7 +144,10 @@ contract AFundamentalDispute is NFT {
 
         disputes -= 1;
         lastDispute = block.number;
-        _setExtraDataAt(tokenId, generateSeed(abi.encode(tokenId, disputes)));
+        _setExtraDataAt(
+            tokenId,
+            generateSeed(abi.encode(tokenId, tokenSeed(tokenId), disputes))
+        );
         emit MetadataUpdate(tokenId);
     }
 }
