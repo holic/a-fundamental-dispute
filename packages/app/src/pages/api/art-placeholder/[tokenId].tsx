@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 
 import { maxSupply } from "../../../constants";
-import { contracts } from "../../../contracts";
+import { previewImageUrl } from "../../../previewImageUrl";
 
 const bg = fs.readFileSync(
   path.join(process.cwd(), "public/art-placeholder-bg.jpg")
@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const imageUrl = `https://nyc3.digitaloceanspaces.com/afd-images/${contracts.AFDRenderer.address}/${tokenId}.jpg`;
+  const imageUrl = previewImageUrl(tokenId);
   const imageResponse = await fetch(imageUrl, { method: "HEAD" });
   console.log("got image response", imageResponse);
   if (imageResponse.status === 200) {

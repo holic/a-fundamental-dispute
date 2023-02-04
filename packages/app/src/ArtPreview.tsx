@@ -9,6 +9,7 @@ import {
 import { gql } from "urql";
 
 import { useArtPreviewQuery } from "../codegen/indexer";
+import { previewImageUrl } from "./previewImageUrl";
 
 gql`
   query ArtPreview($id: ID!) {
@@ -52,12 +53,20 @@ const ArtIframe = ({
 type Props = {
   tokenId: number;
   disablePointerEvents?: boolean;
+  useImage?: boolean;
 };
 
-export const ArtPreview = ({ tokenId, disablePointerEvents }: Props) => {
+export const ArtPreview = ({
+  tokenId,
+  disablePointerEvents,
+  useImage,
+}: Props) => {
   const containerRef = useRef<HTMLIFrameElement>(null);
   const [shown, setShown] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  const imageUrl = previewImageUrl(tokenId);
+  const [hasImage, setHasImage] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (shown) return;
@@ -80,18 +89,42 @@ export const ArtPreview = ({ tokenId, disablePointerEvents }: Props) => {
     };
   }, [shown]);
 
+  useEffect(() => {
+    if (!useImage) return;
+    if (!shown) return;
+    let mounted = true;
+    const image = new Image();
+    image.src = imageUrl;
+    image.onload = () => mounted && setHasImage(true);
+    image.onerror = () => mounted && setHasImage(false);
+    return () => {
+      mounted = false;
+    };
+  }, [imageUrl, shown, useImage]);
+
   return (
     <div ref={containerRef} className="w-full h-full bg-stone-900">
-      <ArtIframe
-        tokenId={tokenId}
-        hidden={!shown}
-        onLoad={() => setLoaded(true)}
-        className={classNames(
-          `w-full h-full transition duration-[3s]`,
-          loaded ? "opacity-100" : "opacity-0",
-          disablePointerEvents ? "pointer-events-none" : null
-        )}
-      />
+      {useImage && (hasImage == null || hasImage === true) ? (
+        <img
+          src={hasImage ? imageUrl : undefined}
+          className={classNames(
+            `w-full h-full transition duration-[3s]`,
+            hasImage ? "opacity-100" : "opacity-0",
+            disablePointerEvents ? "pointer-events-none" : null
+          )}
+        />
+      ) : (
+        <ArtIframe
+          tokenId={tokenId}
+          hidden={!shown}
+          onLoad={() => setLoaded(true)}
+          className={classNames(
+            `w-full h-full transition duration-[3s]`,
+            loaded ? "opacity-100" : "opacity-0",
+            disablePointerEvents ? "pointer-events-none" : null
+          )}
+        />
+      )}
     </div>
   );
 };
