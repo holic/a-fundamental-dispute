@@ -3,16 +3,24 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 
 import { maxSupply } from "../../../constants";
+import { contracts } from "../../../contracts";
 
 const bg = fs.readFileSync(
   path.join(process.cwd(), "public/art-placeholder-bg.jpg")
 );
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tokenId = parseInt(req.query.tokenId as string);
   if (!tokenId) {
     res.status(400).send("Invalid token ID");
     return;
+  }
+
+  const imageUrl = `https://nyc3.digitaloceanspaces.com/afd-images/${contracts.AFDRenderer.address}/${tokenId}.jpg`;
+  const imageResponse = await fetch(imageUrl, { method: "HEAD" });
+  console.log("got image response", imageResponse);
+  if (imageResponse.status === 200) {
+    return res.redirect(302, imageUrl);
   }
 
   res.status(200).setHeader("Content-Type", "image/svg+xml").send(`
