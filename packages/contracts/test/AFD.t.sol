@@ -337,7 +337,7 @@ contract AFDTest is Test {
 
         vm.prank(minter);
         token.dispute(43);
-        assertEq(token.tokenSeed(43), 7838456);
+        assertEq(token.tokenSeed(43), 14006191);
 
         for (uint256 i = 1; i <= 217; i++) {
             vm.roll(block.number + 2810);
@@ -368,7 +368,7 @@ contract AFDTest is Test {
         vm.prank(artist);
         token.dispute(2);
         assertEq(token.tokenSeed(1), 7510132);
-        assertEq(token.tokenSeed(2), 14568129);
+        assertEq(token.tokenSeed(2), 12652078);
         assertEq(token.tokenSeed(3), 9475496);
         assertEq(token.tokenSeed(4), 7207235);
         assertEq(token.tokenSeed(5), 1374442);
@@ -384,8 +384,8 @@ contract AFDTest is Test {
         vm.prank(artist);
         token.dispute(3);
         assertEq(token.tokenSeed(1), 7510132);
-        assertEq(token.tokenSeed(2), 14568129);
-        assertEq(token.tokenSeed(3), 6376605);
+        assertEq(token.tokenSeed(2), 12652078);
+        assertEq(token.tokenSeed(3), 10764587);
         assertEq(token.tokenSeed(4), 7207235);
         assertEq(token.tokenSeed(5), 1374442);
         assertEq(token.tokenSeed(22), 16225373);
@@ -393,8 +393,8 @@ contract AFDTest is Test {
 
         token.normalizeOwnership(1, 24);
         assertEq(token.tokenSeed(1), 7510132);
-        assertEq(token.tokenSeed(2), 14568129);
-        assertEq(token.tokenSeed(3), 6376605);
+        assertEq(token.tokenSeed(2), 12652078);
+        assertEq(token.tokenSeed(3), 10764587);
         assertEq(token.tokenSeed(4), 7207235);
         assertEq(token.tokenSeed(5), 1374442);
         assertEq(token.tokenSeed(22), 16225373);
