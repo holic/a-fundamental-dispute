@@ -547,7 +547,7 @@
     "inputs": [
       {
         "internalType": "bytes",
-        "name": "entropy",
+        "name": "extraEntropy",
         "type": "bytes"
       }
     ],

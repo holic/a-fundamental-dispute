@@ -4,17 +4,20 @@ import {
   AFundamentalDispute__factory,
 } from "@web3-scaffold/contracts/types";
 
-import { AFundamentalDisputeAbi } from "./abi/AFundamentalDispute";
 import { provider, targetChainId } from "./EthereumProviders";
 
 export const getContracts = () => {
   if (targetChainId === 5) {
     return {
       AFundamentalDispute: {
-        // TODO: upgrade wagmi to see if the "No wagmi client found" issue is fixed
         chainId: targetChainId,
         address: goerliDeploys.AFundamentalDispute.contractAddress,
-        abi: AFundamentalDisputeAbi,
+        abi: AFundamentalDispute__factory.abi,
+      },
+      AFDRenderer: {
+        chainId: targetChainId,
+        address: goerliDeploys.AFDRenderer.contractAddress,
+        abi: AFDRenderer__factory.abi,
       },
     };
   }

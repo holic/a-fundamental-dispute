@@ -710,7 +710,7 @@ export interface AFundamentalDispute extends BaseContract {
     ): Promise<ContractTransaction>;
 
     generateSeed(
-      entropy: PromiseOrValue<BytesLike>,
+      extraEntropy: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
@@ -919,7 +919,7 @@ export interface AFundamentalDispute extends BaseContract {
   ): Promise<ContractTransaction>;
 
   generateSeed(
-    entropy: PromiseOrValue<BytesLike>,
+    extraEntropy: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<number>;
 
@@ -1128,7 +1128,7 @@ export interface AFundamentalDispute extends BaseContract {
     ): Promise<void>;
 
     generateSeed(
-      entropy: PromiseOrValue<BytesLike>,
+      extraEntropy: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<number>;
 
@@ -1433,7 +1433,7 @@ export interface AFundamentalDispute extends BaseContract {
     ): Promise<BigNumber>;
 
     generateSeed(
-      entropy: PromiseOrValue<BytesLike>,
+      extraEntropy: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1643,7 +1643,7 @@ export interface AFundamentalDispute extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     generateSeed(
-      entropy: PromiseOrValue<BytesLike>,
+      extraEntropy: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
