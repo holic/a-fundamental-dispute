@@ -1,6 +1,6 @@
-import { TransferHandler } from "../generated/handlers";
+import { ponder } from "../generated";
 
-const handleTransfer: TransferHandler = async (event, context) => {
+ponder.on("FoldedFaces:Transfer", async ({ event, context }) => {
   const { FoldedFacesToken, Wallet } = context.entities;
 
   await Wallet.upsert(event.params.to, {});
@@ -20,8 +20,4 @@ const handleTransfer: TransferHandler = async (event, context) => {
       mintDiscountUsed: false,
     });
   }
-};
-
-export const FoldedFaces = {
-  Transfer: handleTransfer,
-};
+});

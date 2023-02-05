@@ -1,8 +1,12 @@
-const { graphqlPlugin } = require("@ponder/graphql");
-const goerliDeploys = require("../contracts/deploys/goerli.json");
+import { PonderConfig } from "@ponder/core";
+import { graphqlPlugin } from "@ponder/graphql";
 
-/** @type {import('@ponder/core').PonderConfig['sources'][0]} */
-const foldedFaces = {
+import goerliDeploys from "../contracts/deploys/goerli.json";
+
+type Returned<T> = T extends (...args: any[]) => infer R ? R : T;
+type PonderConfigObject = Awaited<Returned<PonderConfig>>;
+
+const foldedFaces: PonderConfigObject["contracts"][0] = {
   name: "FoldedFaces",
   network: "mainnet",
   abi: "./abis/FoldedFaces.json",
@@ -10,25 +14,15 @@ const foldedFaces = {
   startBlock: 14837058,
 };
 
-/** @type {import('@ponder/core').PonderConfig} */
-module.exports = {
+export const config: PonderConfig = {
   plugins: [
     graphqlPlugin({ port: parseInt(process.env.PORT ?? "0") || 42069 }),
   ],
-  database:
-    process.env.NODE_ENV === "production"
-      ? {
-          kind: "postgres",
-          connectionString: process.env.DATABASE_URL,
-        }
-      : {
-          kind: "sqlite",
-        },
   networks: [
-    { name: "mainnet", chainId: 1, rpcUrl: process.env.PONDER_RPC_URL_1 },
-    { name: "goerli", chainId: 5, rpcUrl: process.env.PONDER_RPC_URL_5 },
+    { name: "mainnet", chainId: 1, rpcUrl: process.env.PONDER_RPC_URL_1! },
+    { name: "goerli", chainId: 5, rpcUrl: process.env.PONDER_RPC_URL_5! },
   ],
-  sources: (() => {
+  contracts: (() => {
     switch (process.env.CHAIN_ID) {
       case "1":
         return [foldedFaces];
