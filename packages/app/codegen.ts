@@ -1,6 +1,6 @@
 import { CodegenConfig } from "@graphql-codegen/cli";
 
-export const graphUrl = process.env.NEXT_PUBLIC_GRAPH_URL;
+export const graphUrl = process.env.NEXT_PUBLIC_GRAPH_URL!;
 
 const config: CodegenConfig = {
   schema: graphUrl,
