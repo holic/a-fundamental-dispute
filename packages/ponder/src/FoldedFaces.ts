@@ -15,7 +15,6 @@ ponder.on("FoldedFaces:Transfer", async ({ event, context }) => {
   } else {
     await FoldedFacesToken.insert(event.params.tokenId.toString(), {
       tokenId: event.params.tokenId.toNumber(),
-      ownerAddress: event.params.to,
       owner: event.params.to,
       mintDiscountUsed: false,
     });

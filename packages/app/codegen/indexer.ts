@@ -20,7 +20,6 @@ export type AFundamentalDisputeToken = {
   readonly html: Scalars['String'];
   readonly id: Scalars['ID'];
   readonly owner?: Maybe<Wallet>;
-  readonly ownerAddress: Scalars['String'];
   readonly seed: Scalars['Int'];
   readonly tokenId: Scalars['Int'];
 };
@@ -55,26 +54,6 @@ export type AFundamentalDisputeTokenFilter = {
   readonly id_not?: InputMaybe<Scalars['ID']>;
   readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
   readonly owner?: InputMaybe<Scalars['ID']>;
-  readonly ownerAddress?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_contains?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_contains_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_ends_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_gt?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_gte?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly ownerAddress_lt?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_lte?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_contains?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_ends_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly ownerAddress_not_starts_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_starts_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly owner_contains?: InputMaybe<Scalars['ID']>;
   readonly owner_contains_nocase?: InputMaybe<Scalars['ID']>;
   readonly owner_ends_with?: InputMaybe<Scalars['ID']>;
@@ -117,7 +96,6 @@ export type FoldedFacesToken = {
   readonly id: Scalars['ID'];
   readonly mintDiscountUsed: Scalars['Boolean'];
   readonly owner?: Maybe<Wallet>;
-  readonly ownerAddress: Scalars['String'];
   readonly tokenId: Scalars['Int'];
 };
 
@@ -139,26 +117,6 @@ export type FoldedFacesTokenFilter = {
   readonly mintDiscountUsed_not?: InputMaybe<Scalars['Boolean']>;
   readonly mintDiscountUsed_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
   readonly owner?: InputMaybe<Scalars['ID']>;
-  readonly ownerAddress?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_contains?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_contains_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_ends_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_gt?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_gte?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly ownerAddress_lt?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_lte?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_contains?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_ends_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly ownerAddress_not_starts_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_starts_with?: InputMaybe<Scalars['String']>;
-  readonly ownerAddress_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly owner_contains?: InputMaybe<Scalars['ID']>;
   readonly owner_contains_nocase?: InputMaybe<Scalars['ID']>;
   readonly owner_ends_with?: InputMaybe<Scalars['ID']>;
@@ -266,7 +224,7 @@ export type ArtPreviewQueryVariables = Exact<{
 export type ArtPreviewQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly html: string } | null };
 
 export type MintButtonQueryVariables = Exact<{
-  address: Scalars['String'];
+  address: Scalars['ID'];
 }>;
 
 
@@ -298,8 +256,8 @@ export function useArtPreviewQuery(options: Omit<Urql.UseQueryArgs<ArtPreviewQue
   return Urql.useQuery<ArtPreviewQuery, ArtPreviewQueryVariables>({ query: ArtPreviewDocument, ...options });
 };
 export const MintButtonDocument = gql`
-    query MintButton($address: String!) {
-  foldedFacesTokens(where: {ownerAddress: $address, mintDiscountUsed: false}) {
+    query MintButton($address: ID!) {
+  foldedFacesTokens(where: {owner: $address, mintDiscountUsed: false}) {
     id
     tokenId
   }

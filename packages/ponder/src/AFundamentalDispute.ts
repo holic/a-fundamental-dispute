@@ -32,7 +32,6 @@ ponder.on(
       const html = await htmlForToken(context, tokenId);
       await AFundamentalDisputeToken.upsert(tokenId.toString(), {
         tokenId,
-        ownerAddress: owner,
         owner,
         seed,
         html,
@@ -52,7 +51,6 @@ ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
   const html = await htmlForToken(context, tokenId);
   await AFundamentalDisputeToken.upsert(tokenId.toString(), {
     tokenId,
-    ownerAddress: owner,
     owner,
     seed,
     html,
