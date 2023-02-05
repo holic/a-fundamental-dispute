@@ -227,7 +227,7 @@ async function draw() {
   let frame = random([100, 100, 100, 100, 50, 150, 100, 175, 100, 75]);
 
   //density of hatching lines
-  let spacingx = random([1, 2, 3, 4, 5, 10, 2, 2]);
+  let spacingx = random([1, 2, 3, 4, 5, 10, 2, 3, 4]);
   let spacingy = random([2, 3, 4, 5, spacingx, spacingx,2, 3, 4, 5, spacingx, spacingx, 20]);
 
   hatchcoverage = random([1,1,1,1,2])
@@ -239,7 +239,7 @@ async function draw() {
   }
 
   //hatch style
-  weightofhatchmarks = 1; //random([1,2])
+  weightofhatchmarks = random([1,1,1,1,1,1.5]); //random([1,2])
   hatchstyle =  random(["ybased", "noisebased", "xbased"]);
   linetype = random([
     "diagonalhatch",
@@ -650,7 +650,7 @@ async function draw() {
   morphinside = random([1, 2, 2, 2, 2, 2, 2, 2]);
   widthsetup = random([50, 75, 100, 125, 50]);
   
-  blackcloud = random([2,2,2,2,2,2,2,2,2,2,2,2,2,1])
+  blackcloud = random([2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1])
   
   if (blackcloud == 1) {
 
