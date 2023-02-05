@@ -1,26 +1,12 @@
 import { BigNumber } from "ethers";
 
 import { ponder } from "../generated";
-import { Context } from "../generated/handlers";
-
-const htmlForToken = async (context: Context, tokenId: number) => {
-  // TODO: add support for renderer upgrades
-  return await context.contracts.AFDRenderer.fullscreenHtml(
-    BigNumber.from(tokenId)
-  );
-};
-
-const seedForToken = async (context: Context, tokenId: number) => {
-  // TODO: add support for renderer upgrades
-  return await context.contracts.AFundamentalDispute.tokenSeed(
-    BigNumber.from(tokenId)
-  );
-};
 
 ponder.on(
   "AFundamentalDispute:ConsecutiveTransfer",
   async ({ event, context }) => {
     const { AFundamentalDisputeToken, Wallet } = context.entities;
+    const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
     const owner = event.params.to;
     await Wallet.upsert(owner, {});
@@ -28,8 +14,8 @@ ponder.on(
     const fromId = event.params.fromTokenId.toNumber();
     const toId = event.params.toTokenId.toNumber();
     for (let tokenId = fromId; tokenId <= toId; tokenId++) {
-      const seed = await seedForToken(context, tokenId);
-      const html = await htmlForToken(context, tokenId);
+      const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
+      const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
       await AFundamentalDisputeToken.upsert(tokenId.toString(), {
         tokenId,
         owner,
@@ -42,13 +28,14 @@ ponder.on(
 
 ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
   const { AFundamentalDisputeToken, Wallet } = context.entities;
+  const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
   const owner = event.params.to;
   await Wallet.upsert(owner, {});
 
   const tokenId = event.params.tokenId.toNumber();
-  const seed = await seedForToken(context, tokenId);
-  const html = await htmlForToken(context, tokenId);
+  const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
+  const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
   await AFundamentalDisputeToken.upsert(tokenId.toString(), {
     tokenId,
     owner,
