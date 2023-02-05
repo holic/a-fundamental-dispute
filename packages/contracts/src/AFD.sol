@@ -4,6 +4,7 @@ pragma solidity ^0.8.13;
 import {NFT} from "./NFT.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {BitMaps} from "@openzeppelin/contracts/utils/structs/BitMaps.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /// @author frolic.eth
 /// @title  A Fundamental Dispute
@@ -15,6 +16,8 @@ contract AFundamentalDispute is NFT {
 
     IERC721 public immutable foldedFaces;
     BitMaps.BitMap internal foldedFacesUsed;
+
+    address public sharedSigner;
 
     event TokenDiscountUsed(address token, uint256 tokenId);
 
@@ -32,16 +35,32 @@ contract AFundamentalDispute is NFT {
         _mintERC2309(developer, 21);
     }
 
+    // ********************* //
+    // *** SHARED SIGNER *** //
+    // ********************* //
+
+    error InvalidSignature();
+
+    modifier hasValidSignature(bytes memory message, bytes memory signature) {
+        bytes32 messageHash = ECDSA.toEthSignedMessageHash(message);
+        (address signer,) = ECDSA.tryRecover(messageHash, signature);
+        if (signer != sharedSigner) {
+            revert InvalidSignature();
+        }
+        _;
+    }
+
     // ******************* //
     // *** PUBLIC MINT *** //
     // ******************* //
 
-    function mint()
+    function mint(bytes memory signature)
         external
         payable
         hasExactPayment(publicPrice)
         withinMaxSupply
         withinMintLimit(2)
+        hasValidSignature(abi.encode(msg.sender), signature)
     {
         _mint(msg.sender, 1);
     }
@@ -56,12 +75,16 @@ contract AFundamentalDispute is NFT {
         return foldedFacesUsed.get(tokenId);
     }
 
-    function foldedFacesMint(uint256[] calldata tokenIds)
+    function foldedFacesMint(
+        bytes memory signature,
+        uint256[] calldata tokenIds
+    )
         external
         payable
         hasExactPayment(holderPrice)
         withinMaxSupply
         withinMintLimit(2)
+        hasValidSignature(abi.encode(msg.sender), signature)
     {
         uint256 tokenId;
         for (uint256 i = 0; i < tokenIds.length; i++) {
