@@ -1,12 +1,9 @@
-import { PonderConfig } from "@ponder/core";
+import { PonderConfig, ResolvedPonderConfig } from "@ponder/core";
 import { graphqlPlugin } from "@ponder/graphql";
 
 import goerliDeploys from "../contracts/deploys/goerli.json";
 
-type Returned<T> = T extends (...args: any[]) => infer R ? R : T;
-type PonderConfigObject = Awaited<Returned<PonderConfig>>;
-
-const foldedFaces: PonderConfigObject["contracts"][0] = {
+const foldedFaces: ResolvedPonderConfig["contracts"][0] = {
   name: "FoldedFaces",
   network: "mainnet",
   abi: "./abis/FoldedFaces.json",
