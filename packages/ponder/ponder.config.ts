@@ -23,11 +23,7 @@ export const config: PonderConfig = {
         return [foldedFaces];
       case "5":
         return [
-          {
-            // Folded Faces doesn't exist on Goerli, but we'll pretend it does
-            ...foldedFaces,
-            startBlock: goerliDeploys.AFundamentalDispute.blockNumber,
-          },
+          foldedFaces,
           {
             name: "AFundamentalDispute",
             network: "goerli",
