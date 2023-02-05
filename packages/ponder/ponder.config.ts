@@ -15,9 +15,7 @@ const foldedFaces: PonderConfigObject["contracts"][0] = {
 };
 
 export const config: PonderConfig = {
-  plugins: [
-    graphqlPlugin({ port: parseInt(process.env.PORT ?? "0") || 42069 }),
-  ],
+  plugins: [graphqlPlugin()],
   networks: [
     { name: "mainnet", chainId: 1, rpcUrl: process.env.PONDER_RPC_URL_1! },
     { name: "goerli", chainId: 5, rpcUrl: process.env.PONDER_RPC_URL_5! },
