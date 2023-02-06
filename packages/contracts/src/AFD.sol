@@ -18,8 +18,13 @@ contract AFundamentalDispute is NFT {
     BitMaps.BitMap internal foldedFacesUsed;
 
     address public sharedSigner;
+    address public constant signatureNotRequired =
+        address(bytes20(keccak256("signatureNotRequired")));
 
     event TokenDiscountUsed(address token, uint256 tokenId);
+    event SharedSignerUpdated(
+        address nextSharedSigner, address previousSharedSigner
+    );
 
     // ****************** //
     // *** INITIALIZE *** //
@@ -42,6 +47,11 @@ contract AFundamentalDispute is NFT {
     error InvalidSignature();
 
     modifier hasValidSignature(bytes memory message, bytes memory signature) {
+        if (sharedSigner == signatureNotRequired) {
+            _;
+            return;
+        }
+
         bytes32 messageHash = ECDSA.toEthSignedMessageHash(message);
         (address signer,) = ECDSA.tryRecover(messageHash, signature);
         if (signer != sharedSigner) {
@@ -76,8 +86,8 @@ contract AFundamentalDispute is NFT {
     }
 
     function foldedFacesMint(
-        bytes memory signature,
-        uint256[] calldata tokenIds
+        uint256[] calldata tokenIds,
+        bytes memory signature
     )
         external
         payable
@@ -104,6 +114,11 @@ contract AFundamentalDispute is NFT {
     // **************** //
     // *** INTERNAL *** //
     // **************** //
+
+    function setSharedSigner(address signer) external onlyOwner {
+        emit SharedSignerUpdated(signer, sharedSigner);
+        sharedSigner = signer;
+    }
 
     function tokenSeed(uint256 tokenId) public view returns (uint24) {
         return uint24(
@@ -149,7 +164,10 @@ contract AFundamentalDispute is NFT {
     uint256 public lastDispute = block.number;
     uint256 public disputes = 218;
 
-    function dispute(uint256 tokenId) external {
+    function dispute(uint256 tokenId, bytes memory signature)
+        external
+        hasValidSignature(abi.encode(msg.sender, lastDispute), signature)
+    {
         require(disputes > 0, "It's time to listen");
         require(block.number - lastDispute >= 2180, "Now is not the time");
         require(_exists(tokenId), "There is nothing to dispute");

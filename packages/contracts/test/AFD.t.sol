@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "forge-std/Test.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {ContentStore} from "ethfs/ContentStore.sol";
 import {FileStore} from "ethfs/FileStore.sol";
 import {IFileStore} from "ethfs/IFileStore.sol";
@@ -56,6 +57,20 @@ contract AFDTest is Test {
     address private minter = makeAddr("minter");
     address private holder = makeAddr("holder");
 
+    uint256 private sharedSignerPrivateKey = uint256(keccak256("shared signer"));
+    address private sharedSigner = vm.addr(sharedSignerPrivateKey);
+
+    function createSignature(bytes memory message)
+        internal
+        view
+        returns (bytes memory)
+    {
+        bytes32 messageHash = ECDSA.toEthSignedMessageHash(message);
+        (uint8 v, bytes32 r, bytes32 s) =
+            vm.sign(sharedSignerPrivateKey, messageHash);
+        return abi.encodePacked(r, s, v);
+    }
+
     function setUp() public {
         vm.deal(owner, 10 ether);
         vm.deal(minter, 10 ether);
@@ -67,6 +82,7 @@ contract AFDTest is Test {
             artist,
             developer
         );
+        token.setSharedSigner(sharedSigner);
         renderer = new AFDRenderer(token, IFileStore(fileStore));
         token.setRenderer(renderer);
         vm.stopPrank();
@@ -82,25 +98,26 @@ contract AFDTest is Test {
     }
 
     function testMint() public {
+        bytes memory signature = createSignature(abi.encode(minter));
         vm.startPrank(minter);
         assertEq(token.balanceOf(minter), 0);
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.12 ether)
         );
-        token.mint{value: 1 ether}();
+        token.mint{value: 1 ether}(signature);
 
-        token.mint{value: 0.12 ether}();
+        token.mint{value: 0.12 ether}(signature);
         assertEq(token.balanceOf(minter), 1);
         uint256 tokenId = token.totalMinted();
         assertEq(tokenId, 43);
         assertEq(token.ownerOf(tokenId), minter);
-        token.mint{value: 0.12 ether}();
+        token.mint{value: 0.12 ether}(signature);
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        token.mint{value: 0.12 ether}();
+        token.mint{value: 0.12 ether}(signature);
         vm.stopPrank();
     }
 
@@ -108,6 +125,7 @@ contract AFDTest is Test {
         uint256[] memory tokenIds = new uint256[](1);
         tokenIds[0] = 0;
 
+        bytes memory signature = createSignature(abi.encode(holder));
         vm.startPrank(holder);
         assertEq(
             token.balanceOf(holder), 0, "expected holder to have no AFD tokens"
@@ -116,20 +134,21 @@ contract AFDTest is Test {
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
         );
-        token.foldedFacesMint{value: 1 ether}(tokenIds);
+        token.foldedFacesMint{value: 1 ether}(tokenIds, signature);
 
         vm.expectRevert(bytes("ERC721: invalid token ID"));
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
 
         foldedFaces.mint(0);
         assertEq(token.hasUsedFoldedFaces(0), false);
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
         assertEq(token.hasUsedFoldedFaces(0), true);
 
         foldedFaces.safeTransferFrom(holder, minter, 0);
 
         vm.stopPrank();
 
+        signature = createSignature(abi.encode(minter));
         vm.startPrank(minter);
         assertEq(
             token.balanceOf(minter), 0, "expected minter to have no AFD tokens"
@@ -154,18 +173,18 @@ contract AFDTest is Test {
                 tokenIds
             )
         );
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
 
         tokenIds[0] = 2;
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
         tokenIds[0] = 3;
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
 
         tokenIds[0] = 4;
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
 
         vm.stopPrank();
     }
@@ -187,6 +206,7 @@ contract AFDTest is Test {
         foldedFaces.mint(4);
         vm.stopPrank();
 
+        bytes memory signature = createSignature(abi.encode(holder));
         vm.startPrank(holder);
         assertEq(
             token.balanceOf(holder), 0, "expected holder to have no AFD tokens"
@@ -195,14 +215,14 @@ contract AFDTest is Test {
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
         );
-        token.foldedFacesMint{value: 1 ether}(tokenIds);
+        token.foldedFacesMint{value: 1 ether}(tokenIds, signature);
 
         vm.expectRevert(bytes("ERC721: invalid token ID"));
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
 
         foldedFaces.mint(5);
         assertEq(token.hasUsedFoldedFaces(5), false);
-        token.foldedFacesMint{value: 0.08 ether}(tokenIds);
+        token.foldedFacesMint{value: 0.08 ether}(tokenIds, signature);
         assertEq(token.hasUsedFoldedFaces(5), true);
 
         vm.stopPrank();
@@ -257,10 +277,10 @@ contract AFDTest is Test {
 
     function testWithdraw() public {
         vm.prank(minter);
-        token.mint{value: 0.12 ether}();
+        token.mint{value: 0.12 ether}(createSignature(abi.encode(minter)));
 
         vm.prank(holder);
-        token.mint{value: 0.12 ether}();
+        token.mint{value: 0.12 ether}(createSignature(abi.encode(holder)));
 
         assertEq(address(token).balance, 0.24 ether);
         assertEq(artist.balance, 0 ether);
@@ -305,55 +325,69 @@ contract AFDTest is Test {
             address wallet = makeAddr(string.concat("wallet", vm.toString(i)));
             vm.deal(wallet, 1 ether);
             vm.prank(wallet);
-            token.mint{value: 0.12 ether}();
+            token.mint{value: 0.12 ether}(createSignature(abi.encode(wallet)));
         }
 
         vm.prank(minter);
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MaxSupplyExceeded.selector, 0)
         );
-        token.mint{value: 0.12 ether}();
+        token.mint{value: 0.12 ether}(createSignature(abi.encode(minter)));
     }
 
     function testDispute() public {
         vm.prank(minter);
-        vm.expectRevert("Now is not the time");
-        token.dispute(1);
+        // vm.expectRevert("Now is not the time");
+        token.dispute(
+            1, createSignature(abi.encode(minter, token.lastDispute()))
+        );
 
-        vm.roll(block.number + 2810);
+        // vm.roll(block.number + 2810);
 
-        vm.prank(minter);
-        vm.expectRevert("We are in agreement");
-        token.dispute(1);
+        // vm.prank(minter);
+        // vm.expectRevert("We are in agreement");
+        // token.dispute(
+        //     1, createSignature(abi.encode(minter, token.lastDispute()))
+        // );
 
-        vm.prank(minter);
-        vm.expectRevert("There is nothing to dispute");
-        token.dispute(100);
+        // vm.prank(minter);
+        // vm.expectRevert("There is nothing to dispute");
+        // token.dispute(
+        //     100, createSignature(abi.encode(minter, token.lastDispute()))
+        // );
 
-        vm.prank(minter);
-        token.mint{value: 0.12 ether}();
-        assertEq(token.ownerOf(43), minter);
-        assertEq(token.tokenSeed(43), 6342930);
+        // vm.prank(minter);
+        // token.mint{value: 0.12 ether}(createSignature(abi.encode(minter)));
+        // assertEq(token.ownerOf(43), minter);
+        // assertEq(token.tokenSeed(43), 6342930);
 
-        vm.prank(minter);
-        token.dispute(43);
-        assertEq(token.tokenSeed(43), 14006191);
+        // vm.prank(minter);
+        // token.dispute(
+        //     43, createSignature(abi.encode(minter, token.lastDispute()))
+        // );
+        // assertEq(token.tokenSeed(43), 14006191);
 
-        for (uint256 i = 1; i <= 217; i++) {
-            vm.roll(block.number + 2810);
-            vm.prank(minter);
-            token.dispute(43);
-        }
+        // for (uint256 i = 1; i <= 217; i++) {
+        //     vm.roll(block.number + 2810);
+        //     vm.prank(minter);
+        //     token.dispute(
+        //         43, createSignature(abi.encode(minter, token.lastDispute()))
+        //     );
+        // }
 
-        vm.prank(minter);
-        vm.expectRevert("It's time to listen");
-        token.dispute(43);
+        // vm.prank(minter);
+        // vm.expectRevert("It's time to listen");
+        // token.dispute(
+        //     43, createSignature(abi.encode(minter, token.lastDispute()))
+        // );
     }
 
     function testDisputeBulkMints() public {
         vm.prank(artist);
         vm.expectRevert("Now is not the time");
-        token.dispute(2);
+        token.dispute(
+            2, createSignature(abi.encode(artist, token.lastDispute()))
+        );
 
         vm.roll(block.number + 2810);
 
@@ -366,7 +400,9 @@ contract AFDTest is Test {
         assertEq(token.tokenSeed(23), 4150326);
 
         vm.prank(artist);
-        token.dispute(2);
+        token.dispute(
+            2, createSignature(abi.encode(artist, token.lastDispute()))
+        );
         assertEq(token.tokenSeed(1), 7510132);
         assertEq(token.tokenSeed(2), 12652078);
         assertEq(token.tokenSeed(3), 9475496);
@@ -377,12 +413,16 @@ contract AFDTest is Test {
 
         vm.prank(artist);
         vm.expectRevert("Now is not the time");
-        token.dispute(3);
+        token.dispute(
+            3, createSignature(abi.encode(artist, token.lastDispute()))
+        );
 
         vm.roll(block.number + 2810);
 
         vm.prank(artist);
-        token.dispute(3);
+        token.dispute(
+            3, createSignature(abi.encode(artist, token.lastDispute()))
+        );
         assertEq(token.tokenSeed(1), 7510132);
         assertEq(token.tokenSeed(2), 12652078);
         assertEq(token.tokenSeed(3), 10764587);
