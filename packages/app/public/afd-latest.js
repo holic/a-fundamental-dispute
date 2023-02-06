@@ -41,7 +41,6 @@ function setup() {
   colorMode(HSL, 360, 100, 100, 100);
   noLoop();
   pixelDensity(5);
-  treecount = random([100,150,150,150,150,50,150,150,25,200,150]);
   cloudnum = random([75, 75, 150, 75, 75, 35, 75, 75, 75, 75, 200]);
 }
 
@@ -49,7 +48,7 @@ const tick = () => new Promise((resolve) => requestAnimationFrame(resolve));
 
 async function draw() {
   darkmode = random([1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 4]);
-  backmix = random([3, 4, 5]);
+  backmix = random([3, 4, 5, 3, 4, 3, 4]);
   if (darkmode == 1) {
     //darkmode
     background(palettes[0][0]);
@@ -225,18 +224,28 @@ async function draw() {
   //hatching background
   rectMode(CENTER);
   let frame = random([100, 100, 100, 100, 50, 150, 100, 175, 100, 75]);
+   
+  if (frame == 150 || frame == 175) {
+    treecount = random([15,25,35])
+  } else if (frame == 50){
+    treecount = random([50,75,100,150,75])
+  } else {
+    treecount = random([25,50,75,100,125,75,75,50])
+  }
+  
+
 
   //density of hatching lines
   let spacingx = random([1, 2, 3, 4, 5, 10, 2, 3, 4]);
   let spacingy = random([2, 3, 4, 5, spacingx, spacingx,2, 3, 4, 5, spacingx, spacingx, 20]);
-
-  hatchcoverage = random([1,1,1,1,2])
-
-  if (hatchcoverage == 1) {
-    hatchamt = 0.6
-  } else {
-    hatchamt = 0.45
-  }
+   
+   hatchcoverage = random([1,1,1,1,2])
+   
+   if (hatchcoverage == 1) {
+     hatchamt = 0.6
+   } else {
+     hatchamt = 0.45
+   }
 
   //hatch style
   weightofhatchmarks = random([1,1,1,1,1,1.5]); //random([1,2])
@@ -252,11 +261,12 @@ async function draw() {
   if (frame < 75) {
     foregroundtype = 2;
   } else {
-    foregroundtype = random([1, 2, 2, 2, 2]);
+    foregroundtype = random([1, 2, 2, 2, 2, 2, 1, 2, 1, 2, 1, 0, 0, 0]);
   }
+  
 
   if (foregroundtype == 1) {
-    //HILLS AND TREES
+      //HILLS AND TREES
     push();
     morelines = 15;
     //frame = -25;
@@ -322,20 +332,22 @@ async function draw() {
           n = noise(a * incr, ground);
 
           curveVertex(a, map(n, 0, 1, b - peakheight, b + peakheight));
-          if (b < ground + 1 && a > frame + 1 && a < width - frame - 15) {
+          if (b < ground + 1 && a > frame + 10 && a < width - frame - 20) {
             if (random(0, 1) > 0.3) {
               push();
               strokeWeight(0.5);
-              treeheight = random(5, random(5, random(5, random(5, 75))));
+              treeheight = random(5, random(5, random(5, 75)));
               translate(
                 a,
                 map(n, 0, 1, b - peakheight, b + peakheight) -
-                  treeheight -
-                  treeheight / 3
+                  treeheight 
+            
               );
-              drawTree(35);
-              await tick();
+              drawTree(treeheight);
+
               pop();
+                  await tick();
+
             }
           } else {
           }
@@ -343,7 +355,7 @@ async function draw() {
         endShape();
       }
     }
-    await tick();
+
     pop();
   }
   //end rolling hills
@@ -600,7 +612,7 @@ async function draw() {
         height - frame + b - 3
       );
     }
-    await tick();
+
     pop();
 
     //shitty, kind of plain trees that i need to re-write because i don't like them
@@ -615,20 +627,56 @@ async function draw() {
       } else if (darkmode == 4) {
         stroke(palettes[backmix][1]);
       }
-      push();
-      x = random(frame, width - frame - 10);
-      treeheight = random(5, random(5, random(5, random(5, 75))));
-      y = height - frame - treeheight - treeheight / 3 + random(-2, 7);
-      let incr3 = 0.003;
-      n = noise(x * incr3, y * incr3);
 
-      push();
-      strokeWeight(0.5);
-      translate(x, y);
-      drawTree(treeheight);
-      await tick();
-      pop();
+      yoftree = height - frame;
+      xoftree = random(frame, width - frame);
+      treeheight = random(5, 25);
+      numbranches = random([0, 1, 1, 0, 2, 3]);
+
+      //trunk
+      for (let a = 0; a <= numbranches; a += 1) {
+        incr = random(0, 0.1);
+        trunkaddon = random(treeheight / 5, treeheight);
+        branchdensity = 0.5;
+        for (let z = 0; z <= treeheight + trunkaddon; z += 0.5) {
+          n = noise(xoftree * incr, z * incr);
+          trunkbend = map(
+            z,
+            0,
+            treeheight + trunkaddon,
+            0,
+            map(n, 0, 1, -5, 5)
+          );
+          push()
+          strokeWeight(map(n,0,1,-1,3));
+          point(a + xoftree + trunkbend, yoftree - z);
+          pop()
+    if (darkmode == 1 || darkmode == 3) {
+    branch = random([1,2]);
+    } else {
+      branch = random([1]);
     }
+          if (branch == 1 && z > (treeheight + trunkaddon) / 2) {
+            tt = map(z, 0, treeheight + trunkaddon, random(20), 0);
+                      strokeWeight(random(-2, 1));
+            line(
+              tt + a + xoftree + trunkbend,
+              yoftree - z + 5,
+              a + xoftree + trunkbend,
+              yoftree - z
+            );
+            line(
+              -tt + a + xoftree + trunkbend,
+              yoftree - z + 5,
+              a + xoftree + trunkbend,
+              yoftree - z
+            );
+          }
+        }
+      }
+      await tick()
+    }
+    
   }
 
   //clouds
@@ -966,36 +1014,36 @@ function drawTree(treeheight) {
 
   fill("white");
 
-  //rect(0, 0, treewidth, treeheight, 360, 360, 5, 5);
-  line(treewidth / 2, 0, treewidth / 2, treeheight);
-
-  push();
-  for (var i = 0; i <= treeheight - 1; i += treeshade) {
-    drawingContext.setLineDash([random(5), random(3)]);
-    wigglez = 0; //map(i,0,treeheight-1,-5,0)
-    wiggley = 0; //map(i,0,treeheight-1,3,0)
-
-    line(
-      treewidth / 2,
-      -i + treeheight - 2,
-      -treeshadewidth + wigglez + treewidth / 2,
-      -i + treeheight + wiggley
-    );
+  for (var z = 0; z <= treeheight; z += 0.5) {
+    incrz = 0.008;
+    nz = noise(treewidth * incrz, z * incrz);
+    trunkwiggle = map(nz, 0, 1, -9, 9);
+    push()
+    strokeWeight(map(n,0,1,-1,3));
+    point(trunkwiggle + treewidth / 2, z);
+    pop()
+    if (darkmode == 1 || darkmode == 3) {
+    branchpresent = random([1,2]);
+    } else {
+      branchpresent = random([1]);
+    }
+    branchlength = map(z,0,treeheight,1,10)
+    anglemorph = map(z,0,treeheight,random(5,15),2)
+    if (branchpresent == 1 && z < treeheight/1.5) {
+      randommorph = random(3)
+          strokeWeight(random(-1, 1));
+      line(
+        randommorph+branchlength + trunkwiggle + treewidth / 2,
+        z + anglemorph,
+        trunkwiggle + treewidth / 2,
+        z
+      );
+      line(
+        -randommorph-branchlength + trunkwiggle + treewidth / 2,
+        z + anglemorph,
+        trunkwiggle + treewidth / 2,
+        z
+      );
+    }
   }
-
-  for (var i2 = 0; i2 <= treeheight - 1; i2 += treeshade) {
-    drawingContext.setLineDash([random(5), random(3)]);
-    wigglez = 0; //map(i2,0,treeheight-1,5,0)
-    wiggley = 0; //map(i2,0,treeheight-1,3,0)
-
-    line(
-      treewidth / 2,
-      -i2 + treeheight - 2,
-      treeshadewidth + wigglez + treewidth / 2,
-      -i2 + treeheight + wiggley
-    );
-  }
-  pop();
-
-  line(treewidth / 2, treeheight, treewidth / 2, treeheight + trunkheight);
 }
