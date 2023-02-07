@@ -94,12 +94,18 @@ const AboutPage: NextPage = () => {
               you feel the same.
             </p>
             <p className="max-w-prose">
-              From a creative coding perspective, this project is relatively
-              simple&mdash;clouds are made by first drawing a grid of tiny
-              circles, altering their position (this is the tough part), and
-              then re-drawing those circles again, but with a fill.
-              Cross-hatching is done via tiny dashed lines. Texture is done
-              through thousands of semi-transparent squiggly lines.
+              From a creative coding perspective, this project has a relatively
+              simple foundation&mdash;clouds are made by first drawing a grid of
+              tiny circles, altering their position (this is the tough part),
+              and then re-drawing those circles again, but with a fill. Each
+              piece loops through the cloud-generator ~75 times, yet most pieces
+              will only have 5-10 visible clouds. Just like in nature, it takes
+              the perfect combination of dozens of variables to create a cloud.
+              Cross-hatching is done via tiny dashed lines and noise-weighted
+              shading. Texture is accomplished through thousands of
+              semi-transparent squiggly lines. Hills are drawn through 100s of
+              overlapping, dense lines. Trees are primarily made of frustration
+              and, just like in nature, they are riddled with bugs.
             </p>
             <p className="max-w-prose">
               Last year I felt perpetually stuck and captured by &ldquo;abstract
