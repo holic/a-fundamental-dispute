@@ -223,7 +223,7 @@ async function draw() {
   }
   //hatching background
   rectMode(CENTER);
-  let frame = random([100, 100, 100, 100, 50, 150, 100, 175, 100, 75]);
+  let frame = random([100, 100, 100, 100, 50, 150, 100, 100, 75, 50, 100, 75, 50, 100, 75, 150]);
    
   if (frame == 150 || frame == 175) {
     treecount = random([15,25,35])
