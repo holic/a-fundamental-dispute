@@ -363,7 +363,7 @@ contract AFDTest is Test {
 
     function testDispute() public {
         bytes memory disputeSignature =
-            createSignature(abi.encode(minter, token.lastDispute()));
+            createSignature(abi.encode(minter, 1, token.lastDispute()));
         vm.startPrank(minter);
         vm.expectRevert("Now is not the time");
         token.dispute(1, disputeSignature);
@@ -373,6 +373,8 @@ contract AFDTest is Test {
         vm.expectRevert("We are in agreement");
         token.dispute(1, disputeSignature);
 
+        disputeSignature =
+            createSignature(abi.encode(minter, 100, token.lastDispute()));
         vm.expectRevert("There is nothing to dispute");
         token.dispute(100, disputeSignature);
 
@@ -380,25 +382,27 @@ contract AFDTest is Test {
         assertEq(token.ownerOf(43), minter);
         assertEq(token.tokenSeed(43), 6342930);
 
+        disputeSignature =
+            createSignature(abi.encode(minter, 43, token.lastDispute()));
         token.dispute(43, disputeSignature);
-        assertEq(token.tokenSeed(43), 14006191);
+        assertEq(token.tokenSeed(43), 5638997);
 
         for (uint256 i = 1; i <= 217; i++) {
             vm.roll(block.number + 2810);
             disputeSignature =
-                createSignature(abi.encode(minter, token.lastDispute()));
+                createSignature(abi.encode(minter, 43, token.lastDispute()));
             token.dispute(43, disputeSignature);
         }
 
         disputeSignature =
-            createSignature(abi.encode(minter, token.lastDispute()));
+            createSignature(abi.encode(minter, 43, token.lastDispute()));
         vm.expectRevert("It's time to listen");
         token.dispute(43, disputeSignature);
     }
 
     function testDisputeBulkMints() public {
         bytes memory disputeSignature =
-            createSignature(abi.encode(artist, token.lastDispute()));
+            createSignature(abi.encode(artist, 2, token.lastDispute()));
         vm.prank(artist);
         vm.expectRevert("Now is not the time");
         token.dispute(2, disputeSignature);
@@ -414,11 +418,11 @@ contract AFDTest is Test {
         assertEq(token.tokenSeed(23), 4150326);
 
         disputeSignature =
-            createSignature(abi.encode(artist, token.lastDispute()));
+            createSignature(abi.encode(artist, 2, token.lastDispute()));
         vm.prank(artist);
         token.dispute(2, disputeSignature);
         assertEq(token.tokenSeed(1), 7510132);
-        assertEq(token.tokenSeed(2), 12652078);
+        assertEq(token.tokenSeed(2), 14434514);
         assertEq(token.tokenSeed(3), 9475496);
         assertEq(token.tokenSeed(4), 7207235);
         assertEq(token.tokenSeed(5), 1374442);
@@ -426,7 +430,7 @@ contract AFDTest is Test {
         assertEq(token.tokenSeed(23), 4150326);
 
         disputeSignature =
-            createSignature(abi.encode(artist, token.lastDispute()));
+            createSignature(abi.encode(artist, 3, token.lastDispute()));
         vm.prank(artist);
         vm.expectRevert("Now is not the time");
         token.dispute(3, disputeSignature);
@@ -436,8 +440,8 @@ contract AFDTest is Test {
         vm.prank(artist);
         token.dispute(3, disputeSignature);
         assertEq(token.tokenSeed(1), 7510132);
-        assertEq(token.tokenSeed(2), 12652078);
-        assertEq(token.tokenSeed(3), 10764587);
+        assertEq(token.tokenSeed(2), 14434514);
+        assertEq(token.tokenSeed(3), 3094754);
         assertEq(token.tokenSeed(4), 7207235);
         assertEq(token.tokenSeed(5), 1374442);
         assertEq(token.tokenSeed(22), 16225373);
@@ -445,8 +449,8 @@ contract AFDTest is Test {
 
         token.normalizeOwnership(1, 24);
         assertEq(token.tokenSeed(1), 7510132);
-        assertEq(token.tokenSeed(2), 12652078);
-        assertEq(token.tokenSeed(3), 10764587);
+        assertEq(token.tokenSeed(2), 14434514);
+        assertEq(token.tokenSeed(3), 3094754);
         assertEq(token.tokenSeed(4), 7207235);
         assertEq(token.tokenSeed(5), 1374442);
         assertEq(token.tokenSeed(22), 16225373);

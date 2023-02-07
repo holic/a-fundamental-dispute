@@ -163,7 +163,7 @@ contract AFundamentalDispute is NFT {
 
     function dispute(uint256 tokenId, bytes memory signature)
         external
-        hasValidSignature(abi.encode(msg.sender, lastDispute), signature)
+        hasValidSignature(abi.encode(msg.sender, tokenId, lastDispute), signature)
     {
         require(disputes > 0, "It's time to listen");
         require(block.number - lastDispute >= 2180, "Now is not the time");
@@ -182,10 +182,7 @@ contract AFundamentalDispute is NFT {
 
         disputes -= 1;
         lastDispute = block.number;
-        _setExtraDataAt(
-            tokenId,
-            generateSeed(abi.encode(tokenId, tokenSeed(tokenId), disputes))
-        );
+        _setExtraDataAt(tokenId, generateSeed(signature));
         emit MetadataUpdate(tokenId);
     }
 }
