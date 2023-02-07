@@ -47,15 +47,12 @@ contract AFundamentalDispute is NFT {
     error InvalidSignature();
 
     modifier hasValidSignature(bytes memory message, bytes memory signature) {
-        if (sharedSigner == signatureNotRequired) {
-            _;
-            return;
-        }
-
-        bytes32 messageHash = ECDSA.toEthSignedMessageHash(message);
-        (address signer,) = ECDSA.tryRecover(messageHash, signature);
-        if (signer != sharedSigner) {
-            revert InvalidSignature();
+        if (sharedSigner != signatureNotRequired) {
+            bytes32 messageHash = ECDSA.toEthSignedMessageHash(message);
+            (address signer,) = ECDSA.tryRecover(messageHash, signature);
+            if (signer != sharedSigner) {
+                revert InvalidSignature();
+            }
         }
         _;
     }

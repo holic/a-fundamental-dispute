@@ -336,58 +336,46 @@ contract AFDTest is Test {
     }
 
     function testDispute() public {
-        vm.prank(minter);
-        // vm.expectRevert("Now is not the time");
-        token.dispute(
-            1, createSignature(abi.encode(minter, token.lastDispute()))
-        );
+        bytes memory disputeSignature =
+            createSignature(abi.encode(minter, token.lastDispute()));
+        vm.startPrank(minter);
+        vm.expectRevert("Now is not the time");
+        token.dispute(1, disputeSignature);
 
-        // vm.roll(block.number + 2810);
+        vm.roll(block.number + 2810);
 
-        // vm.prank(minter);
-        // vm.expectRevert("We are in agreement");
-        // token.dispute(
-        //     1, createSignature(abi.encode(minter, token.lastDispute()))
-        // );
+        vm.expectRevert("We are in agreement");
+        token.dispute(1, disputeSignature);
 
-        // vm.prank(minter);
-        // vm.expectRevert("There is nothing to dispute");
-        // token.dispute(
-        //     100, createSignature(abi.encode(minter, token.lastDispute()))
-        // );
+        vm.expectRevert("There is nothing to dispute");
+        token.dispute(100, disputeSignature);
 
-        // vm.prank(minter);
-        // token.mint{value: 0.12 ether}(createSignature(abi.encode(minter)));
-        // assertEq(token.ownerOf(43), minter);
-        // assertEq(token.tokenSeed(43), 6342930);
+        token.mint{value: 0.12 ether}(createSignature(abi.encode(minter)));
+        assertEq(token.ownerOf(43), minter);
+        assertEq(token.tokenSeed(43), 6342930);
 
-        // vm.prank(minter);
-        // token.dispute(
-        //     43, createSignature(abi.encode(minter, token.lastDispute()))
-        // );
-        // assertEq(token.tokenSeed(43), 14006191);
+        token.dispute(43, disputeSignature);
+        assertEq(token.tokenSeed(43), 14006191);
 
-        // for (uint256 i = 1; i <= 217; i++) {
-        //     vm.roll(block.number + 2810);
-        //     vm.prank(minter);
-        //     token.dispute(
-        //         43, createSignature(abi.encode(minter, token.lastDispute()))
-        //     );
-        // }
+        for (uint256 i = 1; i <= 217; i++) {
+            vm.roll(block.number + 2810);
+            disputeSignature =
+                createSignature(abi.encode(minter, token.lastDispute()));
+            token.dispute(43, disputeSignature);
+        }
 
-        // vm.prank(minter);
-        // vm.expectRevert("It's time to listen");
-        // token.dispute(
-        //     43, createSignature(abi.encode(minter, token.lastDispute()))
-        // );
+        disputeSignature =
+            createSignature(abi.encode(minter, token.lastDispute()));
+        vm.expectRevert("It's time to listen");
+        token.dispute(43, disputeSignature);
     }
 
     function testDisputeBulkMints() public {
+        bytes memory disputeSignature =
+            createSignature(abi.encode(artist, token.lastDispute()));
         vm.prank(artist);
         vm.expectRevert("Now is not the time");
-        token.dispute(
-            2, createSignature(abi.encode(artist, token.lastDispute()))
-        );
+        token.dispute(2, disputeSignature);
 
         vm.roll(block.number + 2810);
 
@@ -399,10 +387,10 @@ contract AFDTest is Test {
         assertEq(token.tokenSeed(22), 16225373);
         assertEq(token.tokenSeed(23), 4150326);
 
+        disputeSignature =
+            createSignature(abi.encode(artist, token.lastDispute()));
         vm.prank(artist);
-        token.dispute(
-            2, createSignature(abi.encode(artist, token.lastDispute()))
-        );
+        token.dispute(2, disputeSignature);
         assertEq(token.tokenSeed(1), 7510132);
         assertEq(token.tokenSeed(2), 12652078);
         assertEq(token.tokenSeed(3), 9475496);
@@ -411,18 +399,16 @@ contract AFDTest is Test {
         assertEq(token.tokenSeed(22), 16225373);
         assertEq(token.tokenSeed(23), 4150326);
 
+        disputeSignature =
+            createSignature(abi.encode(artist, token.lastDispute()));
         vm.prank(artist);
         vm.expectRevert("Now is not the time");
-        token.dispute(
-            3, createSignature(abi.encode(artist, token.lastDispute()))
-        );
+        token.dispute(3, disputeSignature);
 
         vm.roll(block.number + 2810);
 
         vm.prank(artist);
-        token.dispute(
-            3, createSignature(abi.encode(artist, token.lastDispute()))
-        );
+        token.dispute(3, disputeSignature);
         assertEq(token.tokenSeed(1), 7510132);
         assertEq(token.tokenSeed(2), 12652078);
         assertEq(token.tokenSeed(3), 10764587);
