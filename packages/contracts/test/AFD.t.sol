@@ -121,6 +121,32 @@ contract AFDTest is Test {
         vm.stopPrank();
     }
 
+    function testSharedSigners() public {
+        bytes memory signature = createSignature(abi.encode(holder));
+        assertEq(token.balanceOf(minter), 0);
+
+        vm.prank(minter);
+        vm.expectRevert(AFundamentalDispute.InvalidSignature.selector);
+        token.mint{value: 0.12 ether}(signature);
+
+        vm.prank(owner);
+        token.setSharedSigner(address(0));
+
+        signature = createSignature(abi.encode(minter));
+        vm.prank(minter);
+        vm.expectRevert(AFundamentalDispute.InvalidSignature.selector);
+        token.mint{value: 0.12 ether}(signature);
+
+        address signer = token.signatureNotRequired();
+        vm.prank(owner);
+        token.setSharedSigner(signer);
+
+        assertEq(token.balanceOf(minter), 0);
+        vm.prank(minter);
+        token.mint{value: 0.12 ether}(new bytes(0));
+        assertEq(token.balanceOf(minter), 1);
+    }
+
     function testFoldedFacesMint() public {
         uint256[] memory tokenIds = new uint256[](1);
         tokenIds[0] = 0;
