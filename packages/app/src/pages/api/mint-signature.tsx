@@ -46,7 +46,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     ethers.utils.defaultAbiCoder.encode(["address"], [address])
   );
 
-  return res.json({
+  return res.send({
     signature: await signer.signMessage(encoded),
   });
 };

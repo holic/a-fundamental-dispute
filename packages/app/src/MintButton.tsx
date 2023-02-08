@@ -237,7 +237,7 @@ export const MintButton = () => {
   const { switchNetwork } = useSwitchNetwork();
   const { address } = useAccount();
   const { data: balance } = useBalance({ address });
-  const { mintSignature, error } = useMintSignature();
+  const { mintSignature, error: mintSignatureError } = useMintSignature();
 
   return (
     <ConnectButton.Custom>
@@ -279,15 +279,20 @@ export const MintButton = () => {
           );
         }
 
-        if (!mintSignature) {
-          if (error) {
+        if (mintSignatureError) {
+          return (
             <ButtonLink disabled>
-              <HoverLabel label="Mint a piece ☼" labelHover={error} />
-            </ButtonLink>;
-          }
+              <HoverLabel
+                label="Mint a piece ☼"
+                labelHover={`${mintSignatureError} ☹︎`}
+              />
+            </ButtonLink>
+          );
+        }
+        if (!mintSignature) {
           return (
             <ButtonLink pending>
-              <HoverLabel label="Mint a piece ☼" labelHover="Verifying…" />
+              <HoverLabel label="Mint a piece ☼" labelHover="Thinking…" />
             </ButtonLink>
           );
         }

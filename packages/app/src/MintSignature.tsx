@@ -17,6 +17,10 @@ export const useMintSignature = createStore<MintSignatureState>(() => ({
   error: undefined,
 }));
 
+useMintSignature.subscribe((state) => {
+  console.log("useMintSignature state", state);
+});
+
 export const MintSignature = () => {
   const { address } = useAccount();
 
@@ -36,7 +40,8 @@ export const MintSignature = () => {
         size: "invisible",
         cData: address,
       }}
-      onSuccess={(turnstileToken) => {
+      onSuccess={async (turnstileToken) => {
+        console.log("got turnstile token", turnstileToken);
         useMintSignature.setState({
           status: "verifying",
           turnstileToken,
@@ -44,59 +49,75 @@ export const MintSignature = () => {
           error: undefined,
         });
 
-        fetch("/api/mint-signature", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ address, turnstileToken }),
-        })
-          .then((res) => res.json())
-          .then(
-            (json) => {
-              if (
-                useMintSignature.getState().turnstileToken !== turnstileToken
-              ) {
-                // ignore outdated response
-                return;
-              }
-
-              if (json.error) {
-                useMintSignature.setState({
-                  status: "error",
-                  turnstileToken: undefined,
-                  mintSignature: undefined,
-                  error: json.error,
-                });
-                return;
-              }
-
-              useMintSignature.setState({
-                status: "success",
-                turnstileToken,
-                mintSignature: json.signature,
-                error: undefined,
-              });
+        try {
+          console.log("verifying token and creating mint signature");
+          const res = await fetch("/api/mint-signature", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-            (error) => {
-              if (
-                useMintSignature.getState().turnstileToken !== turnstileToken
-              ) {
-                // ignore outdated response
-                return;
-              }
+            body: JSON.stringify({ address, turnstileToken }),
+          });
 
+          if (useMintSignature.getState().turnstileToken !== turnstileToken) {
+            console.log("outdated response, ignoring");
+            return;
+          }
+
+          if (res.headers.get("Content-Type")?.includes("application/json")) {
+            const data = await res.json();
+            console.log("got json response", data);
+
+            if (data.error) {
+              console.log("error response", data.error);
               useMintSignature.setState({
                 status: "error",
                 turnstileToken: undefined,
                 mintSignature: undefined,
-                error: error.message,
+                error: "Could not validate mint",
               });
+              return;
             }
+
+            if (data.signature) {
+              console.log("got signature", data.signature);
+              useMintSignature.setState({
+                status: "success",
+                turnstileToken,
+                mintSignature: data.signature,
+                error: undefined,
+              });
+              return;
+            }
+
+            console.error("unexpected json response", data);
+            throw new Error("unexpected json response");
+          }
+
+          console.error(
+            "unexpected response when generating mint signature",
+            res.status,
+            res.statusText
           );
+          throw new Error("unexpected response");
+        } catch (error: any) {
+          console.error(error);
+          useMintSignature.setState({
+            status: "error",
+            turnstileToken: undefined,
+            mintSignature: undefined,
+            error: "Could not validate mint",
+          });
+        }
       }}
       onError={() => {
-        useMintSignature.setState({ status: "error" });
+        console.error("error creating turnstile token");
+        useMintSignature.setState({
+          status: "error",
+          turnstileToken: undefined,
+          mintSignature: undefined,
+          error: "Could not verify browser",
+        });
       }}
     />
   );
