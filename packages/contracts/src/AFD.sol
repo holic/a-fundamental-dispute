@@ -4,6 +4,7 @@ pragma solidity ^0.8.13;
 import {NFT} from "./NFT.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {BitMaps} from "@openzeppelin/contracts/utils/structs/BitMaps.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /// @author frolic.eth
 /// @title  A Fundamental Dispute
@@ -16,7 +17,14 @@ contract AFundamentalDispute is NFT {
     IERC721 public immutable foldedFaces;
     BitMaps.BitMap internal foldedFacesUsed;
 
+    address public sharedSigner;
+    address public constant signatureNotRequired =
+        address(bytes20(keccak256("signatureNotRequired")));
+
     event TokenDiscountUsed(address token, uint256 tokenId);
+    event SharedSignerUpdated(
+        address nextSharedSigner, address previousSharedSigner
+    );
 
     // ****************** //
     // *** INITIALIZE *** //
@@ -32,16 +40,34 @@ contract AFundamentalDispute is NFT {
         _mintERC2309(developer, 21);
     }
 
+    // ********************* //
+    // *** SHARED SIGNER *** //
+    // ********************* //
+
+    error InvalidSignature();
+
+    modifier hasValidSignature(bytes memory message, bytes memory signature) {
+        if (sharedSigner != signatureNotRequired) {
+            bytes32 messageHash = ECDSA.toEthSignedMessageHash(message);
+            (address signer,) = ECDSA.tryRecover(messageHash, signature);
+            if (signer != sharedSigner) {
+                revert InvalidSignature();
+            }
+        }
+        _;
+    }
+
     // ******************* //
     // *** PUBLIC MINT *** //
     // ******************* //
 
-    function mint()
+    function mint(bytes memory signature)
         external
         payable
         hasExactPayment(publicPrice)
         withinMaxSupply
         withinMintLimit(2)
+        hasValidSignature(abi.encode(msg.sender), signature)
     {
         _mint(msg.sender, 1);
     }
@@ -56,12 +82,16 @@ contract AFundamentalDispute is NFT {
         return foldedFacesUsed.get(tokenId);
     }
 
-    function foldedFacesMint(uint256[] calldata tokenIds)
+    function foldedFacesMint(
+        uint256[] calldata tokenIds,
+        bytes memory signature
+    )
         external
         payable
         hasExactPayment(holderPrice)
         withinMaxSupply
         withinMintLimit(2)
+        hasValidSignature(abi.encode(msg.sender), signature)
     {
         uint256 tokenId;
         for (uint256 i = 0; i < tokenIds.length; i++) {
@@ -81,6 +111,11 @@ contract AFundamentalDispute is NFT {
     // **************** //
     // *** INTERNAL *** //
     // **************** //
+
+    function setSharedSigner(address signer) external onlyOwner {
+        emit SharedSignerUpdated(signer, sharedSigner);
+        sharedSigner = signer;
+    }
 
     function tokenSeed(uint256 tokenId) public view returns (uint24) {
         return uint24(
@@ -126,7 +161,10 @@ contract AFundamentalDispute is NFT {
     uint256 public lastDispute = block.number;
     uint256 public disputes = 218;
 
-    function dispute(uint256 tokenId) external {
+    function dispute(uint256 tokenId, bytes memory signature)
+        external
+        hasValidSignature(abi.encode(msg.sender, tokenId, lastDispute), signature)
+    {
         require(disputes > 0, "It's time to listen");
         require(block.number - lastDispute >= 2180, "Now is not the time");
         require(_exists(tokenId), "There is nothing to dispute");
@@ -144,10 +182,7 @@ contract AFundamentalDispute is NFT {
 
         disputes -= 1;
         lastDispute = block.number;
-        _setExtraDataAt(
-            tokenId,
-            generateSeed(abi.encode(tokenId, tokenSeed(tokenId), disputes))
-        );
+        _setExtraDataAt(tokenId, generateSeed(signature));
         emit MetadataUpdate(tokenId);
     }
 }

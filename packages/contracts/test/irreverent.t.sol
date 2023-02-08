@@ -31,6 +31,7 @@ contract IrreverentTest is Test {
     function setUp() public {
         nftContract =
             new AFundamentalDispute(IERC721(mock721), artist, developer);
+        nftContract.setSharedSigner(nftContract.signatureNotRequired());
     }
 
     /// Test that the contract was initialized correctly with the correct
@@ -56,7 +57,7 @@ contract IrreverentTest is Test {
         assertEq(nftContract.balanceOf(alice), 0);
 
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         assertEq(nftContract.ownerOf(43), alice);
         assertEq(nftContract.balanceOf(alice), 1);
@@ -69,13 +70,13 @@ contract IrreverentTest is Test {
         assertEq(nftContract.totalMinted(), 42);
 
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         assertEq(nftContract.ownerOf(44), alice);
 
@@ -93,17 +94,17 @@ contract IrreverentTest is Test {
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.12 ether)
         );
-        nftContract.mint{value: 0.08 ether}();
+        nftContract.mint{value: 0.08 ether}(new bytes(0));
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.12 ether)
         );
-        nftContract.mint();
+        nftContract.mint(new bytes(0));
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.12 ether)
         );
-        nftContract.mint{value: 12 ether}();
+        nftContract.mint{value: 12 ether}(new bytes(0));
 
         assertEq(nftContract.balanceOf(alice), 0);
         assertEq(nftContract.totalMinted(), 42);
@@ -117,7 +118,9 @@ contract IrreverentTest is Test {
         mockTokenIds[0] = 0;
 
         startHoax(alice);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
 
@@ -137,13 +140,19 @@ contract IrreverentTest is Test {
         mockTokenIds[2] = 2;
 
         startHoax(alice);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
         assertEq(nftContract.ownerOf(44), alice);
@@ -162,8 +171,12 @@ contract IrreverentTest is Test {
         mockTokenIds[1] = 1;
 
         startHoax(alice);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
         assertEq(nftContract.ownerOf(44), alice);
@@ -182,7 +195,9 @@ contract IrreverentTest is Test {
         mockTokenIds[1] = 1;
 
         startHoax(alice);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         // revert because token 1 is owned by bob
         vm.expectRevert(
@@ -192,7 +207,9 @@ contract IrreverentTest is Test {
                 mockTokenIds
             )
         );
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
 
@@ -206,18 +223,22 @@ contract IrreverentTest is Test {
         mock721.airdrop(alice, 1);
 
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         uint256[] memory mockTokenIds = new uint256[](2);
         mockTokenIds[0] = 0;
         mockTokenIds[1] = 1;
 
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
         assertEq(nftContract.ownerOf(44), alice);
@@ -236,13 +257,17 @@ contract IrreverentTest is Test {
         mockTokenIds[0] = 0;
         mockTokenIds[1] = 1;
 
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MintLimitExceeded.selector, 0)
         );
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         assertEq(nftContract.ownerOf(43), alice);
         assertEq(nftContract.ownerOf(44), alice);
@@ -258,7 +283,9 @@ contract IrreverentTest is Test {
         mockTokenIds[0] = 0;
 
         startHoax(alice);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
         mock721.transferFrom(alice, bob, 0);
         vm.stopPrank();
 
@@ -270,7 +297,9 @@ contract IrreverentTest is Test {
                 mockTokenIds
             )
         );
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
 
@@ -290,16 +319,24 @@ contract IrreverentTest is Test {
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
         );
-        nftContract.foldedFacesMint{value: 0.01 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.01 ether}(
+            mockTokenIds, new bytes(0)
+        );
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
         );
-        nftContract.foldedFacesMint{value: 0.12 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.12 ether}(
+            mockTokenIds, new bytes(0)
+        );
         vm.expectRevert(
             abi.encodeWithSelector(NFT.WrongPayment.selector, 0.08 ether)
         );
-        nftContract.foldedFacesMint{value: 0.01 ether}(mockTokenIds);
-        nftContract.foldedFacesMint{value: 0.08 ether}(mockTokenIds);
+        nftContract.foldedFacesMint{value: 0.01 ether}(
+            mockTokenIds, new bytes(0)
+        );
+        nftContract.foldedFacesMint{value: 0.08 ether}(
+            mockTokenIds, new bytes(0)
+        );
 
         assertEq(nftContract.ownerOf(43), alice);
 
@@ -311,16 +348,16 @@ contract IrreverentTest is Test {
     function testIrreverentBeyondMaxSupply() public {
         for (uint256 i = 0; i < 393; i++) {
             hoax(address(uint160(i + 12345)));
-            nftContract.mint{value: 0.12 ether}();
+            nftContract.mint{value: 0.12 ether}(new bytes(0));
         }
 
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         vm.expectRevert(
             abi.encodeWithSelector(NFT.MaxSupplyExceeded.selector, 0)
         );
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         assertEq(nftContract.ownerOf(436), alice);
         assertEq(nftContract.balanceOf(alice), 1);
@@ -330,11 +367,11 @@ contract IrreverentTest is Test {
     /// Test dispute
     function testIrreverentDispute() public {
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         uint24 seed = nftContract.tokenSeed(43);
         vm.roll(block.number + 2180);
-        nftContract.dispute(43);
+        nftContract.dispute(43, new bytes(0));
         uint24 newSeed = nftContract.tokenSeed(43);
         assert(newSeed != seed);
     }
@@ -342,32 +379,32 @@ contract IrreverentTest is Test {
     /// Test dispute before time
     function testIrreverentDisputeNotYet() public {
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         vm.expectRevert("Now is not the time");
-        nftContract.dispute(43);
+        nftContract.dispute(43, new bytes(0));
     }
 
     /// Test disputing someone elses' token
     function testIrreverentDisputeNotOwner() public {
         hoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         vm.roll(block.number + 2180);
         vm.prank(bob);
         vm.expectRevert("We are in agreement");
-        nftContract.dispute(43);
+        nftContract.dispute(43, new bytes(0));
     }
 
     /// Test disputing multiple times
     function testIrreverentDisputeFiveTimes() public {
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         for (uint256 i = 0; i < 5; i++) {
             uint24 seed = nftContract.tokenSeed(43);
             vm.roll(block.number + 2180);
-            nftContract.dispute(43);
+            nftContract.dispute(43, new bytes(0));
             uint24 newSeed = nftContract.tokenSeed(43);
             assert(newSeed != seed);
         }
@@ -376,18 +413,18 @@ contract IrreverentTest is Test {
     /// Test disputing too many times
     function testIrreverentDisputeBeyondMax() public {
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         for (uint256 i = 0; i < 218; i++) {
             uint24 seed = nftContract.tokenSeed(43);
             vm.roll(block.number + 2180);
-            nftContract.dispute(43);
+            nftContract.dispute(43, new bytes(0));
             uint24 newSeed = nftContract.tokenSeed(43);
             assert(newSeed != seed);
         }
         vm.roll(block.number + 2180);
         vm.expectRevert("It's time to listen");
-        nftContract.dispute(43);
+        nftContract.dispute(43, new bytes(0));
     }
 
     /// Test disputing too many times
@@ -396,14 +433,14 @@ contract IrreverentTest is Test {
 
         vm.roll(block.number + 2180);
         vm.expectRevert("There is nothing to dispute");
-        nftContract.dispute(43);
+        nftContract.dispute(43, new bytes(0));
     }
 
     /// Test withdraw
     function testIrreverentWithdrawToBob() public {
         uint256 balance = address(bob).balance;
         hoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         nftContract.withdrawAll(bob);
         assertEq(address(bob).balance, 0.12 ether + balance);
@@ -412,7 +449,7 @@ contract IrreverentTest is Test {
     /// Test withdraw with non owner
     function testIrreverentWithdrawNonOwner() public {
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         vm.expectRevert("Ownable: caller is not the owner");
         nftContract.withdrawAll(bob);
@@ -421,7 +458,7 @@ contract IrreverentTest is Test {
     /// Test seed stability between transfer
     function testIrreverentSeedStability() public {
         startHoax(alice);
-        nftContract.mint{value: 0.12 ether}();
+        nftContract.mint{value: 0.12 ether}(new bytes(0));
 
         uint24 seed = nftContract.tokenSeed(43);
         nftContract.transferFrom(alice, bob, 43);
@@ -434,7 +471,7 @@ contract IrreverentTest is Test {
     function testIrreverentSeedUniqueness() public {
         for (uint256 i = 0; i < 394; i++) {
             hoax(address(uint160(i + 12345)));
-            nftContract.mint{value: 0.12 ether}();
+            nftContract.mint{value: 0.12 ether}(new bytes(0));
         }
 
         for (uint256 i = 1; i <= 396; i++) {
