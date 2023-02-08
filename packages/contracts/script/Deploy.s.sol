@@ -22,6 +22,7 @@ contract Deploy is Script {
             artist,
             developer
         );
+        token.setSharedSigner(vm.envAddress("SHARED_SIGNER"));
         AFDRenderer renderer = new AFDRenderer(
             token,
             IFileStore(fileStore())
