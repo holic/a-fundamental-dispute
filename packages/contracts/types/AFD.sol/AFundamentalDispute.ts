@@ -54,12 +54,12 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseTokenURI()": FunctionFragment;
-    "dispute(uint256)": FunctionFragment;
+    "dispute(uint256,bytes)": FunctionFragment;
     "disputes()": FunctionFragment;
     "explicitOwnershipOf(uint256)": FunctionFragment;
     "explicitOwnershipsOf(uint256[])": FunctionFragment;
     "foldedFaces()": FunctionFragment;
-    "foldedFacesMint(uint256[])": FunctionFragment;
+    "foldedFacesMint(uint256[],bytes)": FunctionFragment;
     "generateSeed(bytes)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "hasUsedFoldedFaces(uint256)": FunctionFragment;
@@ -67,7 +67,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "isApprovedForAll(address,address)": FunctionFragment;
     "lastDispute()": FunctionFragment;
     "maxSupply()": FunctionFragment;
-    "mint()": FunctionFragment;
+    "mint(bytes)": FunctionFragment;
     "name()": FunctionFragment;
     "normalizeOwnership(uint256,uint256)": FunctionFragment;
     "numberMinted(address)": FunctionFragment;
@@ -85,6 +85,9 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "setDefaultRoyalty(uint96)": FunctionFragment;
     "setRenderer(address)": FunctionFragment;
     "setRoyaltyProvider(address)": FunctionFragment;
+    "setSharedSigner(address)": FunctionFragment;
+    "sharedSigner()": FunctionFragment;
+    "signatureNotRequired()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenSeed(uint256)": FunctionFragment;
@@ -136,6 +139,9 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
       | "setDefaultRoyalty"
       | "setRenderer"
       | "setRoyaltyProvider"
+      | "setSharedSigner"
+      | "sharedSigner"
+      | "signatureNotRequired"
       | "supportsInterface"
       | "symbol"
       | "tokenSeed"
@@ -165,7 +171,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "dispute",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "disputes", values?: undefined): string;
   encodeFunctionData(
@@ -182,7 +188,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "foldedFacesMint",
-    values: [PromiseOrValue<BigNumberish>[]]
+    values: [PromiseOrValue<BigNumberish>[], PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "generateSeed",
@@ -209,7 +215,10 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "maxSupply", values?: undefined): string;
-  encodeFunctionData(functionFragment: "mint", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "normalizeOwnership",
@@ -277,6 +286,18 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "setRoyaltyProvider",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setSharedSigner",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "sharedSigner",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "signatureNotRequired",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -447,6 +468,18 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setSharedSigner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "sharedSigner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "signatureNotRequired",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
@@ -500,6 +533,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
     "MetadataUpdate(uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RendererUpdated(address,address)": EventFragment;
+    "SharedSignerUpdated(address,address)": EventFragment;
     "TokenDiscountUsed(address,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
@@ -513,6 +547,7 @@ export interface AFundamentalDisputeInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "MetadataUpdate"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RendererUpdated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SharedSignerUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenDiscountUsed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -617,6 +652,18 @@ export type RendererUpdatedEvent = TypedEvent<
 
 export type RendererUpdatedEventFilter = TypedEventFilter<RendererUpdatedEvent>;
 
+export interface SharedSignerUpdatedEventObject {
+  nextSharedSigner: string;
+  previousSharedSigner: string;
+}
+export type SharedSignerUpdatedEvent = TypedEvent<
+  [string, string],
+  SharedSignerUpdatedEventObject
+>;
+
+export type SharedSignerUpdatedEventFilter =
+  TypedEventFilter<SharedSignerUpdatedEvent>;
+
 export interface TokenDiscountUsedEventObject {
   token: string;
   tokenId: BigNumber;
@@ -683,6 +730,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     dispute(
       tokenId: PromiseOrValue<BigNumberish>,
+      signature: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -706,6 +754,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     foldedFacesMint(
       tokenIds: PromiseOrValue<BigNumberish>[],
+      signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -737,6 +786,7 @@ export interface AFundamentalDispute extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mint(
+      signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -817,6 +867,15 @@ export interface AFundamentalDispute extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setSharedSigner(
+      signer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    sharedSigner(overrides?: CallOverrides): Promise<[string]>;
+
+    signatureNotRequired(overrides?: CallOverrides): Promise<[string]>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -896,6 +955,7 @@ export interface AFundamentalDispute extends BaseContract {
 
   dispute(
     tokenId: PromiseOrValue<BigNumberish>,
+    signature: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -915,6 +975,7 @@ export interface AFundamentalDispute extends BaseContract {
 
   foldedFacesMint(
     tokenIds: PromiseOrValue<BigNumberish>[],
+    signature: PromiseOrValue<BytesLike>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -946,6 +1007,7 @@ export interface AFundamentalDispute extends BaseContract {
   maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   mint(
+    signature: PromiseOrValue<BytesLike>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1026,6 +1088,15 @@ export interface AFundamentalDispute extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setSharedSigner(
+    signer: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  sharedSigner(overrides?: CallOverrides): Promise<string>;
+
+  signatureNotRequired(overrides?: CallOverrides): Promise<string>;
+
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -1105,6 +1176,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     dispute(
       tokenId: PromiseOrValue<BigNumberish>,
+      signature: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1124,6 +1196,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     foldedFacesMint(
       tokenIds: PromiseOrValue<BigNumberish>[],
+      signature: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1154,7 +1227,10 @@ export interface AFundamentalDispute extends BaseContract {
 
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
-    mint(overrides?: CallOverrides): Promise<void>;
+    mint(
+      signature: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -1230,6 +1306,15 @@ export interface AFundamentalDispute extends BaseContract {
       _royaltyProvider: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setSharedSigner(
+      signer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    sharedSigner(overrides?: CallOverrides): Promise<string>;
+
+    signatureNotRequired(overrides?: CallOverrides): Promise<string>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
@@ -1373,6 +1458,15 @@ export interface AFundamentalDispute extends BaseContract {
       newRenderer?: null
     ): RendererUpdatedEventFilter;
 
+    "SharedSignerUpdated(address,address)"(
+      nextSharedSigner?: null,
+      previousSharedSigner?: null
+    ): SharedSignerUpdatedEventFilter;
+    SharedSignerUpdated(
+      nextSharedSigner?: null,
+      previousSharedSigner?: null
+    ): SharedSignerUpdatedEventFilter;
+
     "TokenDiscountUsed(address,uint256)"(
       token?: null,
       tokenId?: null
@@ -1410,6 +1504,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     dispute(
       tokenId: PromiseOrValue<BigNumberish>,
+      signature: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1429,6 +1524,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     foldedFacesMint(
       tokenIds: PromiseOrValue<BigNumberish>[],
+      signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1460,6 +1556,7 @@ export interface AFundamentalDispute extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
+      signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1539,6 +1636,15 @@ export interface AFundamentalDispute extends BaseContract {
       _royaltyProvider: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    setSharedSigner(
+      signer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    sharedSigner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    signatureNotRequired(overrides?: CallOverrides): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
@@ -1620,6 +1726,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     dispute(
       tokenId: PromiseOrValue<BigNumberish>,
+      signature: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1639,6 +1746,7 @@ export interface AFundamentalDispute extends BaseContract {
 
     foldedFacesMint(
       tokenIds: PromiseOrValue<BigNumberish>[],
+      signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1670,6 +1778,7 @@ export interface AFundamentalDispute extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
+      signature: PromiseOrValue<BytesLike>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1748,6 +1857,17 @@ export interface AFundamentalDispute extends BaseContract {
     setRoyaltyProvider(
       _royaltyProvider: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setSharedSigner(
+      signer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    sharedSigner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    signatureNotRequired(
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     supportsInterface(
