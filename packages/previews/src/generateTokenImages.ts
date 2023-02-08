@@ -23,10 +23,17 @@ export const generateImages = async () => {
   }).then((res) => res.json() as any);
 
   const tokens = json.data.tokens;
-  for (const token of tokens) {
-    await createImage(
-      `${goerliDeploys.AFDRenderer.contractAddress}/${token.tokenId}`,
-      token.html
+  const batchSize = 8;
+  for (let i = 0; i < tokens.length; i += batchSize) {
+    await Promise.all(
+      tokens
+        .slice(i, i + batchSize)
+        .map((token: any) =>
+          createImage(
+            `${goerliDeploys.AFDRenderer.contractAddress}/${token.tokenId}`,
+            token.html
+          )
+        )
     );
   }
 
