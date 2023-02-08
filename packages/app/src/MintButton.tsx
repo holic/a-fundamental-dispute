@@ -20,6 +20,7 @@ import { targetChainId } from "./EthereumProviders";
 import { extractContractError } from "./extractContractError";
 import { HoverLabel } from "./HoverLabel";
 import { promiseNotify } from "./promiseNotify";
+import { useMintSignature } from "./useMintSignature";
 import { usePromiseFn } from "./usePromiseFn";
 
 gql`
@@ -39,23 +40,26 @@ const ActualMintButton = ({ address }: { address: string }) => {
     () => data?.foldedFacesTokens.map((token) => token.tokenId) ?? [],
     [data]
   );
+  const mintSignature = useMintSignature();
 
   const preparedDiscountedMint = usePrepareContractWrite({
     ...contracts.AFundamentalDispute,
     functionName: "foldedFacesMint",
-    args: [discountTokens.map(ethers.BigNumber.from)],
+    args: [discountTokens.map(ethers.BigNumber.from), mintSignature.data],
     overrides: {
       value: ethers.utils.parseEther(holderPrice),
     },
-    enabled: discountTokens.length >= 1,
+    enabled: mintSignature.isSuccess && discountTokens.length >= 1,
   });
 
   const preparedMint = usePrepareContractWrite({
     ...contracts.AFundamentalDispute,
     functionName: "mint",
+    args: [mintSignature.data],
     overrides: {
       value: ethers.utils.parseEther(publicPrice),
     },
+    enabled: mintSignature.isSuccess,
   });
 
   const discountedMintWrite = useContractWrite(preparedDiscountedMint.config);
