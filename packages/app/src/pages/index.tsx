@@ -4,6 +4,7 @@ import Head from "next/head";
 
 import { holderPrice, maxSupply, publicPrice } from "../constants";
 import { MintButton } from "../MintButton";
+import { MintSignature } from "../MintSignature";
 import { TextLink } from "../TextLink";
 import { useTotalMinted } from "../useTotalMinted";
 
@@ -101,6 +102,7 @@ const HomePage: NextPage = () => {
           {totalMinted?.lt(maxSupply) ? (
             <div>
               <MintButton />
+              <MintSignature />
               <p className="italic">
                 {ethers.BigNumber.from(maxSupply).sub(totalMinted).toString()}{" "}
                 of {maxSupply} pieces remaining.

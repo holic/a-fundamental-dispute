@@ -18,6 +18,7 @@
     "@ethersproject/contracts": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@headlessui/react": "^1.7.7",
+    "@marsidev/react-turnstile": "^0.0.7",
     "@rainbow-me/rainbowkit": "0.8.1",
     "@web3-scaffold/contracts": "workspace:*",
     "classnames": "^2.3.1",

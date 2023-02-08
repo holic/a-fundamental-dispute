@@ -19,8 +19,8 @@ import { contracts, tokenContract } from "./contracts";
 import { targetChainId } from "./EthereumProviders";
 import { extractContractError } from "./extractContractError";
 import { HoverLabel } from "./HoverLabel";
+import { useMintSignature } from "./MintSignature";
 import { promiseNotify } from "./promiseNotify";
-import { useMintSignature } from "./useMintSignature";
 import { usePromiseFn } from "./usePromiseFn";
 
 gql`
@@ -32,7 +32,13 @@ gql`
   }
 `;
 
-const ActualMintButton = ({ address }: { address: string }) => {
+const ActualMintButton = ({
+  address,
+  mintSignature,
+}: {
+  address: string;
+  mintSignature: string;
+}) => {
   const [{ data }] = useMintButtonQuery(
     address ? { variables: { address } } : { pause: true }
   );
@@ -40,26 +46,27 @@ const ActualMintButton = ({ address }: { address: string }) => {
     () => data?.foldedFacesTokens.map((token) => token.tokenId) ?? [],
     [data]
   );
-  const mintSignature = useMintSignature();
 
   const preparedDiscountedMint = usePrepareContractWrite({
     ...contracts.AFundamentalDispute,
     functionName: "foldedFacesMint",
-    args: [discountTokens.map(ethers.BigNumber.from), mintSignature.data],
+    args: [
+      discountTokens.map(ethers.BigNumber.from),
+      mintSignature as `0x${string}`,
+    ],
     overrides: {
       value: ethers.utils.parseEther(holderPrice),
     },
-    enabled: mintSignature.isSuccess && discountTokens.length >= 1,
+    enabled: discountTokens.length >= 1,
   });
 
   const preparedMint = usePrepareContractWrite({
     ...contracts.AFundamentalDispute,
     functionName: "mint",
-    args: [mintSignature.data],
+    args: [mintSignature as `0x${string}`],
     overrides: {
       value: ethers.utils.parseEther(publicPrice),
     },
-    enabled: mintSignature.isSuccess,
   });
 
   const discountedMintWrite = useContractWrite(preparedDiscountedMint.config);
@@ -230,6 +237,7 @@ export const MintButton = () => {
   const { switchNetwork } = useSwitchNetwork();
   const { address } = useAccount();
   const { data: balance } = useBalance({ address });
+  const { mintSignature, error } = useMintSignature();
 
   return (
     <ConnectButton.Custom>
@@ -271,7 +279,25 @@ export const MintButton = () => {
           );
         }
 
-        return <ActualMintButton address={account.address} />;
+        if (!mintSignature) {
+          if (error) {
+            <ButtonLink disabled>
+              <HoverLabel label="Mint a piece ☼" labelHover={error} />
+            </ButtonLink>;
+          }
+          return (
+            <ButtonLink pending>
+              <HoverLabel label="Mint a piece ☼" labelHover="Verifying…" />
+            </ButtonLink>
+          );
+        }
+
+        return (
+          <ActualMintButton
+            address={account.address}
+            mintSignature={mintSignature}
+          />
+        );
       }}
     </ConnectButton.Custom>
   );
