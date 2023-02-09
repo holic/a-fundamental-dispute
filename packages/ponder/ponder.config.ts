@@ -2,6 +2,7 @@ import { PonderConfig, ResolvedPonderConfig } from "@ponder/core";
 import { graphqlPlugin } from "@ponder/graphql";
 
 import goerliDeploys from "../contracts/deploys/goerli.json";
+import mainnetDeploys from "../contracts/deploys/mainnet.json";
 
 const foldedFaces: ResolvedPonderConfig["contracts"][0] = {
   name: "FoldedFaces",
@@ -20,7 +21,23 @@ export const config: PonderConfig = {
   contracts: (() => {
     switch (process.env.CHAIN_ID) {
       case "1":
-        return [foldedFaces];
+        return [
+          foldedFaces,
+          {
+            name: "AFundamentalDispute",
+            network: "mainnet",
+            abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
+            address: mainnetDeploys.AFundamentalDispute.contractAddress,
+            startBlock: mainnetDeploys.AFundamentalDispute.blockNumber,
+          },
+          {
+            name: "AFDRenderer",
+            network: "mainnet",
+            abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
+            address: mainnetDeploys.AFDRenderer.contractAddress,
+            startBlock: mainnetDeploys.AFDRenderer.blockNumber,
+          },
+        ];
       case "5":
         return [
           foldedFaces,

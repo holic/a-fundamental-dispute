@@ -54,6 +54,9 @@ contract Deploy is Script {
     }
 
     function fileStore() public view returns (address) {
+        if (chainId() == 1) {
+            return 0x9746fD0A77829E12F8A9DBe70D7a322412325B91;
+        }
         if (chainId() == 5) {
             return 0x5E348d0975A920E9611F8140f84458998A53af94;
         }
@@ -72,6 +75,9 @@ contract Deploy is Script {
     }
 
     function chainName() public view returns (string memory) {
+        if (chainId() == 1) {
+            return "mainnet";
+        }
         if (chainId() == 5) {
             return "goerli";
         }
