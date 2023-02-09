@@ -41,7 +41,14 @@ export const TokenOwner = ({ tokenId, owner }: Props) => {
   const { address, displayName } = useENS(
     isMounted ? owner ?? data?.token?.owner?.id : undefined
   );
-  if (!address) return <>??</>;
+  if (!address) {
+    return (
+      <>
+        {owner?.replace(/^(0x[0-9A-F]{3})[0-9A-F]+([0-9A-F]{4})$/i, "$1…$2") ??
+          "??"}
+      </>
+    );
+  }
 
   return (
     <TextLink
