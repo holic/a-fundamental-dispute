@@ -242,6 +242,13 @@ export type GalleryPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GalleryPageQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number }> };
 
+export type TokenPageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type TokenPageQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number, readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
+
 
 export const ArtPreviewDocument = gql`
     query ArtPreview($id: ID!) {
@@ -291,4 +298,19 @@ export const GalleryPageDocument = gql`
 
 export function useGalleryPageQuery(options?: Omit<Urql.UseQueryArgs<GalleryPageQueryVariables>, 'query'>) {
   return Urql.useQuery<GalleryPageQuery, GalleryPageQueryVariables>({ query: GalleryPageDocument, ...options });
+};
+export const TokenPageDocument = gql`
+    query TokenPage($id: ID!) {
+  token: aFundamentalDisputeToken(id: $id) {
+    id
+    tokenId
+    owner {
+      id
+    }
+  }
+}
+    `;
+
+export function useTokenPageQuery(options: Omit<Urql.UseQueryArgs<TokenPageQueryVariables>, 'query'>) {
+  return Urql.useQuery<TokenPageQuery, TokenPageQueryVariables>({ query: TokenPageDocument, ...options });
 };
