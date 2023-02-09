@@ -31,8 +31,8 @@ const HomePage: NextPage = () => {
           property="og:image"
           content={`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/thumbnail-2.jpg`}
         />
-        <meta property="og:image:width" content="654" />
-        <meta property="og:image:height" content="900" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="1100" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@generativelight" />
