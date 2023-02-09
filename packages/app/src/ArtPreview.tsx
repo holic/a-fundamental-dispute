@@ -102,29 +102,46 @@ export const ArtPreview = ({
     };
   }, [imageUrl, shown, useImage]);
 
+  if (useImage) {
+    return (
+      <div ref={containerRef} className="w-full h-full bg-stone-900">
+        {hasImage == null || hasImage === true ? (
+          <img
+            src={hasImage ? imageUrl : undefined}
+            className={classNames(
+              `w-full h-full transition duration-[3s]`,
+              hasImage ? "opacity-100" : "opacity-0",
+              disablePointerEvents ? "pointer-events-none" : null
+            )}
+          />
+        ) : (
+          <ArtIframe
+            tokenId={tokenId}
+            hidden={!shown}
+            onLoad={() => setLoaded(true)}
+            className={classNames(
+              `w-full h-full transition duration-[3s]`,
+              loaded ? "opacity-100" : "opacity-0",
+              disablePointerEvents ? "pointer-events-none" : null
+            )}
+          />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div ref={containerRef} className="w-full h-full bg-stone-900">
-      {useImage && (hasImage == null || hasImage === true) ? (
-        <img
-          src={hasImage ? imageUrl : undefined}
-          className={classNames(
-            `w-full h-full transition duration-[3s]`,
-            hasImage ? "opacity-100" : "opacity-0",
-            disablePointerEvents ? "pointer-events-none" : null
-          )}
-        />
-      ) : hasImage === false ? (
-        <ArtIframe
-          tokenId={tokenId}
-          hidden={!shown}
-          onLoad={() => setLoaded(true)}
-          className={classNames(
-            `w-full h-full transition duration-[3s]`,
-            loaded ? "opacity-100" : "opacity-0",
-            disablePointerEvents ? "pointer-events-none" : null
-          )}
-        />
-      ) : null}
+      <ArtIframe
+        tokenId={tokenId}
+        hidden={!shown}
+        onLoad={() => setLoaded(true)}
+        className={classNames(
+          `w-full h-full transition duration-[3s]`,
+          loaded ? "opacity-100" : "opacity-0",
+          disablePointerEvents ? "pointer-events-none" : null
+        )}
+      />
     </div>
   );
 };
