@@ -143,7 +143,7 @@ const ActualMintButton = ({
   if (writeConfigPending) {
     return (
       <ButtonLink pending>
-        <HoverLabel label="Mint a piece ☼" labelHover="Loading…" />
+        <HoverLabel label="Mint a piece ☼" labelHover="Thinking…" />
       </ButtonLink>
     );
   }
