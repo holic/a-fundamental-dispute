@@ -113,7 +113,7 @@ export const ArtPreview = ({
             disablePointerEvents ? "pointer-events-none" : null
           )}
         />
-      ) : (
+      ) : hasImage === false ? (
         <ArtIframe
           tokenId={tokenId}
           hidden={!shown}
@@ -124,7 +124,7 @@ export const ArtPreview = ({
             disablePointerEvents ? "pointer-events-none" : null
           )}
         />
-      )}
+      ) : null}
     </div>
   );
 };

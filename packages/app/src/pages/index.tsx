@@ -1,15 +1,10 @@
-import { ethers } from "ethers";
 import type { NextPage } from "next";
 import Head from "next/head";
 
-import { holderPrice, maxSupply, publicPrice } from "../constants";
-import { MintButton } from "../MintButton";
-import { MintSignature } from "../MintSignature";
+import { MintSection } from "../MintSection";
 import { TextLink } from "../TextLink";
-import { useTotalMinted } from "../useTotalMinted";
 
 const HomePage: NextPage = () => {
-  // const totalMinted = useTotalMinted();
   return (
     <>
       <Head>
@@ -99,31 +94,7 @@ const HomePage: NextPage = () => {
 
           <hr className="border-1 border-stone-800" />
 
-          {/* 
-          {totalMinted?.lt(maxSupply) ? (
-            <div>
-              <MintButton />
-              <MintSignature />
-              <p className="italic">
-                {ethers.BigNumber.from(maxSupply).sub(totalMinted).toString()}{" "}
-                of {maxSupply} pieces remaining.
-              </p>
-              <p className="italic text-sm opacity-60">
-                <span className="font-sans text-xs font-bold">Ξ</span>
-                {publicPrice} per piece,{" "}
-                <span className="font-sans text-xs font-bold">Ξ</span>
-                {holderPrice} for{" "}
-                <TextLink
-                  href="https://opensea.io/collection/foldedfaces"
-                  target="_blank"
-                >
-                  Folded Faces
-                </TextLink>{" "}
-                holders.
-              </p>
-            </div>
-          ) : null}
-          */}
+          <MintSection />
 
           <div>
             <p>
