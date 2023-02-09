@@ -13,9 +13,8 @@ contract Deploy is Script {
     function run() public {
         vm.startBroadcast();
 
-        // TODO: update these addresses
-        address artist = address(msg.sender);
-        address developer = address(msg.sender);
+        address artist = address(0x879fa72912012b3906c5FE41E83A72E140300203);
+        address developer = address(0xC9C022FCFebE730710aE93CA9247c5Ec9d9236d0);
 
         AFundamentalDispute token = new AFundamentalDispute(
             IERC721(foldedFaces()),
