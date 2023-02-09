@@ -40,7 +40,7 @@ export const generateImages = async () => {
     ></script>
     <!--<script src="http://127.0.0.1:3000/afd.js"></script>-->
     <script>${fs
-      .readFileSync(`${__dirname}/../../app/public/afd-latest.js`)
+      .readFileSync(`${__dirname}/../../app/public/afd.min.js`)
       .toString()}</script>
   `;
 
