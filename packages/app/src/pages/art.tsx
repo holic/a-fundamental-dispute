@@ -6,6 +6,7 @@ import {
   GalleryPageQuery,
   GalleryPageQueryVariables,
 } from "../../codegen/indexer";
+import { targetChainId } from "../EthereumProviders";
 import { Gallery } from "../Gallery";
 import { TopBar } from "../TopBar";
 import { graphClient } from "./_app";
@@ -24,6 +25,14 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
+  if (targetChainId === 1) {
+    return {
+      props: {
+        tokenIds: new Array(436).fill(0).map((_, i) => i + 1),
+      },
+    };
+  }
+
   const res = await graphClient
     .query<GalleryPageQuery, GalleryPageQueryVariables>(galleryPageQuery)
     .toPromise();

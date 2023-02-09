@@ -9,7 +9,7 @@ import { TextLink } from "../TextLink";
 import { useTotalMinted } from "../useTotalMinted";
 
 const HomePage: NextPage = () => {
-  const totalMinted = useTotalMinted();
+  // const totalMinted = useTotalMinted();
   return (
     <>
       <Head>
@@ -99,6 +99,7 @@ const HomePage: NextPage = () => {
 
           <hr className="border-1 border-stone-800" />
 
+          {/* 
           {totalMinted?.lt(maxSupply) ? (
             <div>
               <MintButton />
@@ -122,6 +123,7 @@ const HomePage: NextPage = () => {
               </p>
             </div>
           ) : null}
+          */}
 
           <div>
             <p>
