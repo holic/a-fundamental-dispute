@@ -101,6 +101,7 @@
 
 <script>
   const tokens = {
+    "@ADDRESS": "addressString",
     "@TOKENID": "tokenIdString",
     "@SEED": "seedString",
     "@P5JS": 'fileStore.getFile("p5-v1.5.0.min.js.gz").read()',
@@ -119,7 +120,7 @@
   Art by @generativelight, website and contracts by @frolic`,
         external_url: "https://afundamentaldispute.com/art/___TOKENID___",
         image:
-          "https://afundamentaldispute.com/api/art-placeholder/___TOKENID___",
+          "https://afundamentaldispute.com/api/art-placeholder/___TOKENID___?___ADDRESS___",
         animation_url: `data:text/html,${encodeURIComponent(
           document.querySelector("template#animation_url").innerHTML
         )}`
