@@ -1,5 +1,6 @@
 import { useBlockNumber, useContractRead } from "wagmi";
 
+import { disputeCooldown } from "./constants";
 import { contracts } from "./contracts";
 import { useIsMounted } from "./useIsMounted";
 
@@ -25,13 +26,20 @@ export const useLastDispute = () => {
   const lastDisputeBlock = lastDispute?.toNumber();
   const disputesLeft = disputes?.toNumber();
   const canDispute =
-    currentBlock && lastDisputeBlock && currentBlock > lastDisputeBlock + 2180
+    currentBlock &&
+    lastDisputeBlock &&
+    currentBlock > lastDisputeBlock + disputeCooldown
       ? true
       : false;
+  const blocksUntilNextDispute =
+    currentBlock && lastDisputeBlock
+      ? lastDisputeBlock + disputeCooldown - currentBlock
+      : undefined;
   return {
     currentBlock,
     lastDisputeBlock,
     canDispute,
     disputesLeft,
+    blocksUntilNextDispute,
   };
 };

@@ -1,4 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { DateTime } from "luxon";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useSwitchNetwork } from "wagmi";
@@ -11,7 +12,8 @@ import { useLastDispute } from "../useLastDispute";
 
 const DisputePage: NextPage = () => {
   const { switchNetwork } = useSwitchNetwork();
-  const { canDispute, disputesLeft, lastDisputeBlock } = useLastDispute();
+  const { canDispute, disputesLeft, lastDisputeBlock, blocksUntilNextDispute } =
+    useLastDispute();
   return (
     <>
       <Head>
@@ -44,6 +46,19 @@ const DisputePage: NextPage = () => {
               return <p>It&apos;s time to listen…</p>;
             }
             if (!canDispute || !lastDisputeBlock) {
+              if (blocksUntilNextDispute) {
+                return (
+                  <p>
+                    Now is not the time. Check back{" "}
+                    {DateTime.now()
+                      .plus({
+                        seconds: blocksUntilNextDispute * 12,
+                      })
+                      .toRelative()}
+                    …
+                  </p>
+                );
+              }
               return <p>Now is not the time…</p>;
             }
             return (
