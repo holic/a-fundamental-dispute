@@ -1,13 +1,24 @@
+import { gql } from "urql";
+
 import { ArtPreview } from "./ArtPreview";
 import { maxSupply } from "./constants";
 import { PendingIcon } from "./PendingIcon";
 
+gql`
+  fragment Gallery on AFundamentalDisputeToken {
+    tokenId
+    seed
+  }
+`;
+
+type Token = { tokenId: number; seed: number };
+
 type Props = {
-  tokenIds: number[];
+  tokens: Token[];
 };
 
-export const Gallery = ({ tokenIds }: Props) => {
-  if (!tokenIds.length)
+export const Gallery = ({ tokens }: Props) => {
+  if (!tokens.length)
     return (
       <div className="fixed inset-0 p-[8vw] flex items-center justify-center text-xl">
         <PendingIcon />
@@ -16,15 +27,20 @@ export const Gallery = ({ tokenIds }: Props) => {
 
   return (
     <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-[8vw] p-[8vw]">
-      {tokenIds.map((tokenId) => (
+      {tokens.map((token) => (
         <a
-          key={tokenId}
-          href={`/art/${tokenId}`}
+          key={token.tokenId}
+          href={`/art/${token.tokenId}`}
           className="block w-full aspect-[400/550] relative hover:scale-110 transition duration-500 text-stone-500 hover:text-stone-300"
         >
-          <ArtPreview tokenId={tokenId} disablePointerEvents useImage />
+          <ArtPreview
+            tokenId={token.tokenId}
+            seed={token.seed}
+            disablePointerEvents
+            useImage
+          />
           <span className="absolute bottom-full right-0 text-sm leading-relaxed">
-            {tokenId}/{maxSupply}
+            {token.tokenId}/{maxSupply}
           </span>
         </a>
       ))}

@@ -1,7 +1,11 @@
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  HeadObjectCommand,
+  NotFound,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 import chromium from "chrome-aws-lambda";
+import fetch from "node-fetch";
 import { Browser } from "puppeteer";
-import type { Browser as BrowserCore } from "puppeteer-core";
 
 import { s3Client } from "./s3Client";
 
@@ -29,10 +33,43 @@ const getBrowserInstance = async () => {
 
 let browser: Promise<Browser> | null = null;
 
-export const createImage = async (cacheKey: string, html: string) => {
+export const createImage = async (
+  rendererAddress: string,
+  tokenId: number,
+  seed: number,
+  html: string,
+  openseaMetadataUpdateUrl?: string
+) => {
   const width = 400;
   const height = 550;
   const pixelDensity = 2;
+
+  const cacheKey = `${rendererAddress}/${tokenId}/${seed}`;
+
+  try {
+    await Promise.all([
+      s3Client.send(
+        new HeadObjectCommand({
+          Bucket: "afd-images",
+          Key: `${cacheKey}.png`,
+        })
+      ),
+      s3Client.send(
+        new HeadObjectCommand({
+          Bucket: "afd-images",
+          Key: `${cacheKey}.jpg`,
+        })
+      ),
+    ]);
+    console.log("images exist, skipping", cacheKey);
+    return;
+  } catch (error: any) {
+    if (error instanceof NotFound) {
+      // console.log("one or more images not found, regenerating", cacheKey);
+    } else {
+      throw error;
+    }
+  }
 
   try {
     if (!browser) {
@@ -102,5 +139,11 @@ export const createImage = async (cacheKey: string, html: string) => {
     if (browser != null) {
       // await browser.close();
     }
+  }
+
+  if (openseaMetadataUpdateUrl) {
+    fetch(openseaMetadataUpdateUrl).then((res) =>
+      console.log("refreshed opensea metadata", res.status)
+    );
   }
 };

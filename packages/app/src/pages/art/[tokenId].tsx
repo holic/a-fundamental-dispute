@@ -11,7 +11,6 @@ import { ArtPreview } from "../../ArtPreview";
 import { maxSupply } from "../../constants";
 import { contracts, tokenContract } from "../../contracts";
 import { targetChainId } from "../../EthereumProviders";
-import { previewImageUrl } from "../../previewImageUrl";
 import { TextLink } from "../../TextLink";
 import { TokenOwner } from "../../TokenOwner";
 import { TopBar } from "../../TopBar";
@@ -24,6 +23,7 @@ const tokenPageQuery = gql`
     token: aFundamentalDisputeToken(id: $id) {
       id
       tokenId
+      seed
       owner {
         id
       }
@@ -33,6 +33,7 @@ const tokenPageQuery = gql`
 
 type Props = {
   tokenId: number;
+  seed?: number;
   owner?: string;
 };
 
@@ -51,6 +52,7 @@ export const getServerSideProps: GetServerSideProps<
     return {
       props: {
         tokenId: res.data.token.tokenId,
+        seed: res.data.token.seed,
         owner: res.data.token.owner?.id,
       },
     };
@@ -59,9 +61,11 @@ export const getServerSideProps: GetServerSideProps<
   const tokenId = parseInt(id);
   const owner = await tokenContract.ownerOf(tokenId);
   if (owner !== ethers.constants.AddressZero) {
+    const seed = await tokenContract.tokenSeed(tokenId);
     return {
       props: {
         tokenId,
+        seed,
         owner,
       },
     };
@@ -74,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<
   };
 };
 
-const ArtPage: NextPage<Props> = ({ tokenId, owner }) => (
+const ArtPage: NextPage<Props> = ({ tokenId, seed, owner }) => (
   <>
     <Head>
       {/* Using string interpolation here because Next.js complains if <title> has multiple children/nodes */}
@@ -89,7 +93,10 @@ const ArtPage: NextPage<Props> = ({ tokenId, owner }) => (
         content="— a series of digital sunsets living inside the world computer."
       />
 
-      <meta property="og:image" content={previewImageUrl(tokenId)} />
+      <meta
+        property="og:image"
+        content={`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/art-placeholder/${tokenId}`}
+      />
       <meta property="og:image:width" content="800" />
       <meta property="og:image:height" content="1100" />
     </Head>
@@ -100,7 +107,9 @@ const ArtPage: NextPage<Props> = ({ tokenId, owner }) => (
           {tokenId}/{maxSupply}
         </div>
         <div className="aspect-[400/550] relative">
-          {tokenId ? <ArtPreview tokenId={tokenId} /> : null}
+          {tokenId && seed ? (
+            <ArtPreview tokenId={tokenId} seed={seed} />
+          ) : null}
         </div>
         <div className="flex justify-between">
           <span>

@@ -52,12 +52,14 @@ const ArtIframe = ({
 
 type Props = {
   tokenId: number;
+  seed: number;
   disablePointerEvents?: boolean;
   useImage?: boolean;
 };
 
 export const ArtPreview = ({
   tokenId,
+  seed,
   disablePointerEvents,
   useImage,
 }: Props) => {
@@ -65,7 +67,7 @@ export const ArtPreview = ({
   const [shown, setShown] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
-  const imageUrl = previewImageUrl(tokenId);
+  const imageUrl = previewImageUrl(tokenId, seed);
   const [hasImage, setHasImage] = useState<boolean | null>(null);
 
   useEffect(() => {

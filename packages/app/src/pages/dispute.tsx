@@ -1,16 +1,59 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useSwitchNetwork } from "wagmi";
+
+import { ButtonLink } from "../ButtonLink";
+import { DisputableTokens } from "../DisputableTokens";
+import { targetChainId } from "../EthereumProviders";
+import { PendingIcon } from "../PendingIcon";
+import { useLastDispute } from "../useLastDispute";
 
 const DisputePage: NextPage = () => {
+  const { switchNetwork } = useSwitchNetwork();
+  const { canDispute, disputesLeft, lastDisputeBlock } = useLastDispute();
   return (
     <>
       <Head>
         <title>Dispute</title>
       </Head>
-      <div className="space-y-16 px-8 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20 lg:px-20 lg:py-24 max-w-4xl">
-        <div className="space-y-8">
-          <p>Now is not the time…</p>
-        </div>
+      <div className="space-y-16 px-8 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20 lg:px-20 lg:py-24">
+        <ConnectButton.Custom>
+          {({ mounted, account, chain, openConnectModal }) => {
+            if (!mounted) {
+              return <PendingIcon />;
+            }
+
+            if (!account) {
+              return (
+                <ButtonLink onClick={openConnectModal}>
+                  Connect wallet ⇒
+                </ButtonLink>
+              );
+            }
+
+            if (chain && chain.id !== targetChainId) {
+              return (
+                <ButtonLink onClick={() => switchNetwork?.(targetChainId)}>
+                  Switch network ⇒
+                </ButtonLink>
+              );
+            }
+
+            if (disputesLeft != null && disputesLeft <= 0) {
+              return <p>It&apos;s time to listen…</p>;
+            }
+            if (!canDispute || !lastDisputeBlock) {
+              return <p>Now is not the time…</p>;
+            }
+            return (
+              <DisputableTokens
+                address={account.address}
+                lastDispute={lastDisputeBlock}
+              />
+            );
+          }}
+        </ConnectButton.Custom>
       </div>
     </>
   );

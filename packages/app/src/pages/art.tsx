@@ -3,10 +3,11 @@ import Head from "next/head";
 import { gql } from "urql";
 
 import {
+  GalleryFragment,
+  GalleryFragmentDoc,
   GalleryPageQuery,
   GalleryPageQueryVariables,
 } from "../../codegen/indexer";
-import { targetChainId } from "../EthereumProviders";
 import { Gallery } from "../Gallery";
 import { TopBar } from "../TopBar";
 import { graphClient } from "./_app";
@@ -14,36 +15,32 @@ import { graphClient } from "./_app";
 const galleryPageQuery = gql`
   query GalleryPage {
     tokens: aFundamentalDisputeTokens {
-      id
-      tokenId
+      ...Gallery
     }
   }
+  ${GalleryFragmentDoc}
 `;
 
 type Props = {
-  tokenIds: number[];
+  tokens: GalleryFragment[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  if (targetChainId === 1) {
-    return {
-      props: {
-        tokenIds: new Array(436).fill(0).map((_, i) => i + 1),
-      },
-    };
-  }
-
   const res = await graphClient
     .query<GalleryPageQuery, GalleryPageQueryVariables>(galleryPageQuery)
     .toPromise();
   return {
     props: {
-      tokenIds: res.data?.tokens.map((token) => token.tokenId) ?? [],
+      tokens:
+        res.data?.tokens.map((token) => ({
+          tokenId: token.tokenId,
+          seed: token.seed,
+        })) ?? [],
     },
   };
 };
 
-const GalleryPage: NextPage<Props> = ({ tokenIds }) => (
+const GalleryPage: NextPage<Props> = ({ tokens }) => (
   <>
     <Head>
       <title>Gallery — A Fundamental Dispute</title>
@@ -65,7 +62,7 @@ const GalleryPage: NextPage<Props> = ({ tokenIds }) => (
       <meta name="twitter:site" content="@generativelight" />
     </Head>
     <TopBar />
-    <Gallery tokenIds={tokenIds} />
+    <Gallery tokens={tokens} />
   </>
 );
 

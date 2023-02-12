@@ -223,6 +223,15 @@ export type ArtPreviewQueryVariables = Exact<{
 
 export type ArtPreviewQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly html: string } | null };
 
+export type DisputableTokensQueryVariables = Exact<{
+  owner: Scalars['ID'];
+}>;
+
+
+export type DisputableTokensQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number }> };
+
+export type GalleryFragment = { readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: number, readonly seed: number };
+
 export type MintButtonQueryVariables = Exact<{
   address: Scalars['ID'];
 }>;
@@ -237,19 +246,31 @@ export type TokenOwnerQueryVariables = Exact<{
 
 export type TokenOwnerQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
 
+export type ArtPlaceholderQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ArtPlaceholderQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: number, readonly seed: number } | null };
+
 export type GalleryPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GalleryPageQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number }> };
+export type GalleryPageQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: number, readonly seed: number }> };
 
 export type TokenPageQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type TokenPageQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number, readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
+export type TokenPageQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number, readonly seed: number, readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
 
-
+export const GalleryFragmentDoc = gql`
+    fragment Gallery on AFundamentalDisputeToken {
+  tokenId
+  seed
+}
+    `;
 export const ArtPreviewDocument = gql`
     query ArtPreview($id: ID!) {
   token: aFundamentalDisputeToken(id: $id) {
@@ -261,6 +282,18 @@ export const ArtPreviewDocument = gql`
 
 export function useArtPreviewQuery(options: Omit<Urql.UseQueryArgs<ArtPreviewQueryVariables>, 'query'>) {
   return Urql.useQuery<ArtPreviewQuery, ArtPreviewQueryVariables>({ query: ArtPreviewDocument, ...options });
+};
+export const DisputableTokensDocument = gql`
+    query DisputableTokens($owner: ID!) {
+  tokens: aFundamentalDisputeTokens(where: {owner: $owner}) {
+    id
+    tokenId
+  }
+}
+    `;
+
+export function useDisputableTokensQuery(options: Omit<Urql.UseQueryArgs<DisputableTokensQueryVariables>, 'query'>) {
+  return Urql.useQuery<DisputableTokensQuery, DisputableTokensQueryVariables>({ query: DisputableTokensDocument, ...options });
 };
 export const MintButtonDocument = gql`
     query MintButton($address: ID!) {
@@ -287,14 +320,25 @@ export const TokenOwnerDocument = gql`
 export function useTokenOwnerQuery(options: Omit<Urql.UseQueryArgs<TokenOwnerQueryVariables>, 'query'>) {
   return Urql.useQuery<TokenOwnerQuery, TokenOwnerQueryVariables>({ query: TokenOwnerDocument, ...options });
 };
-export const GalleryPageDocument = gql`
-    query GalleryPage {
-  tokens: aFundamentalDisputeTokens {
-    id
+export const ArtPlaceholderDocument = gql`
+    query ArtPlaceholder($id: ID!) {
+  token: aFundamentalDisputeToken(id: $id) {
     tokenId
+    seed
   }
 }
     `;
+
+export function useArtPlaceholderQuery(options: Omit<Urql.UseQueryArgs<ArtPlaceholderQueryVariables>, 'query'>) {
+  return Urql.useQuery<ArtPlaceholderQuery, ArtPlaceholderQueryVariables>({ query: ArtPlaceholderDocument, ...options });
+};
+export const GalleryPageDocument = gql`
+    query GalleryPage {
+  tokens: aFundamentalDisputeTokens {
+    ...Gallery
+  }
+}
+    ${GalleryFragmentDoc}`;
 
 export function useGalleryPageQuery(options?: Omit<Urql.UseQueryArgs<GalleryPageQueryVariables>, 'query'>) {
   return Urql.useQuery<GalleryPageQuery, GalleryPageQueryVariables>({ query: GalleryPageDocument, ...options });
@@ -304,6 +348,7 @@ export const TokenPageDocument = gql`
   token: aFundamentalDisputeToken(id: $id) {
     id
     tokenId
+    seed
     owner {
       id
     }
