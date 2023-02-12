@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
+import { OpenSeaIcon } from "../icons/OpenSeaIcon";
 import { MintSection } from "../MintSection";
 import { TextLink } from "../TextLink";
 
@@ -94,15 +95,28 @@ const HomePage: NextPage = () => {
 
           <hr className="border-1 border-stone-800" />
 
-          <MintSection />
+          {/* <MintSection /> */}
 
-          <div>
-            <p>
-              <TextLink href="/about">Learn about the collection ⇒</TextLink>
-            </p>
-            <p>
-              <TextLink href="/art">View the gallery ⇒</TextLink>
-            </p>
+          <div className="flex justify-between gap-8">
+            <div>
+              <p>
+                <TextLink href="/about">Learn about the collection ⇒</TextLink>
+              </p>
+              <p>
+                <TextLink href="/art">View the gallery ⇒</TextLink>
+              </p>
+            </div>
+            <div>
+              <a
+                href="https://opensea.io/collection/a-fundamental-dispute"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-2xl opacity-60 transition hover:opacity-100 hover:text-white"
+                title="View the collection on OpenSea"
+              >
+                <OpenSeaIcon />
+              </a>
+            </div>
           </div>
         </div>
 

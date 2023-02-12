@@ -7,7 +7,8 @@ import { useSwitchNetwork } from "wagmi";
 import { ButtonLink } from "../ButtonLink";
 import { DisputableTokens } from "../DisputableTokens";
 import { targetChainId } from "../EthereumProviders";
-import { PendingIcon } from "../PendingIcon";
+import { PendingIcon } from "../icons/PendingIcon";
+import { TopBar } from "../TopBar";
 import { useLastDispute } from "../useLastDispute";
 
 const DisputePage: NextPage = () => {
@@ -19,6 +20,7 @@ const DisputePage: NextPage = () => {
       <Head>
         <title>Dispute</title>
       </Head>
+      <TopBar />
       <div className="space-y-16 px-8 py-12 sm:px-12 sm:py-16 md:px-16 md:py-20 lg:px-20 lg:py-24">
         <ConnectButton.Custom>
           {({ mounted, account, chain, openConnectModal }) => {

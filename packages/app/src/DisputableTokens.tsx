@@ -7,7 +7,7 @@ import { useAccount, useContractWrite } from "wagmi";
 import { useDisputableTokensQuery } from "../codegen/indexer";
 import { maxSupply } from "./constants";
 import { contracts } from "./contracts";
-import { PendingIcon } from "./PendingIcon";
+import { PendingIcon } from "./icons/PendingIcon";
 
 gql`
   query DisputableTokens($owner: ID!) {

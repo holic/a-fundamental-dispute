@@ -2,7 +2,7 @@ import { gql } from "urql";
 
 import { ArtPreview } from "./ArtPreview";
 import { maxSupply } from "./constants";
-import { PendingIcon } from "./PendingIcon";
+import { PendingIcon } from "./icons/PendingIcon";
 
 gql`
   fragment Gallery on AFundamentalDisputeToken {
