@@ -34,15 +34,73 @@ ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
   await Wallet.upsert(owner, {});
 
   const tokenId = event.params.tokenId.toNumber();
+  if (await AFundamentalDisputeToken.get(tokenId.toString())) {
+    await AFundamentalDisputeToken.update(tokenId.toString(), {
+      owner,
+    });
+    return;
+  }
+
   const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
   const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
-  await AFundamentalDisputeToken.upsert(tokenId.toString(), {
+  await AFundamentalDisputeToken.insert(tokenId.toString(), {
     tokenId,
     owner,
     seed,
     html,
   });
 });
+
+ponder.on("AFundamentalDispute:MetadataUpdate", async ({ event, context }) => {
+  const { AFundamentalDisputeToken } = context.entities;
+  const { AFundamentalDispute, AFDRenderer } = context.contracts;
+
+  const tokenId = event.params._tokenId.toNumber();
+  const token = await AFundamentalDisputeToken.get(tokenId.toString());
+  if (!token) {
+    throw new Error(
+      `Unexpected metadata update for non-existent token ${tokenId}`
+    );
+  }
+
+  const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
+  if (seed !== token.seed) {
+    const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
+    await AFundamentalDisputeToken.update(tokenId.toString(), {
+      seed,
+      html,
+    });
+  }
+});
+
+ponder.on(
+  "AFundamentalDispute:BatchMetadataUpdate",
+  async ({ event, context }) => {
+    const { AFundamentalDisputeToken } = context.entities;
+    const { AFundamentalDispute, AFDRenderer } = context.contracts;
+
+    const fromTokenId = event.params._fromTokenId.toNumber();
+    const toTokenId = event.params._toTokenId.toNumber();
+
+    for (let tokenId = fromTokenId; tokenId <= toTokenId; tokenId++) {
+      const token = await AFundamentalDisputeToken.get(tokenId.toString());
+      if (!token) {
+        throw new Error(
+          `Unexpected metadata update for non-existent token ${tokenId}`
+        );
+      }
+
+      const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
+      if (seed !== token.seed) {
+        const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
+        await AFundamentalDisputeToken.update(tokenId.toString(), {
+          seed,
+          html,
+        });
+      }
+    }
+  }
+);
 
 ponder.on(
   "AFundamentalDispute:TokenDiscountUsed",
