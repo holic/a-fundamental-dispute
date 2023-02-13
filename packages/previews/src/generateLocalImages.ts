@@ -12,7 +12,7 @@ export const generateImages = async () => {
     body: JSON.stringify({
       query: `
         query {
-          tokens: aFundamentalDisputeTokens {
+          tokens: aFundamentalDisputeTokens(orderBy: "tokenId") {
             tokenId
             seed
             html

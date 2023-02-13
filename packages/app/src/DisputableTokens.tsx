@@ -11,7 +11,10 @@ import { PendingIcon } from "./icons/PendingIcon";
 
 gql`
   query DisputableTokens($owner: ID!) {
-    tokens: aFundamentalDisputeTokens(where: { owner: $owner }) {
+    tokens: aFundamentalDisputeTokens(
+      where: { owner: $owner }
+      orderBy: "tokenId"
+    ) {
       id
       tokenId
     }
