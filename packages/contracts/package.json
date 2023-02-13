@@ -17,7 +17,8 @@
     "lint:fix": "pnpm lint --fix",
     "deploy:goerli": "source .env.goerli && forge script script/Deploy.s.sol --rpc-url=$RPC_URL --private-key=$DEPLOYER_PRIVATE_KEY",
     "deployrenderer:goerli": "source .env.goerli && forge script script/UpgradeRenderer.s.sol --rpc-url=$RPC_URL --private-key=$DEPLOYER_PRIVATE_KEY",
-    "deploy:mainnet": "source .env.mainnet && SHARED_SIGNER=0x182ED4348ddb8E258cEa8f4364b359C625161200 forge script script/Deploy.s.sol --rpc-url=$RPC_URL --private-key=$DEPLOYER_PRIVATE_KEY"
+    "deploy:mainnet": "source .env.mainnet && SHARED_SIGNER=0x182ED4348ddb8E258cEa8f4364b359C625161200 forge script script/Deploy.s.sol --rpc-url=$RPC_URL --private-key=$DEPLOYER_PRIVATE_KEY",
+    "withdraw": "source .env.mainnet && cast send 0x0C60B40289Ff15fF6AfDfa668D1a743dc6e53cF3 \"withdrawAll(address)\" 0xc33E3331772E989B678571923f85568719EC3ab0 --rpc-url=$RPC_URL --private-key=$DEPLOYER_PRIVATE_KEY"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.0.0",
