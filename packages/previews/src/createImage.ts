@@ -142,8 +142,11 @@ export const createImage = async (
   }
 
   if (openseaMetadataUpdateUrl) {
-    fetch(openseaMetadataUpdateUrl).then((res) =>
-      console.log("refreshed opensea metadata", res.status)
-    );
+    fetch(openseaMetadataUpdateUrl)
+      .then((res) => {
+        console.log("refreshed opensea metadata", res.status);
+        return res.text();
+      })
+      .then((text) => console.log("opensea response", text));
   }
 };
