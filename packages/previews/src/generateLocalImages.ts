@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import { createImage } from "./createImage";
 
 export const generateImages = async () => {
+  console.log("querying graphql");
   const json = await fetch("http://localhost:42069/graphql", {
     method: "POST",
     headers: {

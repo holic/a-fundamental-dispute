@@ -47,31 +47,6 @@ export const createImage = async (
   const cacheKey = `${rendererAddress}/${tokenId}/${seed}`;
 
   try {
-    await Promise.all([
-      s3Client.send(
-        new HeadObjectCommand({
-          Bucket: "afd-images",
-          Key: `${cacheKey}.png`,
-        })
-      ),
-      s3Client.send(
-        new HeadObjectCommand({
-          Bucket: "afd-images",
-          Key: `${cacheKey}.jpg`,
-        })
-      ),
-    ]);
-    console.log("images exist, skipping", cacheKey);
-    return;
-  } catch (error: any) {
-    if (error instanceof NotFound) {
-      // console.log("one or more images not found, regenerating", cacheKey);
-    } else {
-      throw error;
-    }
-  }
-
-  try {
     if (!browser) {
       console.log("Starting browser instance");
       browser = getBrowserInstance();
@@ -142,7 +117,12 @@ export const createImage = async (
   }
 
   if (openseaMetadataUpdateUrl) {
-    fetch(openseaMetadataUpdateUrl)
+    fetch(openseaMetadataUpdateUrl, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+      },
+    })
       .then((res) => {
         console.log("refreshed opensea metadata", res.status);
         return res.text();

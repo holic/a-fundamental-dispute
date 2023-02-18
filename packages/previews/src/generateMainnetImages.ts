@@ -2,8 +2,52 @@ import mainnetDeploys from "@web3-scaffold/contracts/deploys/mainnet.json";
 import fetch from "node-fetch";
 
 import { createImage } from "./createImage";
+import { hasImage } from "./hasImage";
 
 export const generateImages = async () => {
+  console.log("fetching token seeds");
+  const { data: allTokens } = await fetch(
+    "https://afd-ponder.up.railway.app/graphql",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `
+        query {
+          tokens: aFundamentalDisputeTokens(orderBy: "tokenId") {
+            tokenId
+            seed
+          }
+        }
+      `,
+      }),
+    }
+  ).then((res) => res.json() as any);
+
+  console.log("finding tokens without images");
+  const tokensToGenerate = (
+    await Promise.all(
+      allTokens.tokens.map(async (token: any) => [
+        token.tokenId,
+        await hasImage(
+          mainnetDeploys.AFDRenderer.contractAddress,
+          token.tokenId,
+          token.seed
+        ),
+      ])
+    )
+  )
+    .filter(([, hasImage]) => !hasImage)
+    .map(([tokenId]) => tokenId);
+
+  if (!tokensToGenerate.length) {
+    console.log("no new tokens");
+    return;
+  }
+
+  console.log("getting token html for", tokensToGenerate);
   const json = await fetch("https://afd-ponder.up.railway.app/graphql", {
     method: "POST",
     headers: {
@@ -11,16 +55,24 @@ export const generateImages = async () => {
     },
     body: JSON.stringify({
       query: `
-        query {
-          tokens: aFundamentalDisputeTokens(orderBy: "tokenId") {
+        query($tokens: [Int!]!) {
+          tokens: aFundamentalDisputeTokens(where: { tokenId_in: $tokens }) {
             tokenId
             seed
             html
           }
         }
       `,
+      variables: {
+        tokens: tokensToGenerate,
+      },
     }),
-  }).then((res) => res.json() as any);
+  }).then((res) => {
+    console.log(res.status);
+    return res.json() as any;
+  });
+
+  console.log(json.data);
 
   const tokens = json.data.tokens;
   const batchSize = 8;
