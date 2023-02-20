@@ -285,7 +285,7 @@ export function useArtPreviewQuery(options: Omit<Urql.UseQueryArgs<ArtPreviewQue
 };
 export const DisputableTokensDocument = gql`
     query DisputableTokens($owner: ID!) {
-  tokens: aFundamentalDisputeTokens(where: {owner: $owner}) {
+  tokens: aFundamentalDisputeTokens(where: {owner: $owner}, orderBy: "tokenId") {
     id
     tokenId
   }
@@ -334,7 +334,7 @@ export function useArtPlaceholderQuery(options: Omit<Urql.UseQueryArgs<ArtPlaceh
 };
 export const GalleryPageDocument = gql`
     query GalleryPage {
-  tokens: aFundamentalDisputeTokens {
+  tokens: aFundamentalDisputeTokens(orderBy: "tokenId") {
     ...Gallery
   }
 }

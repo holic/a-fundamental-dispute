@@ -1,31 +1,37 @@
 import { NextApiHandler } from "next";
 
 import { createImage } from "@/createImage";
+import { hasImage } from "@/hasImage";
+import { storeImage } from "@/storeImage";
 
 type ResponseData =
   | {
-      png: string;
-      jpg: string;
+      status: string;
     }
   | { error: string };
 
 const handler: NextApiHandler<ResponseData> = async (req, res) => {
-  const html = (req.body.html || req.query.html) as string | undefined;
-  if (typeof html !== "string" || !html) {
-    res.status(400).json({ error: "Missing html" });
+  const { rendererAddress, tokenId, seed, html } = req.body;
+  if (!rendererAddress || !tokenId || !seed || !html) {
+    res.status(400).json({ error: "Missing required fields" });
     return;
   }
-  if (!html.includes("window.renderComplete = true")) {
+  if (!/A Fundamental Dispute/.test(html)) {
     res.status(400).json({ error: "Unexpected html" });
+    return;
+  }
+
+  console.log("checking for image", rendererAddress, tokenId, seed);
+  if (await hasImage(rendererAddress, tokenId, seed)) {
+    console.log("has image, skipping", rendererAddress, tokenId, seed);
+    res.status(200).json({ status: "exists" });
     return;
   }
 
   try {
     const { png, jpg } = await createImage(html);
-    res.status(200).json({
-      png: Buffer.from(png).toString("base64"),
-      jpg: Buffer.from(jpg).toString("base64"),
-    });
+    await storeImage(rendererAddress, tokenId, seed, png, jpg);
+    res.status(201).json({ status: "created" });
   } catch (error: any) {
     console.error("Error rendering", error);
     res.status(500).json({ error: error.toString() });

@@ -123,11 +123,15 @@ importers:
     specifiers:
       '@ponder/core': 0.0.30
       '@ponder/graphql': 0.0.23
+      '@types/node-fetch': ^2.6.2
       ethers: ^5.6.9
+      node-fetch: 2.6.7
     dependencies:
       '@ponder/core': 0.0.30
       '@ponder/graphql': 0.0.23
+      node-fetch: 2.6.7
     devDependencies:
+      '@types/node-fetch': 2.6.2
       ethers: 5.7.2
 
   packages/previews:
@@ -159,6 +163,7 @@ importers:
 
   packages/renderer:
     specifiers:
+      '@aws-sdk/client-s3': ^3.245.0
       '@next/font': 13.1.6
       '@types/node': 18.14.0
       '@types/react': ^18.0.26
@@ -171,6 +176,7 @@ importers:
       react-dom: 18.2.0
       typescript: 4.9.5
     dependencies:
+      '@aws-sdk/client-s3': 3.245.0
       '@next/font': 13.1.6
       '@types/node': 18.14.0
       '@types/react': 18.0.26
@@ -3356,7 +3362,7 @@ packages:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/bytes': 5.7.0
       '@ethersproject/providers': 5.7.2
-      abitype: 0.1.8_typescript@4.9.4
+      abitype: 0.1.8_typescript@4.9.5
       better-sqlite3: 7.6.2
       cac: 6.7.14
       chokidar: 3.5.3
@@ -3371,7 +3377,7 @@ packages:
       picocolors: 1.0.0
       prettier: 2.6.2
       react: 17.0.2
-      typescript: 4.9.4
+      typescript: 4.9.5
       zod: 3.20.2
     transitivePeerDependencies:
       - '@types/react'
@@ -3599,7 +3605,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 17.0.21
+      '@types/node': 18.14.0
       form-data: 3.0.1
     dev: true
 
@@ -4229,13 +4235,13 @@ packages:
       typescript: 4.7.3
     dev: false
 
-  /abitype/0.1.8_typescript@4.9.4:
+  /abitype/0.1.8_typescript@4.9.5:
     resolution: {integrity: sha512-2pde0KepTzdfu19ZrzYTYVIWo69+6UbBCY4B1RDiwWgo2XZtFSJhF6C+XThuRXbbZ823J0Rw1Y5cP0NXYVcCdQ==}
     engines: {pnpm: '>=7'}
     peerDependencies:
       typescript: '>=4.7.4'
     dependencies:
-      typescript: 4.9.4
+      typescript: 4.9.5
     dev: false
 
   /abitype/0.2.5_typescript@4.7.3:
@@ -8941,8 +8947,8 @@ packages:
       - pg-native
     dev: false
 
-  /pg-protocol/1.5.0:
-    resolution: {integrity: sha512-muRttij7H8TqRNu/DxrAJQITO4Ac7RmX3Klyr/9mJEOBeIpgnF8f9jAfRz5d3XwQZl5qBjF9gLsUtMPJE0vezQ==}
+  /pg-protocol/1.6.0:
+    resolution: {integrity: sha512-M+PDm637OY5WM307051+bsDia5Xej6d9IR4GwJse1qA1DIhiKlksvrneZOYQq42OM+spubpcNYEo2FcKQrDk+Q==}
     dev: false
 
   /pg-types/2.2.0:
@@ -8969,7 +8975,7 @@ packages:
       packet-reader: 1.0.0
       pg-connection-string: 2.5.0
       pg-pool: 3.5.2_pg@8.8.0
-      pg-protocol: 1.5.0
+      pg-protocol: 1.6.0
       pg-types: 2.2.0
       pgpass: 1.0.5
     dev: false
@@ -10529,12 +10535,6 @@ packages:
     resolution: {integrity: sha512-WOkT3XYvrpXx4vMMqlD+8R8R37fZkjyLGlxavMc4iB8lrl8L0DeTcHbYgw/v0N/z9wAFsgBhcsF0ruoySS22mA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-
-  /typescript/4.9.4:
-    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
 
   /typescript/4.9.5:
     resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}

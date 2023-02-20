@@ -1,6 +1,7 @@
 import { BigNumber } from "ethers";
 
 import { ponder } from "../generated";
+import { generateImages } from "./generateImages";
 
 ponder.on(
   "AFundamentalDispute:ConsecutiveTransfer",
@@ -22,6 +23,7 @@ ponder.on(
         seed,
         html,
       });
+      await generateImages(AFDRenderer.address, tokenId, seed, html);
     }
   }
 );
@@ -49,6 +51,7 @@ ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
     seed,
     html,
   });
+  await generateImages(AFDRenderer.address, tokenId, seed, html);
 });
 
 ponder.on("AFundamentalDispute:MetadataUpdate", async ({ event, context }) => {
@@ -70,6 +73,7 @@ ponder.on("AFundamentalDispute:MetadataUpdate", async ({ event, context }) => {
       seed,
       html,
     });
+    await generateImages(AFDRenderer.address, tokenId, seed, html);
   }
 });
 
@@ -97,6 +101,7 @@ ponder.on(
           seed,
           html,
         });
+        await generateImages(AFDRenderer.address, tokenId, seed, html);
       }
     }
   }
