@@ -1,25 +1,11 @@
-import chromium from "chrome-aws-lambda";
-import { Browser } from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 
 const getBrowserInstance = async () => {
-  const executablePath = await chromium.executablePath;
-
-  if (!executablePath) {
-    // running locally
-    const puppeteer = await import("puppeteer");
-    return puppeteer.launch({
-      args: chromium.args,
-      headless: true,
-      ignoreHTTPSErrors: true,
-    });
-  }
-
-  return chromium.puppeteer.launch({
-    executablePath,
-    args: chromium.args,
-    headless: chromium.headless,
+  return puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    ignoreDefaultArgs: ["--disable-extensions"],
+    headless: true,
     ignoreHTTPSErrors: true,
-    // ignoreDefaultArgs: ["--disable-extensions"],
   });
 };
 
