@@ -1,5 +1,6 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 
+import { getCacheKey } from "./getCacheKey";
 import { s3Client } from "./s3Client";
 
 export const storeImage = async (
@@ -9,7 +10,7 @@ export const storeImage = async (
   png: string | Buffer,
   jpg: string | Buffer
 ) => {
-  const cacheKey = `${rendererAddress}/${tokenId}/${seed}`;
+  const cacheKey = getCacheKey(rendererAddress, tokenId, seed);
 
   await Promise.all([
     s3Client.send(

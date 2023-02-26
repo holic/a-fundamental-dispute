@@ -1,5 +1,6 @@
 import { HeadObjectCommand, NotFound } from "@aws-sdk/client-s3";
 
+import { getCacheKey } from "./getCacheKey";
 import { s3Client } from "./s3Client";
 
 export const hasImage = async (
@@ -7,7 +8,7 @@ export const hasImage = async (
   tokenId: number,
   seed: number
 ) => {
-  const cacheKey = `${rendererAddress}/${tokenId}/${seed}`;
+  const cacheKey = getCacheKey(rendererAddress, tokenId, seed);
 
   try {
     await Promise.all([

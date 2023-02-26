@@ -7,6 +7,7 @@ import chromium from "chrome-aws-lambda";
 import fetch from "node-fetch";
 import { Browser } from "puppeteer";
 
+import { getCacheKey } from "./getCacheKey";
 import { s3Client } from "./s3Client";
 
 const getBrowserInstance = async () => {
@@ -44,7 +45,7 @@ export const createImage = async (
   const height = 550;
   const pixelDensity = 2;
 
-  const cacheKey = `${rendererAddress}/${tokenId}/${seed}`;
+  const cacheKey = getCacheKey(rendererAddress, tokenId, seed);
 
   try {
     if (!browser) {
