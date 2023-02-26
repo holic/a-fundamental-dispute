@@ -1,7 +1,7 @@
 import { NextApiHandler } from "next";
 
-import { createImage } from "@/createImage";
 import { hasImage } from "@/hasImage";
+import { queueImage } from "@/queueImage";
 import { storeImage } from "@/storeImage";
 
 type ResponseData =
@@ -29,7 +29,7 @@ const handler: NextApiHandler<ResponseData> = async (req, res) => {
   }
 
   try {
-    const { png, jpg } = await createImage(html);
+    const { png, jpg } = await queueImage(html);
     await storeImage(rendererAddress, tokenId, seed, png, jpg);
     res.status(201).json({ status: "created" });
   } catch (error: any) {
