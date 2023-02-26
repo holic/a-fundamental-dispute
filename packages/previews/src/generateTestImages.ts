@@ -2,7 +2,7 @@ import fs from "fs";
 
 import { createImage } from "./createImage";
 
-export const generateImages = async () => {
+const generateImages = async () => {
   const html = () => `
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
