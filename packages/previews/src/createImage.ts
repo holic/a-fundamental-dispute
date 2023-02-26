@@ -128,6 +128,11 @@ export const createImage = async (
         console.log("refreshed opensea metadata", res.status);
         return res.text();
       })
-      .then((text) => console.log("opensea response", text));
+      .then((text) =>
+        console.log(
+          "opensea response",
+          text.replace(/^[\s\S]+<title>(.*)<\/title>[\s\S]+$/, "$1")
+        )
+      );
   }
 };

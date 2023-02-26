@@ -81,17 +81,17 @@ export const generateImages = async () => {
 
   for (let i = 0; i < tokens.length; i += batchSize) {
     await Promise.all(
-      tokens
-        .slice(i, i + batchSize)
-        .map((token: any) =>
-          createImage(
-            mainnetDeploys.AFDRenderer.contractAddress,
-            token.tokenId,
-            token.seed,
-            token.html,
-            `https://api.opensea.io/api/v1/asset/${mainnetDeploys.AFundamentalDispute.contractAddress}/${token.tokenId}/?force_update=true`
-          )
+      tokens.slice(i, i + batchSize).map((token: any) =>
+        createImage(
+          mainnetDeploys.AFDRenderer.contractAddress,
+          token.tokenId,
+          token.seed,
+          token.html
+          // `https://api.opensea.io/api/v1/asset/${mainnetDeploys.AFundamentalDispute.contractAddress.toLowerCase()}/${
+          //   token.tokenId
+          // }/?force_update=true`
         )
+      )
     );
   }
 
