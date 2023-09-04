@@ -1,10 +1,5 @@
-import {
-  HeadObjectCommand,
-  NotFound,
-  PutObjectCommand,
-} from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 import chromium from "chrome-aws-lambda";
-import fetch from "node-fetch";
 import { Browser } from "puppeteer";
 
 import { getCacheKey } from "./getCacheKey";

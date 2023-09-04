@@ -1,10 +1,9 @@
-import { PonderConfig, ResolvedPonderConfig } from "@ponder/core";
-import { graphqlPlugin } from "@ponder/graphql";
+import { Config, ResolvedConfig } from "@ponder/core";
 
 import goerliDeploys from "../contracts/deploys/goerli.json";
 import mainnetDeploys from "../contracts/deploys/mainnet.json";
 
-const foldedFaces: ResolvedPonderConfig["contracts"][0] = {
+const foldedFaces: NonNullable<ResolvedConfig["contracts"]>[number] = {
   name: "FoldedFaces",
   network: "mainnet",
   abi: "./abis/FoldedFaces.json",
@@ -12,8 +11,7 @@ const foldedFaces: ResolvedPonderConfig["contracts"][0] = {
   startBlock: 14837058,
 };
 
-export const config: PonderConfig = {
-  plugins: [graphqlPlugin()],
+export const config: Config = {
   networks: [
     { name: "mainnet", chainId: 1, rpcUrl: process.env.PONDER_RPC_URL_1! },
     { name: "goerli", chainId: 5, rpcUrl: process.env.PONDER_RPC_URL_5! },
@@ -27,14 +25,16 @@ export const config: PonderConfig = {
             name: "AFundamentalDispute",
             network: "mainnet",
             abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
-            address: mainnetDeploys.AFundamentalDispute.contractAddress,
+            address: mainnetDeploys.AFundamentalDispute
+              .contractAddress as `0x${string}`,
             startBlock: mainnetDeploys.AFundamentalDispute.blockNumber,
           },
           {
             name: "AFDRenderer",
             network: "mainnet",
             abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
-            address: mainnetDeploys.AFDRenderer.contractAddress,
+            address: mainnetDeploys.AFDRenderer
+              .contractAddress as `0x${string}`,
             startBlock: mainnetDeploys.AFDRenderer.blockNumber,
           },
         ];
@@ -45,14 +45,15 @@ export const config: PonderConfig = {
             name: "AFundamentalDispute",
             network: "goerli",
             abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
-            address: goerliDeploys.AFundamentalDispute.contractAddress,
+            address: goerliDeploys.AFundamentalDispute
+              .contractAddress as `0x${string}`,
             startBlock: goerliDeploys.AFundamentalDispute.blockNumber,
           },
           {
             name: "AFDRenderer",
             network: "goerli",
             abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
-            address: goerliDeploys.AFDRenderer.contractAddress,
+            address: goerliDeploys.AFDRenderer.contractAddress as `0x${string}`,
             startBlock: goerliDeploys.AFDRenderer.blockNumber,
           },
         ];

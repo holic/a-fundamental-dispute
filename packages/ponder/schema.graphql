@@ -1,20 +1,20 @@
 type AFundamentalDisputeToken @entity {
-  id: ID!
-  tokenId: Int!
+  id: BigInt!
+  tokenId: BigInt!
   owner: Wallet!
   seed: Int!
   html: String!
 }
 
 type FoldedFacesToken @entity {
-  id: ID!
-  tokenId: Int!
+  id: BigInt!
+  tokenId: BigInt!
   owner: Wallet!
   mintDiscountUsed: Boolean!
 }
 
 type Wallet @entity {
-  id: ID!
+  id: String!
   ffTokens: [FoldedFacesToken!]! @derivedFrom(field: "owner")
   afdTokens: [AFundamentalDisputeToken!]! @derivedFrom(field: "owner")
 }

@@ -1,5 +1,3 @@
-import fetch from "node-fetch";
-
 import { createImage } from "./createImage";
 import { hasImage } from "./hasImage";
 

@@ -1,8 +1,6 @@
-import fetch from "node-fetch";
-
 export const generateImages = async (
   rendererAddress: string,
-  tokenId: number,
+  tokenId: bigint,
   seed: number,
   html: string
 ) => {
@@ -12,7 +10,12 @@ export const generateImages = async (
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ rendererAddress, tokenId, seed, html }),
+    body: JSON.stringify({
+      rendererAddress,
+      tokenId: Number(tokenId),
+      seed,
+      html,
+    }),
   }).then((res) => res.json());
   if (res.error) {
     throw new Error(res.error);

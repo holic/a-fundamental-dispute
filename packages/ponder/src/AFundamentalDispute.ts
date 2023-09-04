@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import { ponder } from "../generated";
 import { generateImages } from "./generateImages";
 
@@ -10,18 +8,17 @@ ponder.on(
     const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
     const owner = event.params.to;
-    await Wallet.upsert(owner, {});
+    await Wallet.upsert({ id: owner });
 
-    const fromId = event.params.fromTokenId.toNumber();
-    const toId = event.params.toTokenId.toNumber();
+    const fromId = event.params.fromTokenId;
+    const toId = event.params.toTokenId;
     for (let tokenId = fromId; tokenId <= toId; tokenId++) {
-      const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
-      const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
-      await AFundamentalDisputeToken.upsert(tokenId.toString(), {
-        tokenId,
-        owner,
-        seed,
-        html,
+      const seed = await AFundamentalDispute.read.tokenSeed([tokenId]);
+      const html = await AFDRenderer.read.fullscreenHtml([tokenId]);
+      await AFundamentalDisputeToken.upsert({
+        id: tokenId,
+        create: { tokenId, owner, seed, html },
+        update: { tokenId, owner, seed, html },
       });
       await generateImages(AFDRenderer.address, tokenId, seed, html);
     }
@@ -33,23 +30,22 @@ ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
   const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
   const owner = event.params.to;
-  await Wallet.upsert(owner, {});
+  await Wallet.upsert({ id: owner });
 
-  const tokenId = event.params.tokenId.toNumber();
-  if (await AFundamentalDisputeToken.get(tokenId.toString())) {
-    await AFundamentalDisputeToken.update(tokenId.toString(), {
-      owner,
+  const tokenId = event.params.tokenId;
+  if (await AFundamentalDisputeToken.findUnique({ id: tokenId })) {
+    await AFundamentalDisputeToken.update({
+      id: tokenId,
+      data: { owner },
     });
     return;
   }
 
-  const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
-  const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
-  await AFundamentalDisputeToken.insert(tokenId.toString(), {
-    tokenId,
-    owner,
-    seed,
-    html,
+  const seed = await AFundamentalDispute.read.tokenSeed([tokenId]);
+  const html = await AFDRenderer.read.fullscreenHtml([tokenId]);
+  await AFundamentalDisputeToken.create({
+    id: tokenId,
+    data: { tokenId, owner, seed, html },
   });
   await generateImages(AFDRenderer.address, tokenId, seed, html);
 });
@@ -58,20 +54,20 @@ ponder.on("AFundamentalDispute:MetadataUpdate", async ({ event, context }) => {
   const { AFundamentalDisputeToken } = context.entities;
   const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
-  const tokenId = event.params._tokenId.toNumber();
-  const token = await AFundamentalDisputeToken.get(tokenId.toString());
+  const tokenId = event.params._tokenId;
+  const token = await AFundamentalDisputeToken.findUnique({ id: tokenId });
   if (!token) {
     throw new Error(
       `Unexpected metadata update for non-existent token ${tokenId}`
     );
   }
 
-  const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
+  const seed = await AFundamentalDispute.read.tokenSeed([tokenId]);
   if (seed !== token.seed) {
-    const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
-    await AFundamentalDisputeToken.update(tokenId.toString(), {
-      seed,
-      html,
+    const html = await AFDRenderer.read.fullscreenHtml([tokenId]);
+    await AFundamentalDisputeToken.update({
+      id: tokenId,
+      data: { seed, html },
     });
     await generateImages(AFDRenderer.address, tokenId, seed, html);
   }
@@ -83,23 +79,23 @@ ponder.on(
     const { AFundamentalDisputeToken } = context.entities;
     const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
-    const fromTokenId = event.params._fromTokenId.toNumber();
-    const toTokenId = event.params._toTokenId.toNumber();
+    const fromTokenId = event.params._fromTokenId;
+    const toTokenId = event.params._toTokenId;
 
     for (let tokenId = fromTokenId; tokenId <= toTokenId; tokenId++) {
-      const token = await AFundamentalDisputeToken.get(tokenId.toString());
+      const token = await AFundamentalDisputeToken.findUnique({ id: tokenId });
       if (!token) {
         throw new Error(
           `Unexpected metadata update for non-existent token ${tokenId}`
         );
       }
 
-      const seed = await AFundamentalDispute.tokenSeed(BigNumber.from(tokenId));
+      const seed = await AFundamentalDispute.read.tokenSeed([tokenId]);
       if (seed !== token.seed) {
-        const html = await AFDRenderer.fullscreenHtml(BigNumber.from(tokenId));
-        await AFundamentalDisputeToken.update(tokenId.toString(), {
-          seed,
-          html,
+        const html = await AFDRenderer.read.fullscreenHtml([tokenId]);
+        await AFundamentalDisputeToken.update({
+          id: tokenId,
+          data: { seed, html },
         });
         await generateImages(AFDRenderer.address, tokenId, seed, html);
       }
@@ -112,16 +108,17 @@ ponder.on(
   async ({ event, context }) => {
     const { FoldedFacesToken } = context.entities;
 
-    const tokenId = event.params.tokenId.toNumber();
-    const token = await FoldedFacesToken.get(tokenId.toString());
+    const tokenId = event.params.tokenId;
+    const token = await FoldedFacesToken.findUnique({ id: tokenId });
     if (!token) {
       throw new Error(
         `Discount for Folded Faces #${tokenId} used before the token was created?`
       );
     }
 
-    await FoldedFacesToken.update(tokenId.toString(), {
-      mintDiscountUsed: true,
+    await FoldedFacesToken.update({
+      id: tokenId,
+      data: { mintDiscountUsed: true },
     });
   }
 );
