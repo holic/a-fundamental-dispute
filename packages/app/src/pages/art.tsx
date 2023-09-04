@@ -14,7 +14,7 @@ import { graphClient } from "./_app";
 
 const galleryPageQuery = gql`
   query GalleryPage {
-    tokens: aFundamentalDisputeTokens(orderBy: "tokenId") {
+    tokens: aFundamentalDisputeTokens(orderBy: "tokenId", first: 1000) {
       ...Gallery
     }
   }

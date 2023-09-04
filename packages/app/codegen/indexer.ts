@@ -13,66 +13,47 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  BigInt: any;
 };
 
 export type AFundamentalDisputeToken = {
   readonly __typename?: 'AFundamentalDisputeToken';
   readonly html: Scalars['String'];
-  readonly id: Scalars['ID'];
+  readonly id: Scalars['BigInt'];
   readonly owner?: Maybe<Wallet>;
   readonly seed: Scalars['Int'];
-  readonly tokenId: Scalars['Int'];
+  readonly tokenId: Scalars['BigInt'];
 };
 
 export type AFundamentalDisputeTokenFilter = {
   readonly html?: InputMaybe<Scalars['String']>;
   readonly html_contains?: InputMaybe<Scalars['String']>;
-  readonly html_contains_nocase?: InputMaybe<Scalars['String']>;
   readonly html_ends_with?: InputMaybe<Scalars['String']>;
-  readonly html_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly html_gt?: InputMaybe<Scalars['String']>;
-  readonly html_gte?: InputMaybe<Scalars['String']>;
   readonly html_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly html_lt?: InputMaybe<Scalars['String']>;
-  readonly html_lte?: InputMaybe<Scalars['String']>;
   readonly html_not?: InputMaybe<Scalars['String']>;
   readonly html_not_contains?: InputMaybe<Scalars['String']>;
-  readonly html_not_contains_nocase?: InputMaybe<Scalars['String']>;
   readonly html_not_ends_with?: InputMaybe<Scalars['String']>;
-  readonly html_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
   readonly html_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
   readonly html_not_starts_with?: InputMaybe<Scalars['String']>;
-  readonly html_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly html_starts_with?: InputMaybe<Scalars['String']>;
-  readonly html_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly id?: InputMaybe<Scalars['ID']>;
-  readonly id_gt?: InputMaybe<Scalars['ID']>;
-  readonly id_gte?: InputMaybe<Scalars['ID']>;
-  readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly id_lt?: InputMaybe<Scalars['ID']>;
-  readonly id_lte?: InputMaybe<Scalars['ID']>;
-  readonly id_not?: InputMaybe<Scalars['ID']>;
-  readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly owner?: InputMaybe<Scalars['ID']>;
-  readonly owner_contains?: InputMaybe<Scalars['ID']>;
-  readonly owner_contains_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_ends_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_ends_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_gt?: InputMaybe<Scalars['ID']>;
-  readonly owner_gte?: InputMaybe<Scalars['ID']>;
-  readonly owner_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly owner_lt?: InputMaybe<Scalars['ID']>;
-  readonly owner_lte?: InputMaybe<Scalars['ID']>;
-  readonly owner_not?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_contains?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_contains_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_ends_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_ends_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly owner_not_starts_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_starts_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_starts_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_starts_with_nocase?: InputMaybe<Scalars['ID']>;
+  readonly id?: InputMaybe<Scalars['BigInt']>;
+  readonly id_gt?: InputMaybe<Scalars['BigInt']>;
+  readonly id_gte?: InputMaybe<Scalars['BigInt']>;
+  readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
+  readonly id_lt?: InputMaybe<Scalars['BigInt']>;
+  readonly id_lte?: InputMaybe<Scalars['BigInt']>;
+  readonly id_not?: InputMaybe<Scalars['BigInt']>;
+  readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
+  readonly owner?: InputMaybe<Scalars['String']>;
+  readonly owner_contains?: InputMaybe<Scalars['String']>;
+  readonly owner_ends_with?: InputMaybe<Scalars['String']>;
+  readonly owner_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly owner_not?: InputMaybe<Scalars['String']>;
+  readonly owner_not_contains?: InputMaybe<Scalars['String']>;
+  readonly owner_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly owner_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly owner_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly owner_starts_with?: InputMaybe<Scalars['String']>;
   readonly seed?: InputMaybe<Scalars['Int']>;
   readonly seed_gt?: InputMaybe<Scalars['Int']>;
   readonly seed_gte?: InputMaybe<Scalars['Int']>;
@@ -81,69 +62,55 @@ export type AFundamentalDisputeTokenFilter = {
   readonly seed_lte?: InputMaybe<Scalars['Int']>;
   readonly seed_not?: InputMaybe<Scalars['Int']>;
   readonly seed_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
-  readonly tokenId?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_gt?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_gte?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
-  readonly tokenId_lt?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_lte?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_not?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
+  readonly tokenId?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_gt?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_gte?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
+  readonly tokenId_lt?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_lte?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_not?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
 };
 
 export type FoldedFacesToken = {
   readonly __typename?: 'FoldedFacesToken';
-  readonly id: Scalars['ID'];
+  readonly id: Scalars['BigInt'];
   readonly mintDiscountUsed: Scalars['Boolean'];
   readonly owner?: Maybe<Wallet>;
-  readonly tokenId: Scalars['Int'];
+  readonly tokenId: Scalars['BigInt'];
 };
 
 export type FoldedFacesTokenFilter = {
-  readonly id?: InputMaybe<Scalars['ID']>;
-  readonly id_gt?: InputMaybe<Scalars['ID']>;
-  readonly id_gte?: InputMaybe<Scalars['ID']>;
-  readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly id_lt?: InputMaybe<Scalars['ID']>;
-  readonly id_lte?: InputMaybe<Scalars['ID']>;
-  readonly id_not?: InputMaybe<Scalars['ID']>;
-  readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
+  readonly id?: InputMaybe<Scalars['BigInt']>;
+  readonly id_gt?: InputMaybe<Scalars['BigInt']>;
+  readonly id_gte?: InputMaybe<Scalars['BigInt']>;
+  readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
+  readonly id_lt?: InputMaybe<Scalars['BigInt']>;
+  readonly id_lte?: InputMaybe<Scalars['BigInt']>;
+  readonly id_not?: InputMaybe<Scalars['BigInt']>;
+  readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
   readonly mintDiscountUsed?: InputMaybe<Scalars['Boolean']>;
-  readonly mintDiscountUsed_gt?: InputMaybe<Scalars['Boolean']>;
-  readonly mintDiscountUsed_gte?: InputMaybe<Scalars['Boolean']>;
   readonly mintDiscountUsed_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
-  readonly mintDiscountUsed_lt?: InputMaybe<Scalars['Boolean']>;
-  readonly mintDiscountUsed_lte?: InputMaybe<Scalars['Boolean']>;
   readonly mintDiscountUsed_not?: InputMaybe<Scalars['Boolean']>;
   readonly mintDiscountUsed_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Boolean']>>>;
-  readonly owner?: InputMaybe<Scalars['ID']>;
-  readonly owner_contains?: InputMaybe<Scalars['ID']>;
-  readonly owner_contains_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_ends_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_ends_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_gt?: InputMaybe<Scalars['ID']>;
-  readonly owner_gte?: InputMaybe<Scalars['ID']>;
-  readonly owner_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly owner_lt?: InputMaybe<Scalars['ID']>;
-  readonly owner_lte?: InputMaybe<Scalars['ID']>;
-  readonly owner_not?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_contains?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_contains_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_ends_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_ends_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly owner_not_starts_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_not_starts_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly owner_starts_with?: InputMaybe<Scalars['ID']>;
-  readonly owner_starts_with_nocase?: InputMaybe<Scalars['ID']>;
-  readonly tokenId?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_gt?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_gte?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
-  readonly tokenId_lt?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_lte?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_not?: InputMaybe<Scalars['Int']>;
-  readonly tokenId_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['Int']>>>;
+  readonly owner?: InputMaybe<Scalars['String']>;
+  readonly owner_contains?: InputMaybe<Scalars['String']>;
+  readonly owner_ends_with?: InputMaybe<Scalars['String']>;
+  readonly owner_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly owner_not?: InputMaybe<Scalars['String']>;
+  readonly owner_not_contains?: InputMaybe<Scalars['String']>;
+  readonly owner_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly owner_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly owner_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly owner_starts_with?: InputMaybe<Scalars['String']>;
+  readonly tokenId?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_gt?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_gte?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
+  readonly tokenId_lt?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_lte?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_not?: InputMaybe<Scalars['BigInt']>;
+  readonly tokenId_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['BigInt']>>>;
 };
 
 export type Query = {
@@ -158,7 +125,8 @@ export type Query = {
 
 
 export type QueryAFundamentalDisputeTokenArgs = {
-  id: Scalars['ID'];
+  id: Scalars['BigInt'];
+  timestamp?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -167,12 +135,14 @@ export type QueryAFundamentalDisputeTokensArgs = {
   orderBy?: InputMaybe<Scalars['String']>;
   orderDirection?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
+  timestamp?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<AFundamentalDisputeTokenFilter>;
 };
 
 
 export type QueryFoldedFacesTokenArgs = {
-  id: Scalars['ID'];
+  id: Scalars['BigInt'];
+  timestamp?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -181,12 +151,14 @@ export type QueryFoldedFacesTokensArgs = {
   orderBy?: InputMaybe<Scalars['String']>;
   orderDirection?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
+  timestamp?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<FoldedFacesTokenFilter>;
 };
 
 
 export type QueryWalletArgs = {
-  id: Scalars['ID'];
+  id: Scalars['String'];
+  timestamp?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -195,6 +167,7 @@ export type QueryWalletsArgs = {
   orderBy?: InputMaybe<Scalars['String']>;
   orderDirection?: InputMaybe<Scalars['String']>;
   skip?: InputMaybe<Scalars['Int']>;
+  timestamp?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<WalletFilter>;
 };
 
@@ -202,68 +175,88 @@ export type Wallet = {
   readonly __typename?: 'Wallet';
   readonly afdTokens: ReadonlyArray<AFundamentalDisputeToken>;
   readonly ffTokens: ReadonlyArray<FoldedFacesToken>;
-  readonly id: Scalars['ID'];
+  readonly id: Scalars['String'];
+};
+
+
+export type WalletAfdTokensArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Scalars['String']>;
+  orderDirection?: InputMaybe<Scalars['String']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  timestamp?: InputMaybe<Scalars['Int']>;
+};
+
+
+export type WalletFfTokensArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Scalars['String']>;
+  orderDirection?: InputMaybe<Scalars['String']>;
+  skip?: InputMaybe<Scalars['Int']>;
+  timestamp?: InputMaybe<Scalars['Int']>;
 };
 
 export type WalletFilter = {
-  readonly id?: InputMaybe<Scalars['ID']>;
-  readonly id_gt?: InputMaybe<Scalars['ID']>;
-  readonly id_gte?: InputMaybe<Scalars['ID']>;
-  readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
-  readonly id_lt?: InputMaybe<Scalars['ID']>;
-  readonly id_lte?: InputMaybe<Scalars['ID']>;
-  readonly id_not?: InputMaybe<Scalars['ID']>;
-  readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['ID']>>>;
+  readonly id?: InputMaybe<Scalars['String']>;
+  readonly id_contains?: InputMaybe<Scalars['String']>;
+  readonly id_ends_with?: InputMaybe<Scalars['String']>;
+  readonly id_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly id_not?: InputMaybe<Scalars['String']>;
+  readonly id_not_contains?: InputMaybe<Scalars['String']>;
+  readonly id_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly id_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
+  readonly id_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly id_starts_with?: InputMaybe<Scalars['String']>;
 };
 
 export type ArtPreviewQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['BigInt'];
 }>;
 
 
-export type ArtPreviewQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly html: string } | null };
+export type ArtPreviewQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: any, readonly html: string } | null };
 
 export type DisputableTokensQueryVariables = Exact<{
-  owner: Scalars['ID'];
+  owner: Scalars['String'];
 }>;
 
 
-export type DisputableTokensQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number }> };
+export type DisputableTokensQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly id: any, readonly tokenId: any }> };
 
-export type GalleryFragment = { readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: number, readonly seed: number };
+export type GalleryFragment = { readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: any, readonly seed: number };
 
 export type MintButtonQueryVariables = Exact<{
-  address: Scalars['ID'];
+  address: Scalars['String'];
 }>;
 
 
-export type MintButtonQuery = { readonly __typename?: 'Query', readonly foldedFacesTokens: ReadonlyArray<{ readonly __typename?: 'FoldedFacesToken', readonly id: string, readonly tokenId: number }> };
+export type MintButtonQuery = { readonly __typename?: 'Query', readonly foldedFacesTokens: ReadonlyArray<{ readonly __typename?: 'FoldedFacesToken', readonly id: any, readonly tokenId: any }> };
 
 export type TokenOwnerQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['BigInt'];
 }>;
 
 
 export type TokenOwnerQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
 
 export type ArtPlaceholderQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['BigInt'];
 }>;
 
 
-export type ArtPlaceholderQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: number, readonly seed: number } | null };
+export type ArtPlaceholderQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: any, readonly seed: number } | null };
 
 export type GalleryPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GalleryPageQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: number, readonly seed: number }> };
+export type GalleryPageQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'AFundamentalDisputeToken', readonly tokenId: any, readonly seed: number }> };
 
 export type TokenPageQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['BigInt'];
 }>;
 
 
-export type TokenPageQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: string, readonly tokenId: number, readonly seed: number, readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
+export type TokenPageQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: any, readonly tokenId: any, readonly seed: number, readonly owner?: { readonly __typename?: 'Wallet', readonly id: string } | null } | null };
 
 export const GalleryFragmentDoc = gql`
     fragment Gallery on AFundamentalDisputeToken {
@@ -272,7 +265,7 @@ export const GalleryFragmentDoc = gql`
 }
     `;
 export const ArtPreviewDocument = gql`
-    query ArtPreview($id: ID!) {
+    query ArtPreview($id: BigInt!) {
   token: aFundamentalDisputeToken(id: $id) {
     id
     html
@@ -284,7 +277,7 @@ export function useArtPreviewQuery(options: Omit<Urql.UseQueryArgs<ArtPreviewQue
   return Urql.useQuery<ArtPreviewQuery, ArtPreviewQueryVariables>({ query: ArtPreviewDocument, ...options });
 };
 export const DisputableTokensDocument = gql`
-    query DisputableTokens($owner: ID!) {
+    query DisputableTokens($owner: String!) {
   tokens: aFundamentalDisputeTokens(where: {owner: $owner}, orderBy: "tokenId") {
     id
     tokenId
@@ -296,7 +289,7 @@ export function useDisputableTokensQuery(options: Omit<Urql.UseQueryArgs<Disputa
   return Urql.useQuery<DisputableTokensQuery, DisputableTokensQueryVariables>({ query: DisputableTokensDocument, ...options });
 };
 export const MintButtonDocument = gql`
-    query MintButton($address: ID!) {
+    query MintButton($address: String!) {
   foldedFacesTokens(where: {owner: $address, mintDiscountUsed: false}) {
     id
     tokenId
@@ -308,7 +301,7 @@ export function useMintButtonQuery(options: Omit<Urql.UseQueryArgs<MintButtonQue
   return Urql.useQuery<MintButtonQuery, MintButtonQueryVariables>({ query: MintButtonDocument, ...options });
 };
 export const TokenOwnerDocument = gql`
-    query TokenOwner($id: ID!) {
+    query TokenOwner($id: BigInt!) {
   token: aFundamentalDisputeToken(id: $id) {
     owner {
       id
@@ -321,7 +314,7 @@ export function useTokenOwnerQuery(options: Omit<Urql.UseQueryArgs<TokenOwnerQue
   return Urql.useQuery<TokenOwnerQuery, TokenOwnerQueryVariables>({ query: TokenOwnerDocument, ...options });
 };
 export const ArtPlaceholderDocument = gql`
-    query ArtPlaceholder($id: ID!) {
+    query ArtPlaceholder($id: BigInt!) {
   token: aFundamentalDisputeToken(id: $id) {
     tokenId
     seed
@@ -334,7 +327,7 @@ export function useArtPlaceholderQuery(options: Omit<Urql.UseQueryArgs<ArtPlaceh
 };
 export const GalleryPageDocument = gql`
     query GalleryPage {
-  tokens: aFundamentalDisputeTokens(orderBy: "tokenId") {
+  tokens: aFundamentalDisputeTokens(first: 1000, orderBy: "tokenId") {
     ...Gallery
   }
 }
@@ -344,7 +337,7 @@ export function useGalleryPageQuery(options?: Omit<Urql.UseQueryArgs<GalleryPage
   return Urql.useQuery<GalleryPageQuery, GalleryPageQueryVariables>({ query: GalleryPageDocument, ...options });
 };
 export const TokenPageDocument = gql`
-    query TokenPage($id: ID!) {
+    query TokenPage($id: BigInt!) {
   token: aFundamentalDisputeToken(id: $id) {
     id
     tokenId

@@ -12,7 +12,7 @@ import { useArtPreviewQuery } from "../codegen/indexer";
 import { previewImageUrl } from "./previewImageUrl";
 
 gql`
-  query ArtPreview($id: ID!) {
+  query ArtPreview($id: BigInt!) {
     token: aFundamentalDisputeToken(id: $id) {
       id
       html

@@ -7,7 +7,7 @@ import { useENS } from "./useENS";
 import { useIsMounted } from "./useIsMounted";
 
 gql`
-  query TokenOwner($id: ID!) {
+  query TokenOwner($id: BigInt!) {
     token: aFundamentalDisputeToken(id: $id) {
       owner {
         id

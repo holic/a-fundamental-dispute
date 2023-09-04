@@ -16,7 +16,7 @@ const bg = fs.readFileSync(
 );
 
 const artPlaceholderQuery = gql`
-  query ArtPlaceholder($id: ID!) {
+  query ArtPlaceholder($id: BigInt!) {
     token: aFundamentalDisputeToken(id: $id) {
       tokenId
       seed

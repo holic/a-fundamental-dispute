@@ -2,7 +2,7 @@ import { BigNumber } from "ethers";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { gql } from "urql";
-import { useAccount, useContractWrite } from "wagmi";
+import { useContractWrite } from "wagmi";
 
 import { useDisputableTokensQuery } from "../codegen/indexer";
 import { maxSupply } from "./constants";
@@ -10,10 +10,11 @@ import { contracts } from "./contracts";
 import { PendingIcon } from "./icons/PendingIcon";
 
 gql`
-  query DisputableTokens($owner: ID!) {
+  query DisputableTokens($owner: String!) {
     tokens: aFundamentalDisputeTokens(
       where: { owner: $owner }
       orderBy: "tokenId"
+      first: 1000
     ) {
       id
       tokenId

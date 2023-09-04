@@ -24,8 +24,11 @@ import { promiseNotify } from "./promiseNotify";
 import { usePromiseFn } from "./usePromiseFn";
 
 gql`
-  query MintButton($address: ID!) {
-    foldedFacesTokens(where: { owner: $address, mintDiscountUsed: false }) {
+  query MintButton($address: String!) {
+    foldedFacesTokens(
+      where: { owner: $address, mintDiscountUsed: false }
+      first: 1000
+    ) {
       id
       tokenId
     }

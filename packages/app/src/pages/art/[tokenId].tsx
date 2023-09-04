@@ -19,7 +19,7 @@ import { graphClient } from "../_app";
 // TODO: generate static paths
 
 const tokenPageQuery = gql`
-  query TokenPage($id: ID!) {
+  query TokenPage($id: BigInt!) {
     token: aFundamentalDisputeToken(id: $id) {
       id
       tokenId
