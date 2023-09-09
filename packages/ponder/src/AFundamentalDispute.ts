@@ -4,6 +4,8 @@ import { generateImages } from "./generateImages";
 ponder.on(
   "AFundamentalDispute:ConsecutiveTransfer",
   async ({ event, context }) => {
+    console.log("event:", event.name, event.block.number);
+
     const { AFundamentalDisputeToken, Wallet } = context.entities;
     const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
@@ -26,6 +28,8 @@ ponder.on(
 );
 
 ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
+  console.log("event:", event.name, event.block.number);
+
   const { AFundamentalDisputeToken, Wallet } = context.entities;
   const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
@@ -51,6 +55,8 @@ ponder.on("AFundamentalDispute:Transfer", async ({ event, context }) => {
 });
 
 ponder.on("AFundamentalDispute:MetadataUpdate", async ({ event, context }) => {
+  console.log("event:", event.name, event.block.number);
+
   const { AFundamentalDisputeToken } = context.entities;
   const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
@@ -76,6 +82,8 @@ ponder.on("AFundamentalDispute:MetadataUpdate", async ({ event, context }) => {
 ponder.on(
   "AFundamentalDispute:BatchMetadataUpdate",
   async ({ event, context }) => {
+    console.log("event:", event.name, event.block.number);
+
     const { AFundamentalDisputeToken } = context.entities;
     const { AFundamentalDispute, AFDRenderer } = context.contracts;
 
@@ -106,6 +114,8 @@ ponder.on(
 ponder.on(
   "AFundamentalDispute:TokenDiscountUsed",
   async ({ event, context }) => {
+    console.log("event:", event.name, event.block.number);
+
     const { FoldedFacesToken } = context.entities;
 
     const tokenId = event.params.tokenId;
