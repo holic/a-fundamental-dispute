@@ -22,7 +22,7 @@
     "puppeteer": "^19.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.5",
-    "viem": "^2.17.4"
+    "typescript": "^5.4.2",
+    "viem": "1.9.5"
   }
 }
