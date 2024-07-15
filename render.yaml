@@ -3,9 +3,9 @@
 
 services:
   - type: web
+    runtime: node
     name: afd-ponder
     rootDir: packages/ponder
-    env: node
     buildCommand: pnpm install --filter "."
     startCommand: pnpm start
     envVars:
@@ -21,9 +21,9 @@ services:
         sync: false
 
   - type: web
+    runtime: node
     name: afd-ponder-goerli
     rootDir: packages/ponder
-    env: node
     buildCommand: pnpm install --filter "."
     startCommand: pnpm start
     envVars:
@@ -40,6 +40,6 @@ services:
 
 databases:
   - name: afd-ponder-db
-    postgresMajorVersion: 14
+    postgresMajorVersion: "14"
   - name: afd-ponder-db-goerli
-    postgresMajorVersion: 14
+    postgresMajorVersion: "14"
