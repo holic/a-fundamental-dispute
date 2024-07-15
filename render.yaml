@@ -7,7 +7,7 @@ services:
     name: afd-ponder
     rootDir: packages/ponder
     buildCommand: pnpm install --filter "."
-    startCommand: pnpm start
+    startCommand: pnpm run start
     envVars:
       - key: CHAIN_ID
         value: 1
@@ -15,6 +15,18 @@ services:
         fromDatabase:
           name: afd-ponder-db
           property: connectionString
+      - key: PONDER_RPC_URL_1
+        sync: false
+
+  - type: web
+    runtime: node
+    name: afd-renderer
+    rootDir: packages/renderer
+    buildCommand: pnpm install --filter "." && pnpm run build
+    startCommand: pnpm run start
+    envVars:
+      - key: CHAIN_ID
+        value: 1
       - key: PONDER_RPC_URL_1
         sync: false
 

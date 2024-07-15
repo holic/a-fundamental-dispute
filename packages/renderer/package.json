@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@web3-scaffold/contracts": "workspace:*",
     "@aws-sdk/client-s3": "^3.245.0",
     "@next/font": "13.1.6",
     "@types/node": "18.14.0",
@@ -21,6 +22,7 @@
     "puppeteer": "^19.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "4.9.5"
+    "typescript": "4.9.5",
+    "viem": "^2.17.4"
   }
 }
