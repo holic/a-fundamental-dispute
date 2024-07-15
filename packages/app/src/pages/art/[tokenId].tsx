@@ -117,11 +117,7 @@ const ArtPage: NextPage<Props> = ({ tokenId, seed, owner }) => (
           </span>
           <span>
             <TextLink
-              href={
-                targetChainId === 1
-                  ? `https://opensea.io/assets/ethereum/${contracts.AFundamentalDispute.address}/${tokenId}`
-                  : `https://testnets.opensea.io/assets/goerli/${contracts.AFundamentalDispute.address}/${tokenId}`
-              }
+              href={`https://opensea.io/assets/ethereum/${contracts.AFundamentalDispute.address}/${tokenId}`}
               target="_blank"
             >
               View on OpenSea ⇒

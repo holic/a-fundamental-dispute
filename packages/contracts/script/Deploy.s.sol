@@ -57,9 +57,6 @@ contract Deploy is Script {
         if (chainId() == 1) {
             return 0x9746fD0A77829E12F8A9DBe70D7a322412325B91;
         }
-        if (chainId() == 5) {
-            return 0x5E348d0975A920E9611F8140f84458998A53af94;
-        }
         revert("Unsupported chain");
     }
 
@@ -67,19 +64,12 @@ contract Deploy is Script {
         if (chainId() == 1) {
             return 0xf01DfAC37DD149Cb686E05d06cd21930B011F10F;
         }
-        if (chainId() == 5) {
-            // Arbitrary ERC721 address on Goerli
-            return 0xec8cCFf076F3FDa20d8Bf3Ed296A2586c21598fC;
-        }
         revert("Unsupported chain");
     }
 
     function chainName() public view returns (string memory) {
         if (chainId() == 1) {
             return "mainnet";
-        }
-        if (chainId() == 5) {
-            return "goerli";
         }
         revert("Unsupported chain");
     }

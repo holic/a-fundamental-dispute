@@ -1,6 +1,5 @@
 import { Config, ResolvedConfig } from "@ponder/core";
 
-import goerliDeploys from "../contracts/deploys/goerli.json";
 import mainnetDeploys from "../contracts/deploys/mainnet.json";
 
 const foldedFaces: NonNullable<ResolvedConfig["contracts"]>[number] = {
@@ -14,7 +13,6 @@ const foldedFaces: NonNullable<ResolvedConfig["contracts"]>[number] = {
 export const config: Config = {
   networks: [
     { name: "mainnet", chainId: 1, rpcUrl: process.env.PONDER_RPC_URL_1! },
-    { name: "goerli", chainId: 5, rpcUrl: process.env.PONDER_RPC_URL_5! },
   ],
   contracts: (() => {
     switch (process.env.CHAIN_ID) {
@@ -36,25 +34,6 @@ export const config: Config = {
             address: mainnetDeploys.AFDRenderer
               .contractAddress as `0x${string}`,
             startBlock: mainnetDeploys.AFDRenderer.blockNumber,
-          },
-        ];
-      case "5":
-        return [
-          foldedFaces,
-          {
-            name: "AFundamentalDispute",
-            network: "goerli",
-            abi: "../contracts/abi/AFD.sol/AFundamentalDispute.abi.json",
-            address: goerliDeploys.AFundamentalDispute
-              .contractAddress as `0x${string}`,
-            startBlock: goerliDeploys.AFundamentalDispute.blockNumber,
-          },
-          {
-            name: "AFDRenderer",
-            network: "goerli",
-            abi: "../contracts/abi/AFDRenderer.sol/AFDRenderer.abi.json",
-            address: goerliDeploys.AFDRenderer.contractAddress as `0x${string}`,
-            startBlock: goerliDeploys.AFDRenderer.blockNumber,
           },
         ];
       default:

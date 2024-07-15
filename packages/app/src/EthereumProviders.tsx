@@ -7,13 +7,11 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import * as allChains from "wagmi/chains";
-import { alchemyProvider } from "wagmi/providers/alchemy";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
-// Will default to goerli if nothing set in the ENV
+// Will default to mainnet if nothing set in the ENV
 export const targetChainId =
-  parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || "0") || 5;
+  parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || "0") || 1;
 
 export const targetChain = (() => {
   const c = Object.values(allChains).find((c) => c.id === targetChainId);
