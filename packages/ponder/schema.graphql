@@ -3,7 +3,6 @@ type AFundamentalDisputeToken @entity {
   tokenId: BigInt!
   owner: Wallet!
   seed: Int!
-  html: String!
 }
 
 type FoldedFacesToken @entity {

@@ -2,8 +2,7 @@
   "name": "@web3-scaffold/app",
   "private": true,
   "engines": {
-    "node": "18",
-    "pnpm": "8"
+    "node": "18"
   },
   "scripts": {
     "dev": "next dev & graphql-codegen --require dotenv/config --config ./codegen.ts --watch",
