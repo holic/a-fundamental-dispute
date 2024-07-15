@@ -12,7 +12,12 @@ const foldedFaces: NonNullable<ResolvedConfig["contracts"]>[number] = {
 
 export const config: Config = {
   networks: [
-    { name: "mainnet", chainId: 1, rpcUrl: process.env.PONDER_RPC_URL_1! },
+    {
+      name: "mainnet",
+      chainId: 1,
+      rpcUrl: process.env.PONDER_RPC_URL_1!,
+      maxRpcRequestConcurrency: 1,
+    },
   ],
   contracts: (() => {
     switch (process.env.CHAIN_ID) {
