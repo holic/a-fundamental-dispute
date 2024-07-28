@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && ./puppeteer-on-render.sh",
     "start": "next start",
     "lint": "next lint"
   },
@@ -19,7 +19,7 @@
     "eslint-config-next": "^12.1.6",
     "next": "12.3.0",
     "p-queue": "^7.3.4",
-    "puppeteer": "^19.4.1",
+    "puppeteer": "22.14.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "^5.4.2",

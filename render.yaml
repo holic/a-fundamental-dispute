@@ -22,9 +22,11 @@ services:
     runtime: node
     name: afd-renderer
     rootDir: packages/renderer
-    buildCommand: pnpm install --filter "." && pushd node_modules/puppeteer && pnpm run postinstall && popd && pnpm run build
+    buildCommand: pnpm install --filter "." && pnpm run build
     startCommand: pnpm run start
     envVars:
+      - key: PUPPETEER_CACHE_DIR
+        value: /opt/render/project/puppeteer
       - key: CHAIN_ID
         value: 1
       - key: PONDER_RPC_URL_1
