@@ -31,6 +31,8 @@ services:
         value: 1
       - key: PONDER_RPC_URL_1
         sync: false
+    domains:
+      - afd-renderer.cache.frolic.digital
 
 databases:
   - name: afd-ponder-db
