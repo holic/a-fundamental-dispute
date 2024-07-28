@@ -29,8 +29,8 @@ const handler: NextApiHandler<ResponseData> = async (req, res) => {
   }
 
   try {
-    const { png, jpg } = await queueImage(html);
-    await storeImage(rendererAddress, tokenId, seed, png, jpg);
+    const { png, jpeg } = await queueImage(html);
+    await storeImage(rendererAddress, tokenId, seed, png, jpeg);
     res.status(201).json({ status: "created" });
   } catch (error: any) {
     console.error("Error rendering", error);

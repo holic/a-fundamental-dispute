@@ -37,10 +37,10 @@ export const createImage = async (html: string) => {
       await page.waitForFunction("window.renderComplete === true");
 
       const png = await page.screenshot({ type: "png" });
-      const jpg = await page.screenshot({ type: "jpeg" });
+      const jpeg = await page.screenshot({ type: "jpeg" });
       console.log("Took", Date.now() - start, "ms to render images");
 
-      return { png, jpg };
+      return { png, jpeg };
     } finally {
       await page.close();
     }
