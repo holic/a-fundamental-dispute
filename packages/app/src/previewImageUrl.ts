@@ -1,4 +1,4 @@
-import { contracts } from "./contracts";
+import { targetChainId } from "./EthereumProviders";
 
 export const previewImageUrl = (tokenId: number, seed: number) =>
-  `https://nyc3.digitaloceanspaces.com/afd-images/${contracts.AFDRenderer.address.toLowerCase()}/${tokenId}/${seed}.jpg`;
+  `https://afd-renderer.cache.frolic.digital/api/${targetChainId}/${tokenId}/${seed}`;
