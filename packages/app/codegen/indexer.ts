@@ -18,7 +18,6 @@ export type Scalars = {
 
 export type AFundamentalDisputeToken = {
   readonly __typename?: 'AFundamentalDisputeToken';
-  readonly html: Scalars['String'];
   readonly id: Scalars['BigInt'];
   readonly owner?: Maybe<Wallet>;
   readonly seed: Scalars['Int'];
@@ -26,16 +25,6 @@ export type AFundamentalDisputeToken = {
 };
 
 export type AFundamentalDisputeTokenFilter = {
-  readonly html?: InputMaybe<Scalars['String']>;
-  readonly html_contains?: InputMaybe<Scalars['String']>;
-  readonly html_ends_with?: InputMaybe<Scalars['String']>;
-  readonly html_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly html_not?: InputMaybe<Scalars['String']>;
-  readonly html_not_contains?: InputMaybe<Scalars['String']>;
-  readonly html_not_ends_with?: InputMaybe<Scalars['String']>;
-  readonly html_not_in?: InputMaybe<ReadonlyArray<InputMaybe<Scalars['String']>>>;
-  readonly html_not_starts_with?: InputMaybe<Scalars['String']>;
-  readonly html_starts_with?: InputMaybe<Scalars['String']>;
   readonly id?: InputMaybe<Scalars['BigInt']>;
   readonly id_gt?: InputMaybe<Scalars['BigInt']>;
   readonly id_gte?: InputMaybe<Scalars['BigInt']>;
@@ -209,13 +198,6 @@ export type WalletFilter = {
   readonly id_starts_with?: InputMaybe<Scalars['String']>;
 };
 
-export type ArtPreviewQueryVariables = Exact<{
-  id: Scalars['BigInt'];
-}>;
-
-
-export type ArtPreviewQuery = { readonly __typename?: 'Query', readonly token?: { readonly __typename?: 'AFundamentalDisputeToken', readonly id: any, readonly html: string } | null };
-
 export type DisputableTokensQueryVariables = Exact<{
   owner: Scalars['String'];
 }>;
@@ -264,21 +246,13 @@ export const GalleryFragmentDoc = gql`
   seed
 }
     `;
-export const ArtPreviewDocument = gql`
-    query ArtPreview($id: BigInt!) {
-  token: aFundamentalDisputeToken(id: $id) {
-    id
-    html
-  }
-}
-    `;
-
-export function useArtPreviewQuery(options: Omit<Urql.UseQueryArgs<ArtPreviewQueryVariables>, 'query'>) {
-  return Urql.useQuery<ArtPreviewQuery, ArtPreviewQueryVariables>({ query: ArtPreviewDocument, ...options });
-};
 export const DisputableTokensDocument = gql`
     query DisputableTokens($owner: String!) {
-  tokens: aFundamentalDisputeTokens(where: {owner: $owner}, orderBy: "tokenId") {
+  tokens: aFundamentalDisputeTokens(
+    where: {owner: $owner}
+    orderBy: "tokenId"
+    first: 1000
+  ) {
     id
     tokenId
   }
@@ -290,7 +264,10 @@ export function useDisputableTokensQuery(options: Omit<Urql.UseQueryArgs<Disputa
 };
 export const MintButtonDocument = gql`
     query MintButton($address: String!) {
-  foldedFacesTokens(where: {owner: $address, mintDiscountUsed: false}) {
+  foldedFacesTokens(
+    where: {owner: $address, mintDiscountUsed: false}
+    first: 1000
+  ) {
     id
     tokenId
   }
@@ -327,7 +304,7 @@ export function useArtPlaceholderQuery(options: Omit<Urql.UseQueryArgs<ArtPlaceh
 };
 export const GalleryPageDocument = gql`
     query GalleryPage {
-  tokens: aFundamentalDisputeTokens(first: 1000, orderBy: "tokenId") {
+  tokens: aFundamentalDisputeTokens(orderBy: "tokenId", first: 1000) {
     ...Gallery
   }
 }

@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { BigNumber } from "ethers";
 import {
   DetailedHTMLProps,
   IframeHTMLAttributes,
@@ -6,19 +7,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { gql } from "urql";
+import { useContractRead } from "wagmi";
 
-import { useArtPreviewQuery } from "../codegen/indexer";
+import { contracts } from "./contracts";
 import { previewImageUrl } from "./previewImageUrl";
-
-gql`
-  query ArtPreview($id: BigInt!) {
-    token: aFundamentalDisputeToken(id: $id) {
-      id
-      html
-    }
-  }
-`;
 
 const ArtIframe = ({
   tokenId,
@@ -28,26 +20,16 @@ const ArtIframe = ({
   IframeHTMLAttributes<HTMLIFrameElement>,
   HTMLIFrameElement
 >) => {
-  const [{ data, error, fetching }, executeQuery] = useArtPreviewQuery(
-    hidden
-      ? { pause: true }
-      : {
-          variables: { id: tokenId.toString() },
-        }
-  );
-
-  useEffect(() => {
-    if (data?.token || error || fetching || hidden) return;
-    const timer = setInterval(() => {
-      console.log("checking for token");
-      executeQuery({ requestPolicy: "cache-and-network" });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [data, error, executeQuery, fetching, hidden]);
+  const html = useContractRead({
+    ...contracts.AFDRenderer,
+    functionName: "fullscreenHtml",
+    args: [BigNumber.from(tokenId)],
+    enabled: !hidden,
+  });
 
   // TODO: show message if token is not found?
-  if (!data?.token) return null;
-  return <iframe srcDoc={data.token.html} hidden={hidden} {...props} />;
+  if (!html.isSuccess) return null;
+  return <iframe srcDoc={html.data} hidden={hidden} {...props} />;
 };
 
 type Props = {
