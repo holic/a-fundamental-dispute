@@ -57,7 +57,7 @@ const handler: NextApiHandler = async (req, res) => {
       .setHeader("Content-Type", `image/${format}`)
       .setHeader(
         "CDN-Cache-Control",
-        `s-maxage=${60 * 60 * 24}, stale-while-revalidate`
+        `s-maxage=${60 * 60 * 24 * 14}, stale-while-revalidate`
       )
       .send(image[format]);
   } catch (error: any) {
